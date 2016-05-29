@@ -10,13 +10,13 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.Coupon;
-import moe.src.leyline.infrastructure.persistence.tables.Discount;
-import moe.src.leyline.infrastructure.persistence.tables.DiscountRule;
-import moe.src.leyline.infrastructure.persistence.tables.OrderDetail;
-import moe.src.leyline.infrastructure.persistence.tables.OrderParent;
-import moe.src.leyline.infrastructure.persistence.tables.Product;
-import moe.src.leyline.infrastructure.persistence.tables.User;
+import moe.src.leyline.infrastructure.persistence.tables.CouponTable;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountRuleTable;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountTable;
+import moe.src.leyline.infrastructure.persistence.tables.OrderDetailTable;
+import moe.src.leyline.infrastructure.persistence.tables.OrderParentTable;
+import moe.src.leyline.infrastructure.persistence.tables.ProductTable;
+import moe.src.leyline.infrastructure.persistence.tables.UserTable;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
@@ -46,37 +46,37 @@ public class Leyline extends SchemaImpl {
     /**
      * The table <code>leyline.coupon</code>.
      */
-    public final Coupon COUPON = moe.src.leyline.infrastructure.persistence.tables.Coupon.COUPON;
+    public final CouponTable COUPON = CouponTable.COUPON;
 
     /**
      * The table <code>leyline.discount</code>.
      */
-    public final Discount DISCOUNT = moe.src.leyline.infrastructure.persistence.tables.Discount.DISCOUNT;
+    public final DiscountTable DISCOUNTTable = DiscountTable.DISCOUNT_TABLE;
 
     /**
      * The table <code>leyline.discount_rule</code>.
      */
-    public final DiscountRule DISCOUNT_RULE = moe.src.leyline.infrastructure.persistence.tables.DiscountRule.DISCOUNT_RULE;
+    public final DiscountRuleTable DISCOUNT_RULE = DiscountRuleTable.DISCOUNT_RULE;
 
     /**
      * The table <code>leyline.order_detail</code>.
      */
-    public final OrderDetail ORDER_DETAIL = moe.src.leyline.infrastructure.persistence.tables.OrderDetail.ORDER_DETAIL;
+    public final OrderDetailTable ORDER_DETAIL = OrderDetailTable.ORDER_DETAIL;
 
     /**
      * The table <code>leyline.order_parent</code>.
      */
-    public final OrderParent ORDER_PARENT = moe.src.leyline.infrastructure.persistence.tables.OrderParent.ORDER_PARENT;
+    public final OrderParentTable ORDER_PARENT = OrderParentTable.ORDER_PARENT;
 
     /**
      * The table <code>leyline.product</code>.
      */
-    public final Product PRODUCT = moe.src.leyline.infrastructure.persistence.tables.Product.PRODUCT;
+    public final ProductTable PRODUCT = ProductTable.PRODUCT;
 
     /**
      * The table <code>leyline.user</code>.
      */
-    public final User USER = moe.src.leyline.infrastructure.persistence.tables.User.USER;
+    public final UserTable USER = UserTable.USER;
 
     /**
      * No further instances allowed
@@ -103,12 +103,12 @@ public class Leyline extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Coupon.COUPON,
-            Discount.DISCOUNT,
-            DiscountRule.DISCOUNT_RULE,
-            OrderDetail.ORDER_DETAIL,
-            OrderParent.ORDER_PARENT,
-            Product.PRODUCT,
-            User.USER);
+            CouponTable.COUPON,
+            DiscountTable.DISCOUNT_TABLE,
+            DiscountRuleTable.DISCOUNT_RULE,
+            OrderDetailTable.ORDER_DETAIL,
+            OrderParentTable.ORDER_PARENT,
+            ProductTable.PRODUCT,
+            UserTable.USER);
     }
 }

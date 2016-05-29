@@ -6,7 +6,7 @@ package moe.src.leyline.infrastructure.persistence.tables.records;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.Coupon;
+import moe.src.leyline.infrastructure.persistence.tables.CouponTable;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -112,7 +112,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> implements R
      */
     @Override
     public Field<Integer> field1() {
-        return Coupon.COUPON.ID;
+        return CouponTable.COUPON.ID;
     }
 
     /**
@@ -120,7 +120,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> implements R
      */
     @Override
     public Field<String> field2() {
-        return Coupon.COUPON.NAME;
+        return CouponTable.COUPON.NAME;
     }
 
     /**
@@ -128,7 +128,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> implements R
      */
     @Override
     public Field<Integer> field3() {
-        return Coupon.COUPON.DISCOUNT_RULE_ID;
+        return CouponTable.COUPON.DISCOUNT_RULE_ID;
     }
 
     /**
@@ -201,14 +201,14 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> implements R
      * Create a detached CouponRecord
      */
     public CouponRecord() {
-        super(Coupon.COUPON);
+        super(CouponTable.COUPON);
     }
 
     /**
      * Create a detached, initialised CouponRecord
      */
     public CouponRecord(Integer id, String name, Integer discountRuleId) {
-        super(Coupon.COUPON);
+        super(CouponTable.COUPON);
 
         set(0, id);
         set(1, name);

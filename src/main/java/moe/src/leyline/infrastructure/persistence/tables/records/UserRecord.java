@@ -6,7 +6,7 @@ package moe.src.leyline.infrastructure.persistence.tables.records;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.User;
+import moe.src.leyline.infrastructure.persistence.tables.UserTable;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -112,7 +112,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public Field<Integer> field1() {
-        return User.USER.ID;
+        return UserTable.USER.ID;
     }
 
     /**
@@ -120,7 +120,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public Field<String> field2() {
-        return User.USER.NAME;
+        return UserTable.USER.NAME;
     }
 
     /**
@@ -128,7 +128,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public Field<String> field3() {
-        return User.USER.PASSWORD;
+        return UserTable.USER.PASSWORD;
     }
 
     /**
@@ -201,14 +201,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      * Create a detached UserRecord
      */
     public UserRecord() {
-        super(User.USER);
+        super(UserTable.USER);
     }
 
     /**
      * Create a detached, initialised UserRecord
      */
     public UserRecord(Integer id, String name, String password) {
-        super(User.USER);
+        super(UserTable.USER);
 
         set(0, id);
         set(1, name);

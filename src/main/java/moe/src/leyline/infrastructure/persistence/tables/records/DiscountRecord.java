@@ -6,7 +6,7 @@ package moe.src.leyline.infrastructure.persistence.tables.records;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.Discount;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountTable;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -112,7 +112,7 @@ public class DiscountRecord extends UpdatableRecordImpl<DiscountRecord> implemen
      */
     @Override
     public Field<Integer> field1() {
-        return Discount.DISCOUNT.ID;
+        return DiscountTable.DISCOUNT_TABLE.ID;
     }
 
     /**
@@ -120,7 +120,7 @@ public class DiscountRecord extends UpdatableRecordImpl<DiscountRecord> implemen
      */
     @Override
     public Field<Integer> field2() {
-        return Discount.DISCOUNT.DISCOUNT_RULE_ID;
+        return DiscountTable.DISCOUNT_TABLE.DISCOUNT_RULE_ID;
     }
 
     /**
@@ -128,7 +128,7 @@ public class DiscountRecord extends UpdatableRecordImpl<DiscountRecord> implemen
      */
     @Override
     public Field<Integer> field3() {
-        return Discount.DISCOUNT.COUPON_ID;
+        return DiscountTable.DISCOUNT_TABLE.COUPON_ID;
     }
 
     /**
@@ -201,14 +201,14 @@ public class DiscountRecord extends UpdatableRecordImpl<DiscountRecord> implemen
      * Create a detached DiscountRecord
      */
     public DiscountRecord() {
-        super(Discount.DISCOUNT);
+        super(DiscountTable.DISCOUNT_TABLE);
     }
 
     /**
      * Create a detached, initialised DiscountRecord
      */
     public DiscountRecord(Integer id, Integer discountRuleId, Integer couponId) {
-        super(Discount.DISCOUNT);
+        super(DiscountTable.DISCOUNT_TABLE);
 
         set(0, id);
         set(1, discountRuleId);

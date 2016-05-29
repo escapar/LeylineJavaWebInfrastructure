@@ -6,7 +6,7 @@ package moe.src.leyline.infrastructure.persistence.tables.records;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.Product;
+import moe.src.leyline.infrastructure.persistence.tables.ProductTable;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -112,7 +112,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
      */
     @Override
     public Field<Integer> field1() {
-        return Product.PRODUCT.ID;
+        return ProductTable.PRODUCT.ID;
     }
 
     /**
@@ -120,7 +120,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
      */
     @Override
     public Field<String> field2() {
-        return Product.PRODUCT.NAME;
+        return ProductTable.PRODUCT.NAME;
     }
 
     /**
@@ -128,7 +128,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
      */
     @Override
     public Field<Double> field3() {
-        return Product.PRODUCT.PRICE;
+        return ProductTable.PRODUCT.PRICE;
     }
 
     /**
@@ -201,14 +201,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
      * Create a detached ProductRecord
      */
     public ProductRecord() {
-        super(Product.PRODUCT);
+        super(ProductTable.PRODUCT);
     }
 
     /**
      * Create a detached, initialised ProductRecord
      */
     public ProductRecord(Integer id, String name, Double price) {
-        super(Product.PRODUCT);
+        super(ProductTable.PRODUCT);
 
         set(0, id);
         set(1, name);

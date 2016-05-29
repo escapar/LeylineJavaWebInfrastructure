@@ -6,7 +6,7 @@ package moe.src.leyline.infrastructure.persistence.tables.records;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.OrderDetail;
+import moe.src.leyline.infrastructure.persistence.tables.OrderDetailTable;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -142,7 +142,7 @@ public class OrderDetailRecord extends UpdatableRecordImpl<OrderDetailRecord> im
      */
     @Override
     public Field<Integer> field1() {
-        return OrderDetail.ORDER_DETAIL.ID;
+        return OrderDetailTable.ORDER_DETAIL.ID;
     }
 
     /**
@@ -150,7 +150,7 @@ public class OrderDetailRecord extends UpdatableRecordImpl<OrderDetailRecord> im
      */
     @Override
     public Field<Integer> field2() {
-        return OrderDetail.ORDER_DETAIL.PRODUCT_ID;
+        return OrderDetailTable.ORDER_DETAIL.PRODUCT_ID;
     }
 
     /**
@@ -158,7 +158,7 @@ public class OrderDetailRecord extends UpdatableRecordImpl<OrderDetailRecord> im
      */
     @Override
     public Field<Integer> field3() {
-        return OrderDetail.ORDER_DETAIL.CUSTOMER_ID;
+        return OrderDetailTable.ORDER_DETAIL.CUSTOMER_ID;
     }
 
     /**
@@ -166,7 +166,7 @@ public class OrderDetailRecord extends UpdatableRecordImpl<OrderDetailRecord> im
      */
     @Override
     public Field<String> field4() {
-        return OrderDetail.ORDER_DETAIL.QUANTITY;
+        return OrderDetailTable.ORDER_DETAIL.QUANTITY;
     }
 
     /**
@@ -174,7 +174,7 @@ public class OrderDetailRecord extends UpdatableRecordImpl<OrderDetailRecord> im
      */
     @Override
     public Field<Integer> field5() {
-        return OrderDetail.ORDER_DETAIL.PARENT_ORDER_ID;
+        return OrderDetailTable.ORDER_DETAIL.PARENT_ORDER_ID;
     }
 
     /**
@@ -283,14 +283,14 @@ public class OrderDetailRecord extends UpdatableRecordImpl<OrderDetailRecord> im
      * Create a detached OrderDetailRecord
      */
     public OrderDetailRecord() {
-        super(OrderDetail.ORDER_DETAIL);
+        super(OrderDetailTable.ORDER_DETAIL);
     }
 
     /**
      * Create a detached, initialised OrderDetailRecord
      */
     public OrderDetailRecord(Integer id, Integer productId, Integer customerId, String quantity, Integer parentOrderId) {
-        super(OrderDetail.ORDER_DETAIL);
+        super(OrderDetailTable.ORDER_DETAIL);
 
         set(0, id);
         set(1, productId);

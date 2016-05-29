@@ -6,7 +6,7 @@ package moe.src.leyline.infrastructure.persistence.tables.records;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.OrderParent;
+import moe.src.leyline.infrastructure.persistence.tables.OrderParentTable;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -69,7 +69,7 @@ public class OrderParentRecord extends TableRecordImpl<OrderParentRecord> implem
      */
     @Override
     public Field<Integer> field1() {
-        return OrderParent.ORDER_PARENT.ID;
+        return OrderParentTable.ORDER_PARENT.ID;
     }
 
     /**
@@ -106,14 +106,14 @@ public class OrderParentRecord extends TableRecordImpl<OrderParentRecord> implem
      * Create a detached OrderParentRecord
      */
     public OrderParentRecord() {
-        super(OrderParent.ORDER_PARENT);
+        super(OrderParentTable.ORDER_PARENT);
     }
 
     /**
      * Create a detached, initialised OrderParentRecord
      */
     public OrderParentRecord(Integer id) {
-        super(OrderParent.ORDER_PARENT);
+        super(OrderParentTable.ORDER_PARENT);
 
         set(0, id);
     }

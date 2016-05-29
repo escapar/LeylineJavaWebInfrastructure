@@ -6,14 +6,13 @@ package moe.src.leyline.infrastructure.persistence;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.Coupon;
-import moe.src.leyline.infrastructure.persistence.tables.Discount;
-import moe.src.leyline.infrastructure.persistence.tables.DiscountRule;
-import moe.src.leyline.infrastructure.persistence.tables.OrderDetail;
-import moe.src.leyline.infrastructure.persistence.tables.OrderParent;
-import moe.src.leyline.infrastructure.persistence.tables.Product;
-import moe.src.leyline.infrastructure.persistence.tables.User;
-
+import moe.src.leyline.infrastructure.persistence.tables.CouponTable;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountRuleTable;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountTable;
+import moe.src.leyline.infrastructure.persistence.tables.OrderDetailTable;
+import moe.src.leyline.infrastructure.persistence.tables.OrderParentTable;
+import moe.src.leyline.infrastructure.persistence.tables.ProductTable;
+import moe.src.leyline.infrastructure.persistence.tables.UserTable;
 
 /**
  * Convenience access to all tables in leyline
@@ -31,35 +30,35 @@ public class Tables {
     /**
      * The table <code>leyline.coupon</code>.
      */
-    public static final Coupon COUPON = moe.src.leyline.infrastructure.persistence.tables.Coupon.COUPON;
+    public static final CouponTable COUPON = CouponTable.COUPON;
 
     /**
      * The table <code>leyline.discount</code>.
      */
-    public static final Discount DISCOUNT = moe.src.leyline.infrastructure.persistence.tables.Discount.DISCOUNT;
+    public static final DiscountTable DISCOUNT_TABLE = DiscountTable.DISCOUNT_TABLE;
 
     /**
      * The table <code>leyline.discount_rule</code>.
      */
-    public static final DiscountRule DISCOUNT_RULE = moe.src.leyline.infrastructure.persistence.tables.DiscountRule.DISCOUNT_RULE;
+    public static final DiscountRuleTable DISCOUNT_RULE = DiscountRuleTable.DISCOUNT_RULE;
 
     /**
      * The table <code>leyline.order_detail</code>.
      */
-    public static final OrderDetail ORDER_DETAIL = moe.src.leyline.infrastructure.persistence.tables.OrderDetail.ORDER_DETAIL;
+    public static final OrderDetailTable ORDER_DETAIL = OrderDetailTable.ORDER_DETAIL;
 
     /**
      * The table <code>leyline.order_parent</code>.
      */
-    public static final OrderParent ORDER_PARENT = moe.src.leyline.infrastructure.persistence.tables.OrderParent.ORDER_PARENT;
+    public static final OrderParentTable ORDER_PARENT = OrderParentTable.ORDER_PARENT;
 
     /**
      * The table <code>leyline.product</code>.
      */
-    public static final Product PRODUCT = moe.src.leyline.infrastructure.persistence.tables.Product.PRODUCT;
+    public static final ProductTable PRODUCT = ProductTable.PRODUCT;
 
     /**
      * The table <code>leyline.user</code>.
      */
-    public static final User USER = moe.src.leyline.infrastructure.persistence.tables.User.USER;
+    public static final UserTable USER = UserTable.USER;
 }

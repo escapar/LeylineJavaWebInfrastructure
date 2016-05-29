@@ -6,12 +6,12 @@ package moe.src.leyline.infrastructure.persistence;
 
 import javax.annotation.Generated;
 
-import moe.src.leyline.infrastructure.persistence.tables.Coupon;
-import moe.src.leyline.infrastructure.persistence.tables.Discount;
-import moe.src.leyline.infrastructure.persistence.tables.DiscountRule;
-import moe.src.leyline.infrastructure.persistence.tables.OrderDetail;
-import moe.src.leyline.infrastructure.persistence.tables.Product;
-import moe.src.leyline.infrastructure.persistence.tables.User;
+import moe.src.leyline.infrastructure.persistence.tables.CouponTable;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountRuleTable;
+import moe.src.leyline.infrastructure.persistence.tables.DiscountTable;
+import moe.src.leyline.infrastructure.persistence.tables.OrderDetailTable;
+import moe.src.leyline.infrastructure.persistence.tables.ProductTable;
+import moe.src.leyline.infrastructure.persistence.tables.UserTable;
 import moe.src.leyline.infrastructure.persistence.tables.records.CouponRecord;
 import moe.src.leyline.infrastructure.persistence.tables.records.DiscountRecord;
 import moe.src.leyline.infrastructure.persistence.tables.records.DiscountRuleRecord;
@@ -67,17 +67,17 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 extends AbstractKeys {
-        public static final UniqueKey<CouponRecord> KEY_COUPON_PRIMARY = createUniqueKey(Coupon.COUPON, "KEY_coupon_PRIMARY", Coupon.COUPON.DISCOUNT_RULE_ID);
-        public static final UniqueKey<DiscountRecord> KEY_DISCOUNT_PRIMARY = createUniqueKey(Discount.DISCOUNT, "KEY_discount_PRIMARY", Discount.DISCOUNT.ID);
-        public static final UniqueKey<DiscountRuleRecord> KEY_DISCOUNT_RULE_PRIMARY = createUniqueKey(DiscountRule.DISCOUNT_RULE, "KEY_discount_rule_PRIMARY", DiscountRule.DISCOUNT_RULE.ID);
-        public static final UniqueKey<OrderDetailRecord> KEY_ORDER_DETAIL_PRIMARY = createUniqueKey(OrderDetail.ORDER_DETAIL, "KEY_order_detail_PRIMARY", OrderDetail.ORDER_DETAIL.ID);
-        public static final UniqueKey<ProductRecord> KEY_PRODUCT_PRIMARY = createUniqueKey(Product.PRODUCT, "KEY_product_PRIMARY", Product.PRODUCT.ID);
-        public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = createUniqueKey(User.USER, "KEY_user_PRIMARY", User.USER.ID);
+        public static final UniqueKey<CouponRecord> KEY_COUPON_PRIMARY = createUniqueKey(CouponTable.COUPON, "KEY_coupon_PRIMARY", CouponTable.COUPON.DISCOUNT_RULE_ID);
+        public static final UniqueKey<DiscountRecord> KEY_DISCOUNT_PRIMARY = createUniqueKey(DiscountTable.DISCOUNT_TABLE, "KEY_discount_PRIMARY", DiscountTable.DISCOUNT_TABLE.ID);
+        public static final UniqueKey<DiscountRuleRecord> KEY_DISCOUNT_RULE_PRIMARY = createUniqueKey(DiscountRuleTable.DISCOUNT_RULE, "KEY_discount_rule_PRIMARY", DiscountRuleTable.DISCOUNT_RULE.ID);
+        public static final UniqueKey<OrderDetailRecord> KEY_ORDER_DETAIL_PRIMARY = createUniqueKey(OrderDetailTable.ORDER_DETAIL, "KEY_order_detail_PRIMARY", OrderDetailTable.ORDER_DETAIL.ID);
+        public static final UniqueKey<ProductRecord> KEY_PRODUCT_PRIMARY = createUniqueKey(ProductTable.PRODUCT, "KEY_product_PRIMARY", ProductTable.PRODUCT.ID);
+        public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = createUniqueKey(UserTable.USER, "KEY_user_PRIMARY", UserTable.USER.ID);
     }
 
     private static class ForeignKeys0 extends AbstractKeys {
-        public static final ForeignKey<CouponRecord, DiscountRuleRecord> COUPON_IBFK_1 = createForeignKey(moe.src.leyline.infrastructure.persistence.Keys.KEY_DISCOUNT_RULE_PRIMARY, Coupon.COUPON, "coupon_ibfk_1", Coupon.COUPON.DISCOUNT_RULE_ID);
-        public static final ForeignKey<OrderDetailRecord, ProductRecord> ORDER_DETAIL_IBFK_1 = createForeignKey(moe.src.leyline.infrastructure.persistence.Keys.KEY_PRODUCT_PRIMARY, OrderDetail.ORDER_DETAIL, "order_detail_ibfk_1", OrderDetail.ORDER_DETAIL.PRODUCT_ID);
-        public static final ForeignKey<OrderDetailRecord, UserRecord> ORDER_DETAIL_IBFK_2 = createForeignKey(moe.src.leyline.infrastructure.persistence.Keys.KEY_USER_PRIMARY, OrderDetail.ORDER_DETAIL, "order_detail_ibfk_2", OrderDetail.ORDER_DETAIL.CUSTOMER_ID);
+        public static final ForeignKey<CouponRecord, DiscountRuleRecord> COUPON_IBFK_1 = createForeignKey(moe.src.leyline.infrastructure.persistence.Keys.KEY_DISCOUNT_RULE_PRIMARY, CouponTable.COUPON, "coupon_ibfk_1", CouponTable.COUPON.DISCOUNT_RULE_ID);
+        public static final ForeignKey<OrderDetailRecord, ProductRecord> ORDER_DETAIL_IBFK_1 = createForeignKey(moe.src.leyline.infrastructure.persistence.Keys.KEY_PRODUCT_PRIMARY, OrderDetailTable.ORDER_DETAIL, "order_detail_ibfk_1", OrderDetailTable.ORDER_DETAIL.PRODUCT_ID);
+        public static final ForeignKey<OrderDetailRecord, UserRecord> ORDER_DETAIL_IBFK_2 = createForeignKey(moe.src.leyline.infrastructure.persistence.Keys.KEY_USER_PRIMARY, OrderDetailTable.ORDER_DETAIL, "order_detail_ibfk_2", OrderDetailTable.ORDER_DETAIL.CUSTOMER_ID);
     }
 }
