@@ -3,54 +3,16 @@
  */
 package moe.src.leyline.domain;
 
+import lombok.Data;
+import moe.src.leyline.infrastructure.tagging.DO;
+
 import java.io.Serializable;
 
-public class OrderParent implements Serializable {
+@Data public class OrderParent implements DO {
 
     private static final long serialVersionUID = 1290279281;
 
     private Integer id;
 
-    public OrderParent() {
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public boolean equals(final Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof OrderParent))
-            return false;
-        final OrderParent other = (OrderParent) o;
-        if (!other.canEqual((Object) this))
-            return false;
-        final Object this$id = this.id;
-        final Object other$id = other.id;
-        if (this$id == null ? other$id != null : !this$id.equals(other$id))
-            return false;
-        return true;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $id = this.id;
-        result = result * PRIME + ($id == null ? 0 : $id.hashCode());
-        return result;
-    }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof OrderParent;
-    }
-
-    public String toString() {
-        return "moe.src.leyline.domain.OrderParent(id=" + this.id + ")";
-    }
 
 }

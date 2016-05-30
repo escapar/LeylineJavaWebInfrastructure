@@ -1,4 +1,4 @@
-package moe.src.leyline.infrastructure.view;
+package moe.src.leyline.infrastructure.tagging;
 
 /**
  * Created by bytenoob on 5/29/16.

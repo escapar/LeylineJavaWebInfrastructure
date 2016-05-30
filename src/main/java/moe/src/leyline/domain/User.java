@@ -6,8 +6,9 @@ package moe.src.leyline.domain;
 import java.io.Serializable;
 
 import lombok.Data;
+import moe.src.leyline.infrastructure.tagging.DO;
 
-@Data public class User implements Serializable {
+@Data public class User implements DO {
 
     private static final long serialVersionUID = -1406034540;
 

@@ -2,6 +2,8 @@ package moe.src.leyline.interfaces.rest;
 
 import java.util.Map;
 
+import moe.src.leyline.domain.Product;
+import moe.src.leyline.interfaces.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import moe.src.leyline.service.ProductService;
 @RestController
 @RequestMapping("product")
 
-public class ProductAPI extends SimpleCrudAPI<ProductDao> {
+public class ProductAPI extends DTOCrudAPI<ProductDao, ProductDTO, Product> {
 
 
 }
