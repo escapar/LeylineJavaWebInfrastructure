@@ -130,6 +130,16 @@
             <version>LATEST</version>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>org.jodah</groupId>
+			<artifactId>typetools</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper.extensions</groupId>
+			<artifactId>modelmapper-jackson</artifactId>
+			<version>0.7.5</version>
+		</dependency>
     </dependencies>
 	
 	<build>

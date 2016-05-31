@@ -8,7 +8,7 @@ import moe.src.leyline.infrastructure.tagging.DO;
 
 import java.io.Serializable;
 
-@Data public class OrderParent implements DO {
+@Data public class OrderParent extends DO {
 
     private static final long serialVersionUID = 1290279281;
 

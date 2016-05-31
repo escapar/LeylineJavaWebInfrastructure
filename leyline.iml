@@ -146,5 +146,7 @@
     <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:0.7.5" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.16.8" level="project" />
+    <orderEntry type="library" name="Maven: org.jodah:typetools:0.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.modelmapper.extensions:modelmapper-jackson:0.7.5" level="project" />
   </component>
 </module>

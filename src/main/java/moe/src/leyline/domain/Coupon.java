@@ -11,7 +11,7 @@ import lombok.Data;
 import moe.src.leyline.infrastructure.tagging.DO;
 
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-@Data public class Coupon implements DO {
+@Data public class Coupon extends DO {
     private static final long serialVersionUID = -1953578848;
 
     private Integer id;

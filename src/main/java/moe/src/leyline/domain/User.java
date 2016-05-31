@@ -8,7 +8,7 @@ import java.io.Serializable;
 import lombok.Data;
 import moe.src.leyline.infrastructure.tagging.DO;
 
-@Data public class User implements DO {
+@Data public class User extends DO {
 
     private static final long serialVersionUID = -1406034540;
 
