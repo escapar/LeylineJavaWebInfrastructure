@@ -1,17 +1,12 @@
 package moe.src.leyline.interfaces.rest;
 
-import moe.src.leyline.infrastructure.tagging.DO;
-import org.jooq.DAO;
-import org.jooq.DSLContext;
+import moe.src.leyline.domain.DO;
 import org.jooq.impl.DAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import moe.src.leyline.infrastructure.persistence.daos.ProductDao;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**

@@ -1,11 +1,18 @@
 package moe.src.leyline.interfaces.rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
-import moe.src.leyline.infrastructure.tagging.*;
+import moe.src.leyline.domain.DO;
+import moe.src.leyline.infrastructure.persistence.PersistenceException;
+import moe.src.leyline.interfaces.dto.DTO;
+import moe.src.leyline.interfaces.dto.DTOAssembler;
+import moe.src.leyline.interfaces.view.View;
+import moe.src.leyline.service.LeylineService;
 import org.jodah.typetools.TypeResolver;
-import org.jooq.impl.DAOImpl;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +26,11 @@ import java.util.stream.Collectors;
 /**
  * Created by POJO on 5/30/16.
  */
-public abstract class DTOCrudAPI<T extends DAOImpl,D extends DTO,O extends DO> implements CrudAPI{
+public abstract class DTOCrudAPI<T extends LeylineService,D extends DTO,O extends DO> implements CrudAPI{
     @Autowired
-    protected T dao;
+    protected T service;
     private Class<?>[] typeArgs;
-    private Type typeDAO;
+    private Type typeService;
     private Type typeDTO;
     private Type typeDO;
     private JavaType typeDTOList;
@@ -32,9 +39,9 @@ public abstract class DTOCrudAPI<T extends DAOImpl,D extends DTO,O extends DO> i
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final DTOAssembler assembler = new DTOAssembler();
 
-    DTOCrudAPI(){
+    public DTOCrudAPI(){
         typeArgs = TypeResolver.resolveRawArguments(DTOCrudAPI.class,getClass());
-        this.typeDAO = TypeToken.of(typeArgs[0]).getType();
+        this.typeService = TypeToken.of(typeArgs[0]).getType();
         this.typeDTO = TypeToken.of(typeArgs[1]).getType();
         this.typeDO  = TypeToken.of(typeArgs[2]).getType();
         typeDTOList = mapper.getTypeFactory().constructCollectionType(List.class,typeArgs[1]);
@@ -43,57 +50,60 @@ public abstract class DTOCrudAPI<T extends DAOImpl,D extends DTO,O extends DO> i
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
+    @JsonView(View.Summary.class)
     @SuppressWarnings(value="unchecked")
-    public List list(){
-        return (List) dao.findAll()
+    public List list() throws PersistenceException{
+        return (List) service.findAll()
                 .stream()
                 .map( e -> assembler.buildDTO((DO)e,typeDTO))
                 .collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    @JsonView(View.SummaryWithDetail.class)
     @SuppressWarnings(value="unchecked")
-    public D find(Integer id){
-        return (D)assembler.buildDTO((DO)dao.findById(id),typeDTO);
+    public D find(Long id) throws PersistenceException{
+        return (D)assembler.buildDTO(service.findOne(id),typeDTO);
     }
 
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
     @SuppressWarnings(value="unchecked")
-    public void update(@RequestBody String json) throws IOException{
-        dao.insert(assembler.buildDOList(mapper.readValue(json,typeDTOList),typeDO));
+    public void update(@RequestBody String json) throws IOException,PersistenceException{
+        service.save(assembler.buildDOList(mapper.readValue(json,typeDTOList),typeDO));
     }
 
     @RequestMapping(value = "/one", method = RequestMethod.POST, produces = "application/json")
     @SuppressWarnings(value="unchecked")
-    public void updateOne(@RequestBody D obj){
-        dao.insert(assembler.buildDO(obj, typeDO));
+    public void updateOne(@RequestBody D obj) throws IOException,PersistenceException {
+        service.save(assembler.buildDO(obj, typeDO));
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT, produces = "application/json")
     @SuppressWarnings(value="unchecked")
-    public void insert(@RequestBody String json) throws IOException{
-        dao.insert(assembler.buildDOList(mapper.readValue(json,typeDTOList),typeDO));
+    public void insert(@RequestBody String json) throws IOException,PersistenceException{
+        service.save(assembler.buildDOList(mapper.readValue(json,typeDTOList),typeDO));
     }
 
     @RequestMapping(value = "/one", method = RequestMethod.PUT, produces = "application/json")
     @SuppressWarnings(value="unchecked")
-    public void insertOne(@RequestBody D obj){
-        dao.insert(assembler.buildDO(obj, typeDO));
+    public Object insertOne(@RequestBody D obj) throws PersistenceException{
+        ModelMapper mm = new ModelMapper();
+        mm.getConfiguration().setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
+        return mm.map(service.save(assembler.buildDO(obj, typeDO)),typeDO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
     @SuppressWarnings(value="unchecked")
-    public void delete(Integer id){
-        dao.deleteById(id);
+    public void delete(Long id) throws PersistenceException{
+        service.delete(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE, produces = "application/json")
     @SuppressWarnings(value="unchecked")
-    public void delete(@RequestBody int[] id){
-        dao.deleteById(id);
+    public void delete(@RequestBody List<Long> id) throws PersistenceException{
+        service.delete(id);
     }
-
 
 }
 
