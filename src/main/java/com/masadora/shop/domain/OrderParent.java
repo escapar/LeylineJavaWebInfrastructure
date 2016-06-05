@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 /**
  * The persistent class for the order_parent database table.
- * 
+ *
  */
 @Entity
 @Table(name="order_parent")
@@ -18,16 +18,16 @@ public class OrderParent implements DO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	public OrderParent() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

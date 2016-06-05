@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 /**
  * The persistent class for the discount database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name="Discount.findAll", query="SELECT d FROM Discount d")
@@ -17,38 +17,38 @@ public class Discount implements DO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	@Column(name="coupon_id")
-	private int couponId;
+	private long couponId;
 
 	@Column(name="discount_rule_id")
-	private int discountRuleId;
+	private long discountRuleId;
 
 	public Discount() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getCouponId() {
+	public long getCouponId() {
 		return this.couponId;
 	}
 
-	public void setCouponId(int couponId) {
+	public void setCouponId(long couponId) {
 		this.couponId = couponId;
 	}
 
-	public int getDiscountRuleId() {
+	public long getDiscountRuleId() {
 		return this.discountRuleId;
 	}
 
-	public void setDiscountRuleId(int discountRuleId) {
+	public void setDiscountRuleId(long discountRuleId) {
 		this.discountRuleId = discountRuleId;
 	}
 

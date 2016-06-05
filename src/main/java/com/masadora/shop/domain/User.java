@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * The persistent class for the user database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
@@ -18,24 +18,25 @@ public class User implements DO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	private String name;
 
 	private String password;
 
 	//bi-directional many-to-one association to OrderDetail
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
-	private List<OrderDetail> orderDetails;
+	//@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+
+	//private List<OrderDetail> orderDetails;
 
 	public User() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -55,7 +56,7 @@ public class User implements DO {
 		this.password = password;
 	}
 
-	public List<OrderDetail> getOrderDetails() {
+	/*public List<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
 
@@ -75,6 +76,6 @@ public class User implements DO {
 		orderDetail.setUser(null);
 
 		return orderDetail;
-	}
+	}*/
 
 }

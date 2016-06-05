@@ -1,4 +1,4 @@
-package com.masadora.shop.domain;
+package com.masadora.shop.domain.product;
 
 import moe.src.leyline.domain.DO;
 
@@ -6,10 +6,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+import com.masadora.shop.domain.OrderDetail;
 
 /**
  * The persistent class for the product database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
@@ -18,7 +19,7 @@ public class Product implements DO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	private String name;
 
@@ -31,11 +32,11 @@ public class Product implements DO {
 	public Product() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

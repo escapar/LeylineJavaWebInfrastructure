@@ -1,21 +1,21 @@
 package moe.src.leyline.service;
 
 import moe.src.leyline.infrastructure.persistence.PersistenceException;
-import moe.src.leyline.infrastructure.persistence.daos.DAO;
+import moe.src.leyline.domain.Repo;
 import moe.src.leyline.domain.DO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Created by bytenoob on 5/29/16.
  */
-public abstract class LeylineService<T extends DAO> {
+@Service
+public abstract class LeylineService<T extends Repo> {
     @Autowired
     protected T dao;
 

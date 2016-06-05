@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 /**
  * The persistent class for the discount_rule database table.
- * 
+ *
  */
 @Entity
 @Table(name="discount_rule")
@@ -18,11 +18,11 @@ public class DiscountRule implements DO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 
-	private int price;
+	private long price;
 
-	private int rate;
+	private long rate;
 
 	//bi-directional one-to-one association to Coupon
 	@OneToOne(mappedBy="discountRule")
@@ -31,27 +31,27 @@ public class DiscountRule implements DO {
 	public DiscountRule() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getPrice() {
+	public long getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 
-	public int getRate() {
+	public long getRate() {
 		return this.rate;
 	}
 
-	public void setRate(int rate) {
+	public void setRate(long rate) {
 		this.rate = rate;
 	}
 

@@ -14,9 +14,14 @@ import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -50,7 +55,8 @@ public abstract class DTOCrudAPI<T extends LeylineService,D extends DTO,O extend
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(View.Summary.class)
+    @JsonView(View.LIST.class)
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
     public List list() throws PersistenceException{
         return (List) service.findAll()
@@ -60,32 +66,37 @@ public abstract class DTOCrudAPI<T extends LeylineService,D extends DTO,O extend
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(View.SummaryWithDetail.class)
+    @JsonView(View.DETAIL.class)
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
-    public D find(Long id) throws PersistenceException{
+    public D find(@PathVariable Long id) throws PersistenceException{
         return (D)assembler.buildDTO(service.findOne(id),typeDTO);
     }
 
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
     public void update(@RequestBody String json) throws IOException,PersistenceException{
         service.save(assembler.buildDOList(mapper.readValue(json,typeDTOList),typeDO));
     }
 
     @RequestMapping(value = "/one", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
     public void updateOne(@RequestBody D obj) throws IOException,PersistenceException {
         service.save(assembler.buildDO(obj, typeDO));
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT, produces = "application/json")
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
     public void insert(@RequestBody String json) throws IOException,PersistenceException{
         service.save(assembler.buildDOList(mapper.readValue(json,typeDTOList),typeDO));
     }
 
     @RequestMapping(value = "/one", method = RequestMethod.PUT, produces = "application/json")
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
     public Object insertOne(@RequestBody D obj) throws PersistenceException{
         ModelMapper mm = new ModelMapper();
@@ -94,12 +105,14 @@ public abstract class DTOCrudAPI<T extends LeylineService,D extends DTO,O extend
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
-    public void delete(Long id) throws PersistenceException{
+    public void delete(@PathVariable Long id) throws PersistenceException{
         service.delete(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE, produces = "application/json")
+    @ResponseBody
     @SuppressWarnings(value="unchecked")
     public void delete(@RequestBody List<Long> id) throws PersistenceException{
         service.delete(id);

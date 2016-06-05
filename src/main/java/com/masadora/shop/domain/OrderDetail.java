@@ -2,13 +2,13 @@ package com.masadora.shop.domain;
 
 import moe.src.leyline.domain.DO;
 
-import java.io.Serializable;
 import javax.persistence.*;
 
+import com.masadora.shop.domain.product.Product;
 
 /**
  * The persistent class for the order_detail database table.
- * 
+ *
  */
 @Entity
 @Table(name="order_detail")
@@ -18,10 +18,10 @@ public class OrderDetail implements DO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	@Column(name="parent_order_id")
-	private int parentOrderId;
+	private long parentOrderId;
 
 	private String quantity;
 
@@ -37,19 +37,19 @@ public class OrderDetail implements DO {
 	public OrderDetail() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getParentOrderId() {
+	public long getParentOrderId() {
 		return this.parentOrderId;
 	}
 
-	public void setParentOrderId(int parentOrderId) {
+	public void setParentOrderId(long parentOrderId) {
 		this.parentOrderId = parentOrderId;
 	}
 
