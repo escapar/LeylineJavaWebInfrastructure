@@ -2,8 +2,8 @@ package com.masadora.mall.interfaces.rest;
 
 import com.masadora.mall.business.domain.product.Product;
 import com.masadora.mall.business.service.ProductService;
-import com.masadora.mall.interfaces.dto.ProductDTO;
 import com.masadora.mall.framework.interfaces.rest.DTOCRUDAPI;
+import com.masadora.mall.interfaces.dto.ProductDTO;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;

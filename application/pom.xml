@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>moe.src.leyline</groupId>
-    <artifactId>interfaces</artifactId>
+    <artifactId>business</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -163,36 +163,6 @@
         <dependency>
             <groupId>moe.src.leyline</groupId>
             <artifactId>framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>business</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>business</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>business</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>business</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>business</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>business</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package com.masadora.mall.framework;
+package com.masadora.mall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,9 +13,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @EnableJpaRepositories(basePackages = "com.masadora.mall.business")
-@ComponentScan(basePackages = {"com.masadora.mall"})
-
+@ComponentScan(basePackages = "com.masadora.mall")
 @EntityScan(basePackages = "com.masadora.mall")
+
 @EnableGlobalMethodSecurity
 @EnableWebSecurity
 @SpringBootApplication(exclude = {
@@ -24,9 +24,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
         WebSocketAutoConfiguration.class,
         ActiveMQAutoConfiguration.class,
 })
-public class LeylineApplication {
+public class MallApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LeylineApplication.class, args);
+		SpringApplication.run(MallApplication.class, args);
 	}
 }
