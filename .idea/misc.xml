@@ -52,6 +52,7 @@
         <option value="$PROJECT_DIR$/infrastructure/pom.xml" />
         <option value="$PROJECT_DIR$/framework/src/main/pom.xml" />
         <option value="$PROJECT_DIR$/framework/pom.xml" />
+        <option value="$PROJECT_DIR$/interfaces/pom.xml" />
       </list>
     </option>
   </component>

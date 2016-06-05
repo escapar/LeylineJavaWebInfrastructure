@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>moe.src.leyline</groupId>
-    <artifactId>business</artifactId>
+    <artifactId>framework</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -159,11 +159,6 @@
             <groupId>com.github.kenglxn.qrgen</groupId>
             <artifactId>javase</artifactId>
             <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
