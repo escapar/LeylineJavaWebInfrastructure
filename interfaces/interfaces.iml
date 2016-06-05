@@ -178,8 +178,7 @@
     <orderEntry type="library" name="Maven: com.google.zxing:javase:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.zxing:core:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.kenglxn.qrgen:core:2.2.0" level="project" />
+    <orderEntry type="module" module-name="business" />
     <orderEntry type="module" module-name="framework" />
-    <orderEntry type="module" module-name="application" />
-    <orderEntry type="module" module-name="business" exported="" />
   </component>
 </module>

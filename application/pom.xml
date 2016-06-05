@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>moe.src.leyline</groupId>
-    <artifactId>business</artifactId>
+    <artifactId>application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -160,11 +160,7 @@
             <artifactId>javase</artifactId>
             <version>LATEST</version>
         </dependency>
-        <dependency>
-            <groupId>moe.src.leyline</groupId>
-            <artifactId>framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -176,6 +172,7 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

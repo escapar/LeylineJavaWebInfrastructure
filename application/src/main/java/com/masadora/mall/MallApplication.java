@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @EnableJpaRepositories(basePackages = "com.masadora.mall.business")
 @ComponentScan(basePackages = "com.masadora.mall")
-@EntityScan(basePackages = "com.masadora.mall")
+@EntityScan(basePackages = {"com.masadora.mall.framework.domain","com.masadora.mall.business.domain"})
 
 @EnableGlobalMethodSecurity
 @EnableWebSecurity
