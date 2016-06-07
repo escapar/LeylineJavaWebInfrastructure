@@ -1,17 +1,18 @@
 # Leyline 灵脉
-A Mahoulic Web Development Workflow.
-
+A Web Development Workflow , Gendai Mahou made Simple.
+The concept of Leyline comes from stories of Ancient English ~~, TYPE-MOON and various GALGAMES~~.
+![](http://kohaku.kouhi.me/wp-content/uploads/2014/03/leyline.png)
 # 短期目标 & SPECS
 Spring Boot
-自动从Model(ModelMapper)->DTO->Restful API的CRUD接口
-Spring Data JPA和QueryDSL的持久层
-注解式的JsonView、Spring Security、分页和Rest以及Thymeleaf的集成
-Spring Framework的@Cachable和Memcached的继承
-Angular Material的简易管理界面
+自动从 Model(ModelMapper)->DTO->Restful API 的 CRUD 接口
+Spring Data JPA 和 QueryDSL 的持久层
+注解式的 JsonView、Spring Security、分页和 Rest 以及 Thymeleaf 的集成
+Spring Framework的 @Cachable 和 Memcached 的集成
+Angular Material 的简易管理界面
 
 # 长期目标
 
-一个根据Restful API代码转ExpressJS的API Proxy的生成器
+一个根据 Restful API 代码转 ExpressJS 的 API Proxy 的生成器
 和Spring生态中其他组件的结合(Spring XD等)
 一个一站式持续集成和测试、部署的方案
 etc...
