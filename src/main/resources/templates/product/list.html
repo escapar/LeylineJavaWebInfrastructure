@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:each="e : ${res}">
+    <p th:text="${e.id}">编号</p>
+    <p th:text="${e.name}">名字</p>
+    <p th:text="${e.price}">价格</p>
+</div>
+</body>
+</html>

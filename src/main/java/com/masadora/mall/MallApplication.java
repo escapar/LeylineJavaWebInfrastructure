@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfigurati
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -18,6 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @EnableGlobalMethodSecurity
 @EnableWebSecurity
+@EnableSpringDataWebSupport
+
 @SpringBootApplication(exclude = {
         RepositoryRestMvcAutoConfiguration.class,
         JmxAutoConfiguration.class ,
