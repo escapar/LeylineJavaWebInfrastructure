@@ -1,30 +1,38 @@
 # Leyline 灵脉
 A Web Development Workflow , Gendai Mahou made Simple.
-The concept of Leyline comes from stories of Ancient English ~~, TYPE-MOON and various GALGAMES~~.
+
+The concept of Leyline comes from stories in Ancient English ~~, TYPE-MOON and various GALGAMES~~.
+
+We build no more wheels , cuz it's not essential for Java Web.
+
+Meanwhile , we provide a better integration for starting Web App development smoothly with most fresh and reliable techs.
+
 ![](http://kohaku.kouhi.me/wp-content/uploads/2014/03/leyline.png)
 
-# 短期目标 & SPECS
+# Primary GOALS & SPECS
 Spring Boot
 
-自动从 Model(ModelMapper)->DTO->Restful API 的 CRUD 接口
+Model(ModelMapper)->DTO->Restful API CRUD [OK]
 
-Spring Data JPA 和 QueryDSL 的持久层
+ORM in Spring Data JPA + QueryDSL [Testing]
 
-注解式的 JsonView、Spring Security、分页和 Rest 以及 Thymeleaf 的集成
+Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf  [Implementing]
 
-Spring Framework的 @Cachable 和 Memcached 的集成
+Smooth Integration of Spring Framework @Cachable and Memcached  [Planning]
 
-Angular Material 的简易管理界面
+An Admin Panel in Angular Material [Pending]
 
-用例
+Use Cases And Examples [Pending]
 
-# 长期目标
+# Long Term GOALS
 
-一个根据 Restful API 代码转 ExpressJS 的 API Proxy 的生成器
+i18n
 
-和Spring生态中其他组件的结合(Spring XD等)
+A Restful API 2 ExpressJS Model Proxy Codegen
 
-一个一站式持续集成和测试、部署的方案
+Integration of Other Components in Spring Eco-system (ex. Spring XD)
+
+A CI Including Testing and Automatic Deployment
 
 etc...
 
@@ -35,5 +43,4 @@ POJO http://src.moe/
 MIT
 
 # Donate
-PyTrade
-
+PyTrade Is Enough
