@@ -22,11 +22,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="application" />
-        <module name="business" />
-        <module name="framework" />
         <module name="infrastructure" />
-        <module name="interfaces" />
+        <module name="leyline" />
         <module name="ttt" />
       </profile>
     </annotationProcessing>
@@ -35,6 +32,7 @@
       <module name="business" target="1.8" />
       <module name="framework" target="1.8" />
       <module name="interfaces" target="1.8" />
+      <module name="leyline" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
