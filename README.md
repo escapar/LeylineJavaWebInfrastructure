@@ -3,20 +3,24 @@ A Web Development Workflow , Gendai Mahou made Simple.
 
 The concept of Leyline comes from stories in Ancient English ~~, TYPE-MOON and various GALGAMES~~.
 
-We build no more wheels , cuz it's not essential for Java Web.
+
+# For what?
+
+We build no more wheels , the eco-system of Java Web is capable for most of the demandes.
 
 Meanwhile , we provide a better integration for starting Web App development smoothly with most fresh and reliable techs.
 
-![](http://kohaku.kouhi.me/wp-content/uploads/2014/03/leyline.png)
+In brief , it works.
 
 # Primary GOALS & SPECS
+
 Spring Boot
 
 Model(ModelMapper)->DTO->Restful API CRUD [OK]
 
-ORM in Spring Data JPA + QueryDSL [Testing]
+ORM in Spring Data JPA + QueryDSL [Test Needed]
 
-Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf  [Implementing]
+Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf  [Working in Spring Security]
 
 Smooth Integration of Spring Framework @Cachable and Memcached  [Planning]
 
@@ -44,3 +48,9 @@ MIT
 
 # Donate
 PyTrade Is Enough
+
+# Heroine
+
+![](http://i.imgur.com/zzrQdQL.png)
+
+Copyright SOFTPAL Inc.
