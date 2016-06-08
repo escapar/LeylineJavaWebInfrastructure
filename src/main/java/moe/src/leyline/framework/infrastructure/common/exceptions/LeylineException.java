@@ -1,4 +1,4 @@
-package moe.src.leyline.framework.infrastructure.common;
+package moe.src.leyline.framework.infrastructure.common.exceptions;
 
 /**
  * Created by POJO on 6/7/16.

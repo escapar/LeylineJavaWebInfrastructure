@@ -1,6 +1,6 @@
-package moe.src.leyline.business.domain;
+package moe.src.leyline.business.domain.user;
 
-import moe.src.leyline.framework.domain.DO;
+import moe.src.leyline.framework.domain.user.UserDOAbstract;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User implements DO {
+public class User implements UserDOAbstract {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -19,6 +19,8 @@ public class User implements DO {
     private String name;
 
     private String password;
+
+    private int role;
 
     //bi-directional many-to-one association to OrderDetail
     //@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
@@ -74,4 +76,11 @@ public class User implements DO {
 		return orderDetail;
 	}*/
 
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 }

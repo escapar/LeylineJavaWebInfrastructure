@@ -3,7 +3,7 @@ package moe.src.leyline.framework.interfaces.vc;
 import com.google.common.reflect.TypeToken;
 import moe.src.leyline.framework.interfaces.dto.DTO;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.infrastructure.common.LeylineException;
+import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
 import moe.src.leyline.framework.service.DomainService;
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;

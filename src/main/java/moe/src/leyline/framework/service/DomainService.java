@@ -2,7 +2,7 @@ package moe.src.leyline.framework.service;
 
 import moe.src.leyline.framework.domain.DO;
 import moe.src.leyline.framework.domain.Repo;
-import moe.src.leyline.framework.infrastructure.common.PersistenceException;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

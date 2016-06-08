@@ -17,9 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @ComponentScan(basePackages = "moe.src.leyline")
 @EntityScan(basePackages = {"moe.src.leyline.framework.domain", "moe.src.leyline.business.domain"})
 
-@EnableGlobalMethodSecurity
-@EnableWebSecurity
 @EnableSpringDataWebSupport
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 
 @SpringBootApplication(exclude = {
         RepositoryRestMvcAutoConfiguration.class,

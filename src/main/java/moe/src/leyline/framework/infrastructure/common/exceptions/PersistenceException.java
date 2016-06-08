@@ -1,6 +1,4 @@
-package moe.src.leyline.framework.infrastructure.common;
-
-import moe.src.leyline.framework.infrastructure.common.LeylineException;
+package moe.src.leyline.framework.infrastructure.common.exceptions;
 
 /**
  * Created by POJO on 6/3/16.

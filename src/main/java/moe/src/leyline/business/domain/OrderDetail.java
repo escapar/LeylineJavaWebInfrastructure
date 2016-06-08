@@ -2,6 +2,7 @@ package moe.src.leyline.business.domain;
 
 import moe.src.leyline.business.domain.product.Product;
 import moe.src.leyline.framework.domain.DO;
+import moe.src.leyline.business.domain.user.User;
 
 import javax.persistence.*;
 
