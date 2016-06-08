@@ -12,6 +12,21 @@ Meanwhile , we provide a better integration for starting Web App development smo
 
 Smooth = Prototype in a flash , further implement elegantly and achieve final solution in a good pace.
 
+# Usage
+
+Launching
+``````
+mvn clean install
+
+mvn spring-boot:run
+``````
+
+Development
+
+Framework should not be touched fluently.
+
+Try to implement in interfaces and business packages.
+
 # Fundamental GOALS & SPECS
 
 Spring Boot
