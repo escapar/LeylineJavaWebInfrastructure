@@ -12,7 +12,7 @@ Meanwhile , we provide a better integration for starting Web App development smo
 
 Smooth = Prototype in a flash , further implement elegantly and achieve final solution in a good pace.
 
-# Primary GOALS & SPECS
+# Fundamental GOALS & SPECS
 
 Spring Boot
 
