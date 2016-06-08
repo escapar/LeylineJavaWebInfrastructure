@@ -7,6 +7,7 @@ import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineExcepti
 import moe.src.leyline.framework.service.DomainService;
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,16 +40,21 @@ public abstract class PagingAndSortingController<S extends DomainService, T exte
 
     @RequestMapping("")
     public String list(Model model, Pageable pageable) throws LeylineException {
-        model.addAttribute("res", DTOAssembler.buildDTOList(service.findAll(pageable).getContent(), typeDTO));
+        Page res = service.findAll(pageable);
+        model.addAttribute("page",res);
+        model.addAttribute("res", DTOAssembler.buildDTOList(res.getContent(), typeDTO));
         return modelName.concat("/list");
     }
 
-    @RequestMapping("/list_{page}")
-    public String list(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @RequestParam(required = false,defaultValue = "id") String properties) throws LeylineException {
+    @RequestMapping("/page/{page}")
+    public String list(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @RequestParam(required = false,defaultValue = "id") String properties, @RequestParam(required = false) Integer pagesize) throws LeylineException {
         Sort.Direction d = Sort.Direction.DESC;
         Pageable pReal;
         if (direction!=null && !direction.isEmpty() && direction.toUpperCase().equals("ASC")) {
             d = Sort.Direction.ASC;
+        }
+        if(pagesize == null || pagesize <=0){
+            pagesize = this.pagesize;
         }
         pReal = new PageRequest(page, pagesize, d, properties.split(","));
 
@@ -56,14 +62,14 @@ public abstract class PagingAndSortingController<S extends DomainService, T exte
         return modelName.concat("/list");
     }
 
-    @RequestMapping("/{property}/list_{page}")
-    public String listByProperty(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @PathVariable String property) throws LeylineException {
-        return list(model,page,direction,property);
+    @RequestMapping("sort/{property}/page/{page}")
+    public String listByProperty(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @PathVariable String property,@RequestParam(required = false) Integer pagesize) throws LeylineException {
+        return list(model,page,direction,property,pagesize);
     }
 
-    @RequestMapping("/{property}/{direction}/list_{page}")
-    public String listByPropertyAndDirection(Model model, @PathVariable Integer page,  @PathVariable String direction, @PathVariable String property) throws LeylineException {
-        return listByProperty(model,page,direction,property);
+    @RequestMapping("sort/{property}/{direction}/page/{page}")
+    public String listByPropertyAndDirection(Model model, @PathVariable Integer page,  @PathVariable String direction, @PathVariable String property,@RequestParam(required = false) Integer pagesize) throws LeylineException {
+        return listByProperty(model,page,direction,property,pagesize);
     }
 
     @RequestMapping("/detail_{id}")
