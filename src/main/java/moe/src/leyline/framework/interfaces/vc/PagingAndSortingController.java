@@ -44,26 +44,24 @@ public abstract class PagingAndSortingController<S extends DomainService, T exte
     }
 
     @RequestMapping("/list_{page}")
-    public String list(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @RequestParam(required = false) String properties) throws LeylineException {
+    public String list(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @RequestParam(required = false,defaultValue = "id") String properties) throws LeylineException {
         Sort.Direction d = Sort.Direction.DESC;
         Pageable pReal;
-        if (direction.equals("ASC")) {
+        if (direction!=null && !direction.isEmpty() && direction.toUpperCase().equals("ASC")) {
             d = Sort.Direction.ASC;
         }
-        pReal = properties != null && !properties.isEmpty() && properties.contains(",") ?
-                new PageRequest(page, pagesize, d, properties.split(",")) :
-                new PageRequest(page, pagesize, d, properties);
+        pReal = new PageRequest(page, pagesize, d, properties.split(","));
 
         model.addAttribute("res", DTOAssembler.buildDTOList(service.findAll(pReal).getContent(), typeDTO));
         return modelName.concat("/list");
     }
 
-    @RequestMapping("/list_{page}_{property}")
+    @RequestMapping("/{property}/list_{page}")
     public String listByProperty(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @PathVariable String property) throws LeylineException {
         return list(model,page,direction,property);
     }
 
-    @RequestMapping("/list_{page}_{property}_{direction}")
+    @RequestMapping("/{property}/{direction}/list_{page}")
     public String listByPropertyAndDirection(Model model, @PathVariable Integer page,  @PathVariable String direction, @PathVariable String property) throws LeylineException {
         return listByProperty(model,page,direction,property);
     }

@@ -24,6 +24,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return (DO) dao.save(entity);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("InsertFailed");
         }
     }
@@ -32,6 +33,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return (List<DO>) dao.save(entities);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("InsertFailed");
         }
     }
@@ -41,6 +43,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             dao.delete(entities);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("DeleteFailed");
         }
         return true;
@@ -50,6 +53,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             dao.delete(id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("DeleteFailed");
         }
         return true;
@@ -59,6 +63,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             dao.delete(entity);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("DeleteFailed");
         }
         return true;
@@ -68,6 +73,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return (DO) dao.findOne(id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
@@ -76,6 +82,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return (List<DO>) dao.findAll(ids);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
@@ -84,6 +91,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return (List<DO>) dao.findAll();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
@@ -92,6 +100,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return dao.findAll(p);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
@@ -100,6 +109,7 @@ public abstract class DomainService<T extends Repo> {
         try {
             return (List<DO>) dao.findAll(s);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
