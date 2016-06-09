@@ -5,14 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div th:each="e : ${res}">
-    <p th:text="${e.id}">编号</p>
+<div th:each="e : ${page.content}">
+    <p th:text="${e.id}">${page}</p>
     <p th:text="${e.name}">名字</p>
     <p th:text="${e.price}">价格</p>
 </div>
 <nav>
-    <ul class="pagination" sd:pagination="pager">
-        <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+    <ul class="pagination" sd:pagination="full-static">
         <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
         <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
     </ul>

@@ -5,6 +5,7 @@ import moe.src.leyline.framework.interfaces.dto.DTO;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
 import moe.src.leyline.framework.service.DomainService;
+
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,12 +39,18 @@ public abstract class PagingAndSortingController<S extends DomainService, T exte
         modelName = nameOfDTO[nameOfDTO.length - 1].replace("DTO", "").toLowerCase();
     }
 
-    @RequestMapping("")
     public String list(Model model, Pageable pageable) throws LeylineException {
         Page res = service.findAll(pageable);
-        model.addAttribute("page",res);
-        model.addAttribute("res", DTOAssembler.buildDTOList(res.getContent(), typeDTO));
+        model.addAttribute("page",DTOAssembler.buildPageDTO(res,typeDTO));
         return modelName.concat("/list");
+    }
+
+    @RequestMapping("")
+    public String listDefault(Model model,@RequestParam(required = false) Integer page,@RequestParam(required = false) String direction, @RequestParam(required = false,defaultValue = "id") String properties, @RequestParam(required = false) Integer pagesize) throws LeylineException {
+        if(page==null || page < 0){
+            page = 0;
+        }
+        return list(model,page,direction,properties,pagesize);
     }
 
     @RequestMapping("/page/{page}")
@@ -57,9 +64,7 @@ public abstract class PagingAndSortingController<S extends DomainService, T exte
             pagesize = this.pagesize;
         }
         pReal = new PageRequest(page, pagesize, d, properties.split(","));
-
-        model.addAttribute("res", DTOAssembler.buildDTOList(service.findAll(pReal).getContent(), typeDTO));
-        return modelName.concat("/list");
+        return list(model,pReal);
     }
 
     @RequestMapping("sort/{property}/page/{page}")
