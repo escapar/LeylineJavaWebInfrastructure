@@ -42,6 +42,7 @@ public final class LeylineFullPaginationDecorator implements PaginationDecorator
     private static final String BUNDLE_NAME = org.thymeleaf.dialect.springdata.decorator.FullPaginationDecorator.class.getSimpleName();
     private static final int DEFAULT_PAGE_SPLIT = 7;
     public static final String SLASH="/";
+    public static final String HTML=".html";
 
     public String getIdentifier() {
         return "full-static";
@@ -163,13 +164,13 @@ public final class LeylineFullPaginationDecorator implements PaginationDecorator
     public static String createPageUrl(final Arguments arguments, int pageNumber){
         String prefix = getParamPrefix(arguments);
         final Collection<String> excludedParams = Arrays.asList(new String[]{prefix.concat(PAGE)});
-        final String baseUrl = buildBaseUrl(arguments, excludedParams).replaceAll("\\/page\\/\\d*\\/","");
+        final String baseUrl = buildBaseUrl(arguments, excludedParams).replaceAll("(\\/page\\/\\d*)+(\\.html|.)","");
 
         return buildUrl(baseUrl, pageNumber , arguments).toString();
     }
 
     public static StringBuilder pageNumURLBuilder(int pageNumber){
-        return new StringBuilder(SLASH).append(PAGE).append(SLASH).append(pageNumber).append(SLASH);
+        return new StringBuilder(SLASH).append(PAGE).append(SLASH).append(pageNumber).append(HTML);
     }
 
     private static String getParamPrefix(Arguments arguments){
