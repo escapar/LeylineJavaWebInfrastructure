@@ -27,30 +27,54 @@ Framework should not be touched fluently.
 
 Try to implement in interfaces and business packages.
 
-# Fundamental GOALS & SPECS
+# Environment
 
-Spring Boot
+Spring Boot / Spring Security / Spring Data JPA + QueryDSL
+
+Thymeleaf
+
+Angular 1.x
+
+Memcached
+
+MySQL
+
+ExpressJS Model Proxy ( LONG-TERM GOAL )
+
+
+# Fundamental GOALS & SPECS
 
 Automatic Model(ModelMapper)->DTO->Restful API CRUD [OK]
 
 ORM in Spring Data JPA + QueryDSL [Test Needed]
 
-Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf
+Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf [Test Needed]
 
-> JsonView + Rest [Test Needed]
+> JsonView + Rest
 
-> Spring Security + Thymeleaf(including Controller) + Rest [Test Needed]
+> Spring Security + Thymeleaf(including Controller) + Rest
 
-> Pagination / Sort + Rest [OKAY]
+> Pagination / Sort + Rest 
 
-> Pagination / Sort + Thymeleaf(including Controller) [Working on pagination front-end solution]
+> Pagination / Sort + Thymeleaf(including Controller) 
+
+> Basic Styles [LONG-TERM GOAL]
 
 
-Smooth Integration of Spring Framework @Cachable and Memcached  [Planning]
+Smooth Integration of Spring Framework @Cachable and Memcached  [Pending]
 
-An Admin Panel in Angular Material [Pending]
+Enforcement of Extensibility ! [WORKING ON IT]
 
-Use Cases And Examples [Pending]
+---------------------------------
+
+Planning :
+
+An Admin Panel in Angular Material 
+
+Use Cases And Examples 
+
+A CLI For both specs mentioned!! 
+
 
 # Long Term GOALS
 
