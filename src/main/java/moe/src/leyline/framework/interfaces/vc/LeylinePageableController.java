@@ -1,10 +1,10 @@
 package moe.src.leyline.framework.interfaces.vc;
 
 import com.google.common.reflect.TypeToken;
-import moe.src.leyline.framework.interfaces.dto.DTO;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
-import moe.src.leyline.framework.service.DomainService;
+import moe.src.leyline.framework.service.LeylineDomainService;
 
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
  * Created by POJO on 6/7/16.
  */
 @Controller
-public abstract class PagingAndSortingController<S extends DomainService, T extends DTO> {
+public abstract class LeylinePageableController<S extends LeylineDomainService, T extends LeylineDTO> {
     @Autowired
     S service;
     private Class<?>[] typeArgs;
@@ -32,11 +32,11 @@ public abstract class PagingAndSortingController<S extends DomainService, T exte
     private Integer pagesize = 20;
     private String modelName;
 
-    public PagingAndSortingController() {
-        typeArgs = TypeResolver.resolveRawArguments(PagingAndSortingController.class, getClass());
+    public LeylinePageableController() {
+        typeArgs = TypeResolver.resolveRawArguments(LeylinePageableController.class, getClass());
         this.typeDTO = TypeToken.of(typeArgs[1]).getType();
         String[] nameOfDTO = typeDTO.getTypeName().split("\\.");
-        modelName = nameOfDTO[nameOfDTO.length - 1].replace("DTO", "").toLowerCase();
+        modelName = nameOfDTO[nameOfDTO.length - 1].toLowerCase().replace("dto", "");
     }
 
     public String list(Model model, Pageable pageable) throws LeylineException {

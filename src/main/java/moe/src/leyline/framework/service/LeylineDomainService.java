@@ -1,7 +1,7 @@
 package moe.src.leyline.framework.service;
 
-import moe.src.leyline.framework.domain.DO;
-import moe.src.leyline.framework.domain.Repo;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.LeylineRepo;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,22 +16,22 @@ import java.util.List;
  * Created by bytenoob on 5/29/16.
  */
 @Service
-public abstract class DomainService<T extends Repo> {
+public abstract class LeylineDomainService<T extends LeylineRepo> {
     @Autowired
     protected T dao;
 
-    public DO save(DO entity) throws PersistenceException {
+    public LeylineDO save(LeylineDO entity) throws PersistenceException {
         try {
-            return (DO) dao.save(entity);
+            return (LeylineDO) dao.save(entity);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("InsertFailed");
         }
     }
 
-    public List<DO> save(Collection<DO> entities) throws PersistenceException {
+    public List<LeylineDO> save(Collection<LeylineDO> entities) throws PersistenceException {
         try {
-            return (List<DO>) dao.save(entities);
+            return (List<LeylineDO>) dao.save(entities);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("InsertFailed");
@@ -39,7 +39,7 @@ public abstract class DomainService<T extends Repo> {
     }
 
 
-    public boolean delete(Collection<DO> entities) throws PersistenceException {
+    public boolean delete(Collection<LeylineDO> entities) throws PersistenceException {
         try {
             dao.delete(entities);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public abstract class DomainService<T extends Repo> {
         return true;
     }
 
-    public boolean delete(DO entity) throws PersistenceException {
+    public boolean delete(LeylineDO entity) throws PersistenceException {
         try {
             dao.delete(entity);
         } catch (Exception e) {
@@ -69,34 +69,34 @@ public abstract class DomainService<T extends Repo> {
         return true;
     }
 
-    public DO findOne(Long id) throws PersistenceException {
+    public LeylineDO findOne(Long id) throws PersistenceException {
         try {
-            return (DO) dao.findOne(id);
+            return (LeylineDO) dao.findOne(id);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
 
-    public List<DO> findAll(List<Integer> ids) throws PersistenceException {
+    public List<LeylineDO> findAll(List<Integer> ids) throws PersistenceException {
         try {
-            return (List<DO>) dao.findAll(ids);
+            return (List<LeylineDO>) dao.findAll(ids);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
 
-    public List<DO> findAll() throws PersistenceException {
+    public List<LeylineDO> findAll() throws PersistenceException {
         try {
-            return (List<DO>) dao.findAll();
+            return (List<LeylineDO>) dao.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
     }
 
-    public Page<DO> findAll(Pageable p) throws PersistenceException {
+    public Page<LeylineDO> findAll(Pageable p) throws PersistenceException {
         try {
             return dao.findAll(p);
         } catch (Exception e) {
@@ -105,9 +105,9 @@ public abstract class DomainService<T extends Repo> {
         }
     }
 
-    public List<DO> findAll(Sort s) throws PersistenceException {
+    public List<LeylineDO> findAll(Sort s) throws PersistenceException {
         try {
-            return (List<DO>) dao.findAll(s);
+            return (List<LeylineDO>) dao.findAll(s);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");

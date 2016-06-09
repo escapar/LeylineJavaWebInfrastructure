@@ -3,7 +3,7 @@ package moe.src.leyline.framework.interfaces.view;
 /**
  * Created by bytenoob on 5/29/16.
  */
-public class VIEW {
+public class LeylineView {
     public interface LIST {
     }
 

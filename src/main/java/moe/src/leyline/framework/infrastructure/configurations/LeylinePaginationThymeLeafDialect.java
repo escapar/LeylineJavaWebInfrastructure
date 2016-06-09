@@ -9,7 +9,7 @@ import org.thymeleaf.dialect.springdata.SpringDataDialect;
  * Created by POJO on 6/8/16.
  */
 @Configuration
-public class PaginationThymeLeafDialect extends ThymeleafAutoConfiguration{
+public class LeylinePaginationThymeLeafDialect extends ThymeleafAutoConfiguration{
     @Bean
     public SpringDataDialect springDataDialect(){
         return new SpringDataDialect();

@@ -1,6 +1,5 @@
-package moe.src.leyline;
+package moe.src.leyline.framework;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
@@ -8,14 +7,12 @@ import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
 import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@EnableJpaRepositories(basePackages = "moe.src.leyline.business")
-@ComponentScan(basePackages = "moe.src.leyline")
-@EntityScan(basePackages = {"moe.src.leyline.framework.domain", "moe.src.leyline.business.domain"})
+/**
+ * Created by bytenoob on 6/9/16.
+ */
 
 @EnableSpringDataWebSupport
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -26,9 +23,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
         WebSocketAutoConfiguration.class,
         ActiveMQAutoConfiguration.class,
 })
-public class App {
+@EntityScan("moe.src.leyline.framework.domain")
+@ComponentScan(basePackages = "moe.src.leyline.framework")
 
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-    }
+public abstract class LeylineApp {
+
 }

@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 /**
  * Created by POJO on 6/2/16.
  */
-public interface Repo<T extends DO> extends PagingAndSortingRepository<T, Long>, QueryDslPredicateExecutor {
+public interface LeylineRepo<T extends LeylineDO> extends PagingAndSortingRepository<T, Long>, QueryDslPredicateExecutor {
 
 
 }

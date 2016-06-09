@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by POJO on 5/30/16.
  */
-public interface CRUDAPI<T> {
+public interface LeylineCRUD<T> {
     public void update(String t) throws Exception;
 
     public void insert(String t) throws Exception;

@@ -4,17 +4,16 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
-import moe.src.leyline.framework.domain.DO;
+import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.DTO;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.interfaces.view.VIEW;
-import moe.src.leyline.framework.service.DomainService;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
+import moe.src.leyline.framework.service.LeylineDomainService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
  * Created by POJO on 5/30/16.
  */
 @Component
-public abstract class RestCRUDAPI<T extends DomainService, D extends DTO, O extends DO> implements CRUDAPI {
+public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends LeylineDTO, O extends LeylineDO> implements LeylineCRUD {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final DTOAssembler assembler = new DTOAssembler();
     @Autowired
@@ -39,8 +38,8 @@ public abstract class RestCRUDAPI<T extends DomainService, D extends DTO, O exte
     private JavaType typeDTOList;
     private JavaType typeDOList;
 
-    public RestCRUDAPI() {
-        typeArgs = TypeResolver.resolveRawArguments(RestCRUDAPI.class, getClass());
+    public LeylineRestCRUD() {
+        typeArgs = TypeResolver.resolveRawArguments(LeylineRestCRUD.class, getClass());
         this.typeService = TypeToken.of(typeArgs[0]).getType();
         this.typeDTO = TypeToken.of(typeArgs[1]).getType();
         this.typeDO = TypeToken.of(typeArgs[2]).getType();
@@ -50,18 +49,18 @@ public abstract class RestCRUDAPI<T extends DomainService, D extends DTO, O exte
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(VIEW.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public List list() throws PersistenceException {
         return (List) service.findAll()
                 .stream()
-                .map(e -> assembler.buildDTO((DO) e, typeDTO))
+                .map(e -> assembler.buildDTO((LeylineDO) e, typeDTO))
                 .collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(VIEW.DETAIL.class)
+    @JsonView(LeylineView.DETAIL.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {

@@ -1,7 +1,7 @@
 package moe.src.leyline.framework.interfaces.rest;
 
-import moe.src.leyline.framework.domain.DO;
-import moe.src.leyline.framework.domain.Repo;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.LeylineRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by bytenoob on 5/29/16.
  */
-public abstract class DomainRestCRUDAPI<T extends Repo, D extends DO> implements CRUDAPI<D> {
+public abstract class LeylineDomainRestCRUD<T extends LeylineRepo, D extends LeylineDO> implements LeylineCRUD<D> {
     @Autowired
     protected T dao;
 
