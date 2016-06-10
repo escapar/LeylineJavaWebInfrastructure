@@ -1,14 +1,5 @@
 package moe.src.leyline.framework.interfaces.view.decorator;
 
-import org.springframework.stereotype.Component;
-import org.thymeleaf.context.IContext;
-import org.thymeleaf.context.IWebContext;
-import org.thymeleaf.dialect.springdata.decorator.FullPaginationDecorator;
-
-/**
- * Created by bytenoob on 6/9/16.
- */
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -21,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.auto.service.AutoService;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IContext;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dialect.springdata.Keys;
 import org.thymeleaf.dialect.springdata.decorator.PaginationDecorator;
 import org.thymeleaf.dialect.springdata.util.Messages;
@@ -35,14 +29,18 @@ import static org.thymeleaf.dialect.springdata.util.Strings.EQ;
 import static org.thymeleaf.dialect.springdata.util.Strings.PAGE;
 import static org.thymeleaf.dialect.springdata.util.Strings.Q_MARK;
 
+/**
+ * Created by bytenoob on 6/9/16.
+ */
+
 @Component
 @AutoService(PaginationDecorator.class)
 public final class LeylineFullPaginationDecorator implements PaginationDecorator {
     private static final String DEFAULT_CLASS="pagination";
     private static final String BUNDLE_NAME = org.thymeleaf.dialect.springdata.decorator.FullPaginationDecorator.class.getSimpleName();
     private static final int DEFAULT_PAGE_SPLIT = 7;
-    public static final String SLASH="/";
-    public static final String HTML=".html";
+    private static final String SLASH="/";
+    private static final String HTML=".html";
 
     public String getIdentifier() {
         return "full-static";
@@ -161,7 +159,7 @@ public final class LeylineFullPaginationDecorator implements PaginationDecorator
         return Messages.getMessage(BUNDLE_NAME, msgKey, locale, link);
     }
 
-    public static String createPageUrl(final Arguments arguments, int pageNumber){
+    private static String createPageUrl(final Arguments arguments, int pageNumber){
         String prefix = getParamPrefix(arguments);
         final Collection<String> excludedParams = Arrays.asList(new String[]{prefix.concat(PAGE)});
         final String baseUrl = buildBaseUrl(arguments, excludedParams).replaceAll("(\\/page\\/\\d*)+(\\.html|.)","");
@@ -169,7 +167,7 @@ public final class LeylineFullPaginationDecorator implements PaginationDecorator
         return buildUrl(baseUrl, pageNumber , arguments).toString();
     }
 
-    public static StringBuilder pageNumURLBuilder(int pageNumber){
+    private static StringBuilder pageNumURLBuilder(int pageNumber){
         return new StringBuilder(SLASH).append(PAGE).append(SLASH).append(pageNumber).append(HTML);
     }
 

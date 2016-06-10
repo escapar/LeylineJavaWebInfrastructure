@@ -1,13 +1,9 @@
 package moe.src.leyline.framework.interfaces.vc;
 
+import java.lang.reflect.Type;
+
 import com.google.common.reflect.TypeToken;
 import com.querydsl.core.types.Predicate;
-
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
-import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
-import moe.src.leyline.framework.service.LeylineDomainService;
 
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +25,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.reflect.Type;
+import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.service.LeylineDomainService;
 
 /**
  * Created by POJO on 6/7/16.
@@ -47,6 +47,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(),bindingsFactory.getEntityPathResolver());
 
+    @SuppressWarnings(value = "unchecked")
     public LeylinePageableController() {
         typeArgs = TypeResolver.resolveRawArguments(LeylinePageableController.class, getClass());
         classDTO = (Class<T>)typeArgs[1];
