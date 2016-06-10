@@ -16,6 +16,6 @@ public class WebSecurityConfigurationImpl extends LeylineWebSecurityConfiguratio
         http
                 .authorizeRequests()
                 .anyRequest().permitAll()
-                .and().formLogin();
+                .and().formLogin().and().csrf().disable();
     }
 }

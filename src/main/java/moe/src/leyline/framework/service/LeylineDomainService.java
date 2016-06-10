@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
+import com.querydsl.core.types.Predicate;
+
 /**
  * Created by bytenoob on 5/29/16.
  */
@@ -104,6 +106,16 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             throw new PersistenceException("FindFailed");
         }
     }
+
+    public Page<LeylineDO> findAll(Predicate p , Pageable pageable) throws PersistenceException {
+        try {
+            return dao.findAll(p,pageable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenceException("FindFailed");
+        }
+    }
+
 
     public List<LeylineDO> findAll(Sort s) throws PersistenceException {
         try {
