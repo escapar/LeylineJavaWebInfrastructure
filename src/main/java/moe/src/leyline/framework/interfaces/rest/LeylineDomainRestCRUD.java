@@ -2,7 +2,14 @@ package moe.src.leyline.framework.interfaces.rest;
 
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.domain.LeylineRepo;
+import moe.src.leyline.framework.interfaces.dto.PageJSON;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,13 +19,15 @@ import java.util.List;
 /**
  * Created by bytenoob on 5/29/16.
  */
+@Component
+@EnableSpringDataWebSupport
 public abstract class LeylineDomainRestCRUD<T extends LeylineRepo, D extends LeylineDO> implements LeylineCRUD<D> {
     @Autowired
     protected T dao;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    public List<D> list() {
-        return (List<D>) dao.findAll();
+    public PageJSON<D> list(Pageable p) {
+        return new PageJSON<>(dao.findAll(p),p);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")

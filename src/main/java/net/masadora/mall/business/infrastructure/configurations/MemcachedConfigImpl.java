@@ -24,8 +24,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @Configuration
 @EnableCaching
 @EnableAspectJAutoProxy
-public class MemCacheConfigImpl extends CachingConfigurerSupport {
-    @Bean
+public class MemcachedConfigImpl extends CachingConfigurerSupport {
+  /*  @Bean
     public CacheManager cacheManager()
     {
         MemcacheClientFactoryImpl cacheClientFactory = new MemcacheClientFactoryImpl();
@@ -56,6 +56,6 @@ public class MemCacheConfigImpl extends CachingConfigurerSupport {
 
         return ssmCacheManager;
     }
-
+*/
 
 }
