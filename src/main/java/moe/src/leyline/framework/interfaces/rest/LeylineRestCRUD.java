@@ -7,6 +7,7 @@ import com.google.common.reflect.TypeToken;
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.PageJSON;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.interfaces.view.LeylineView;
 import moe.src.leyline.framework.service.LeylineDomainService;
@@ -14,6 +15,10 @@ import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
  * Created by POJO on 5/30/16.
  */
 @Component
+@EnableSpringDataWebSupport
 public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends LeylineDTO, O extends LeylineDO> implements LeylineCRUD {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final DTOAssembler assembler = new DTOAssembler();
@@ -52,11 +58,10 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @JsonView(LeylineView.LIST.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
-    public List list() throws PersistenceException {
-        return (List) service.findAll()
-                .stream()
-                .map(e -> assembler.buildDTO((LeylineDO) e, typeDTO))
-                .collect(Collectors.toList());
+    public PageJSON<D> list(Pageable p) throws PersistenceException {
+        Page res = service.findAll(p);
+        res = assembler.buildPageDTO(res,typeDTO);
+        return new PageJSON<>(res,p);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
