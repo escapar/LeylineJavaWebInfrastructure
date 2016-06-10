@@ -1,6 +1,9 @@
 package moe.src.leyline.framework.interfaces.vc;
 
 import com.google.common.reflect.TypeToken;
+import com.querydsl.core.types.Predicate;
+
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
@@ -8,12 +11,20 @@ import moe.src.leyline.framework.service.LeylineDomainService;
 
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.SimpleEntityPathResolver;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
+import org.springframework.data.querydsl.binding.QuerydslPredicateBuilder;
+import org.springframework.data.util.ClassTypeInformation;
+import org.springframework.data.util.TypeInformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,15 +39,30 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
     @Autowired
     S service;
     private Class<?>[] typeArgs;
+    private Class<T> classDTO;
     private Type typeDTO;
     private Integer pagesize = 20;
     private String modelName;
 
+    private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
+    private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(),bindingsFactory.getEntityPathResolver());
+
     public LeylinePageableController() {
         typeArgs = TypeResolver.resolveRawArguments(LeylinePageableController.class, getClass());
-        this.typeDTO = TypeToken.of(typeArgs[1]).getType();
+        classDTO = (Class<T>)typeArgs[1];
+        this.typeDTO = TypeToken.of(classDTO).getType();
         String[] nameOfDTO = typeDTO.getTypeName().split("\\.");
         modelName = nameOfDTO[nameOfDTO.length - 1].toLowerCase().replace("dto", "");
+    }
+
+    public Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException {
+        TypeInformation<T> domainType = ClassTypeInformation.from(classDTO);
+        QuerydslBindings bindings = bindingsFactory.createBindingsFor(null, domainType);
+
+        Predicate predicate = predicateBuilder.getPredicate(domainType, parameters, bindings);
+
+        Page res = service.findAll(predicate, p);
+        return DTOAssembler.buildPageDTO(res,typeDTO);
     }
 
     public String list(Model model, Pageable pageable) throws LeylineException {
