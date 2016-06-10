@@ -1,25 +1,12 @@
 package net.masadora.mall.business.infrastructure.configurations;
 
-import java.util.ArrayList;
-
-import com.google.code.ssm.Cache;
-import com.google.code.ssm.CacheFactory;
-import com.google.code.ssm.config.AddressProvider;
-import com.google.code.ssm.config.DefaultAddressProvider;
-import com.google.code.ssm.providers.CacheConfiguration;
-import com.google.code.ssm.providers.xmemcached.MemcacheClientFactoryImpl;
-import com.google.code.ssm.spring.SSMCache;
-import com.google.code.ssm.spring.SSMCacheManager;
-
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * Created by bytenoob on 6/10/16.
+ * Created by POJO on 6/10/16.
  */
 @Configuration
 @EnableCaching

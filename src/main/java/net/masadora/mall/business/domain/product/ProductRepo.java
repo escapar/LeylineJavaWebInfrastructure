@@ -1,7 +1,8 @@
 package net.masadora.mall.business.domain.product;
 
-import moe.src.leyline.framework.domain.LeylineRepo;
 import org.springframework.stereotype.Repository;
+
+import moe.src.leyline.framework.domain.LeylineRepo;
 
 /**
  * Created by POJO on 6/3/16.

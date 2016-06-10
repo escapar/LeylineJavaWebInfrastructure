@@ -3,8 +3,8 @@ package net.masadora.mall.business.infrastructure.configurations;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
-import net.masadora.mall.business.service.UserDetailsServiceImpl;
 import moe.src.leyline.framework.infrastructure.configurations.LeylineWebSecurityConfiguration;
+import net.masadora.mall.business.service.UserDetailsServiceImpl;
 
 /**
  * Created by bytenoob on 6/9/16.

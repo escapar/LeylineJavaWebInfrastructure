@@ -7,13 +7,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javaslang.collection.Stream;
+import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import net.masadora.mall.business.domain.user.User;
 import net.masadora.mall.business.domain.user.UserRepo;
 import net.masadora.mall.business.infrastructure.configurations.MasadoraConstants;
-import moe.src.leyline.framework.service.LeylineUserDetailsService;
 
 /**
- * Created by bytenoob on 6/9/16.
+ * Created by POJO on 6/9/16.
  */
 @Service
 public class UserDetailsServiceImpl extends LeylineUserDetailsService<UserRepo,User> {

@@ -1,10 +1,37 @@
 package moe.src.leyline.framework.interfaces.rest;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.querydsl.core.types.Predicate;
+
+import org.jodah.typetools.TypeResolver;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NameTokenizers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.SimpleEntityPathResolver;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
+import org.springframework.data.querydsl.binding.QuerydslPredicateBuilder;
+import org.springframework.data.util.ClassTypeInformation;
+import org.springframework.data.util.TypeInformation;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
@@ -13,45 +40,6 @@ import moe.src.leyline.framework.interfaces.dto.PageJSON;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.interfaces.view.LeylineView;
 import moe.src.leyline.framework.service.LeylineDomainService;
-import sun.misc.Perf;
-
-import org.jodah.typetools.TypeResolver;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.NameTokenizers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.data.convert.DefaultTypeMapper;
-import org.springframework.data.convert.SimpleTypeInformationMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.SimpleEntityPathResolver;
-import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
-import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.data.querydsl.binding.QuerydslPredicateBuilder;
-import org.springframework.data.util.ClassTypeInformation;
-import org.springframework.data.util.TypeInformation;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
-import org.springframework.web.bind.support.DefaultDataBinderFactory;
-import org.springframework.web.bind.support.WebBindingInitializer;
-import org.springframework.web.servlet.mvc.method.annotation.ServletRequestDataBinderFactory;
-
-import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by POJO on 5/30/16.
@@ -77,6 +65,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     private final JavaType typeDTOList;
     private final JavaType typeDOList;
 
+    @SuppressWarnings(value = "unchecked")
     public LeylineRestCRUD() {
         typeArgs = TypeResolver.resolveRawArguments(LeylineRestCRUD.class, getClass());
         classService = (Class<T>)typeArgs[0];
@@ -89,7 +78,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         typeDOList = mapper.getTypeFactory().constructCollectionType(List.class, classDO);
     }
 
-    public Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException{
+    private Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException{
         TypeInformation<O> domainType = ClassTypeInformation.from(classDO);
         QuerydslBindings bindings = bindingsFactory.createBindingsFor(null, domainType);
 
@@ -109,6 +98,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         return new PageJSON<>(res,p);
     }
 
+    @SuppressWarnings(value = "unchecked")
     @JsonView(LeylineView.LIST.class)
     @RequestMapping(value = "/list/query", method = RequestMethod.GET)
     public PageJSON<D> listWithQuery(
@@ -116,6 +106,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         return new PageJSON<>(doQueryDSL(p,parameters),p);
     }
 
+    @SuppressWarnings(value = "unchecked")
     @JsonView(LeylineView.DETAIL.class)
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public PageJSON<D> listWithDetail(

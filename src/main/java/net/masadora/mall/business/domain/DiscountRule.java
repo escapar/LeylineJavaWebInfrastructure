@@ -1,8 +1,14 @@
 package net.masadora.mall.business.domain;
 
-import moe.src.leyline.framework.domain.LeylineDO;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import moe.src.leyline.framework.domain.LeylineDO;
 
 /**
  * The persistent class for the discount_rule database table.
