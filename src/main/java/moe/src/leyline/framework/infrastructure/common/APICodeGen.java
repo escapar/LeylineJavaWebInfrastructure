@@ -28,6 +28,7 @@ import net.masadora.mall.interfaces.rest.ProductAPI;
  * Created by POJO on 6/11/16.
  */
 public class APICodeGen {
+    private static final ObjectMapper om = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     @Value @AllArgsConstructor private static class APIInfo implements Serializable{
         private final String name;
         private final Set api;
@@ -41,8 +42,6 @@ public class APICodeGen {
         ).toJavaList();
 
         try {
-            ObjectMapper om = new ObjectMapper()
-                    .enable(SerializationFeature.INDENT_OUTPUT);
             om.writeValue(new File("out.json"),l);
         }catch (IOException e){
             e.printStackTrace();
@@ -135,11 +134,7 @@ public class APICodeGen {
 
     private static String processControllerDTO(Class controller){
         Class<?>[] typeArgs = TypeResolver.resolveRawArguments(controller.getSuperclass(),controller);
-        if(typeArgs !=null && typeArgs.length>0) {
-            return processTypeString(typeArgs[1].getName());
-        }else{
-            return "";
-        }
+        return typeArgs !=null && typeArgs.length>0 ? processTypeString(typeArgs[1].getName()) : "";
     }
 
     private static List resolveDTOInstance(Class dto){
