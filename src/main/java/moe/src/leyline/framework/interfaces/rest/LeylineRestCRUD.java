@@ -147,10 +147,10 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @RequestMapping(value = "/one", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
-    public Object insertOne(@RequestBody D obj) throws PersistenceException {
+    public D insertOne(@RequestBody D obj) throws PersistenceException {
         ModelMapper mm = new ModelMapper();
         mm.getConfiguration().setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
-        return mm.map(service.save(DTOAssembler.buildDO(obj, typeDO)), typeDO);
+        return mm.map(service.save(DTOAssembler.buildDO(obj, typeDO)), typeDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
