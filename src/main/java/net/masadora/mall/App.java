@@ -1,4 +1,4 @@
-package net;
+package net.masadora.mall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
