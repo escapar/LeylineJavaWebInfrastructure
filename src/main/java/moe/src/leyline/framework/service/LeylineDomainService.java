@@ -1,7 +1,10 @@
 package moe.src.leyline.framework.service;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import com.querydsl.core.types.Predicate;
 
@@ -131,5 +134,11 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
         }
     }
 
-
+    @SuppressWarnings(value = "unchecked")
+    protected static Map<String , Object> customedQueryResult(String[] params , Stream res){
+        Map<String , Object> resultMap = new HashMap<>();
+        int[] idx = { 0 };
+        res.forEach(e-> resultMap.put(params[idx[0]++],e));
+        return resultMap;
+    }
 }

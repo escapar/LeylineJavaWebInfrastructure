@@ -35,8 +35,8 @@ public class Product implements LeylineDO {
     private double price;
 
     //bi-directional many-to-one association to OrderDetail
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderDetail> orderDetails;
+    //@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    //private List<OrderDetail> orderDetails;
 
     public Product() {
     }
