@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import static org.assertj.core.api.Assertions.*;
+
 
 /**
- * Created by bytenoob on 5/29/16.
+ * Created by POJO on 5/29/16.
  */
 @Component
 @EnableSpringDataWebSupport
@@ -56,6 +58,5 @@ public abstract class LeylineDomainRestCRUD<T extends LeylineRepo, D extends Ley
     public void delete(@RequestBody int[] id) {
         dao.delete(id);
     }
-
 
 }
