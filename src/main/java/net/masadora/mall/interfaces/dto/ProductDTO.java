@@ -1,7 +1,6 @@
 package net.masadora.mall.interfaces.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;

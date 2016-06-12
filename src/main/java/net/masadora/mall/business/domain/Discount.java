@@ -1,13 +1,8 @@
 package net.masadora.mall.business.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-
 import moe.src.leyline.framework.domain.LeylineDO;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the discount database table.

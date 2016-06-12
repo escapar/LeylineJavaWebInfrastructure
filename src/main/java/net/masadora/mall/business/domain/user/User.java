@@ -1,12 +1,8 @@
 package net.masadora.mall.business.domain.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-
 import moe.src.leyline.framework.domain.user.LeylineUser;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the user database table.

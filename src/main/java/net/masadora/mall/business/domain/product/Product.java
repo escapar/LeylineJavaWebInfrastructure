@@ -1,19 +1,10 @@
 package net.masadora.mall.business.domain.product;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import moe.src.leyline.framework.domain.LeylineDO;
-import net.masadora.mall.business.domain.OrderDetail;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the product database table.

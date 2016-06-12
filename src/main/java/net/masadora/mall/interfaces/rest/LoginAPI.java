@@ -17,7 +17,7 @@ public class LoginAPI {
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String find()  {
+    public String find() {
         return "boo";
     }
 

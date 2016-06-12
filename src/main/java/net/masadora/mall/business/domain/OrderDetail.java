@@ -1,18 +1,10 @@
 package net.masadora.mall.business.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-
 import moe.src.leyline.framework.domain.LeylineDO;
 import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.domain.user.User;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the order_detail database table.

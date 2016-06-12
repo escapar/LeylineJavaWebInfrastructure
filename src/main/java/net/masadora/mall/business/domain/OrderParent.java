@@ -1,13 +1,8 @@
 package net.masadora.mall.business.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-
 import moe.src.leyline.framework.domain.LeylineDO;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the order_parent database table.
