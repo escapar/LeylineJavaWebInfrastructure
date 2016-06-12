@@ -1,15 +1,17 @@
 package moe.src.leyline.framework.interfaces.rest;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.querydsl.core.types.Predicate;
-
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.PageJSON;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
+import moe.src.leyline.framework.service.LeylineDomainService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -26,20 +28,11 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
-import moe.src.leyline.framework.interfaces.dto.PageJSON;
-import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.interfaces.view.LeylineView;
-import moe.src.leyline.framework.service.LeylineDomainService;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by POJO on 5/30/16.
@@ -50,11 +43,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
-    private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(),bindingsFactory.getEntityPathResolver());
-
-    @Autowired
-    protected T service;
-
+    private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
     private final Class<?>[] typeArgs;
     private final Type typeService;
     private final Type typeDTO;
@@ -64,13 +53,15 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     private final Class<O> classDO;
     private final JavaType typeDTOList;
     private final JavaType typeDOList;
+    @Autowired
+    protected T service;
 
     @SuppressWarnings(value = "unchecked")
     public LeylineRestCRUD() {
         typeArgs = TypeResolver.resolveRawArguments(LeylineRestCRUD.class, getClass());
-        classService = (Class<T>)typeArgs[0];
-        classDTO = (Class<D>)typeArgs[1];
-        classDO = (Class<O>)typeArgs[2];
+        classService = (Class<T>) typeArgs[0];
+        classDTO = (Class<D>) typeArgs[1];
+        classDO = (Class<O>) typeArgs[2];
         this.typeService = TypeToken.of(classService).getType();
         this.typeDTO = TypeToken.of(classDTO).getType();
         this.typeDO = TypeToken.of(classDO).getType();
@@ -78,14 +69,14 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         typeDOList = mapper.getTypeFactory().constructCollectionType(List.class, classDO);
     }
 
-    private Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException{
+    private Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException {
         TypeInformation<O> domainType = ClassTypeInformation.from(classDO);
         QuerydslBindings bindings = bindingsFactory.createBindingsFor(null, domainType);
 
         Predicate predicate = predicateBuilder.getPredicate(domainType, parameters, bindings);
 
         Page res = service.findAll(predicate, p);
-        return DTOAssembler.buildPageDTO(res,typeDTO);
+        return DTOAssembler.buildPageDTO(res, typeDTO);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
@@ -94,24 +85,24 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @SuppressWarnings(value = "unchecked")
     public PageJSON<D> list(Pageable p) throws PersistenceException {
         Page res = service.findAll(p);
-        res = DTOAssembler.buildPageDTO(res,typeDTO);
-        return new PageJSON<>(res,p);
+        res = DTOAssembler.buildPageDTO(res, typeDTO);
+        return new PageJSON<>(res, p);
     }
 
     @SuppressWarnings(value = "unchecked")
     @JsonView(LeylineView.LIST.class)
     @RequestMapping(value = "/list/query", method = RequestMethod.GET)
     public PageJSON<D> listWithQuery(
-            Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException,NoSuchMethodException{
-        return new PageJSON<>(doQueryDSL(p,parameters),p);
+            Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
+        return new PageJSON<>(doQueryDSL(p, parameters), p);
     }
 
     @SuppressWarnings(value = "unchecked")
     @JsonView(LeylineView.DETAIL.class)
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public PageJSON<D> listWithDetail(
-            Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException,NoSuchMethodException{
-        return new PageJSON<>(doQueryDSL(p,parameters),p);
+            Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
+        return new PageJSON<>(doQueryDSL(p, parameters), p);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")

@@ -1,22 +1,20 @@
 package moe.src.leyline.framework.service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
 import com.querydsl.core.types.Predicate;
-
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.LeylineRepo;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.domain.LeylineRepo;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Created by POJO on 5/29/16.
@@ -26,6 +24,14 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     @Autowired
     protected T dao;
 
+    @SuppressWarnings(value = "unchecked")
+    protected static Map<String, Object> customedQueryResult(String[] params, Stream res) {
+        Map<String, Object> resultMap = new HashMap<>();
+        int[] idx = {0};
+        res.forEach(e -> resultMap.put(params[idx[0]++], e));
+        return resultMap;
+    }
+
     public LeylineDO save(LeylineDO entity) throws PersistenceException {
         try {
             return (LeylineDO) dao.save(entity);
@@ -34,6 +40,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             throw new PersistenceException("InsertFailed");
         }
     }
+
     @SuppressWarnings(value = "unchecked")
     public List<LeylineDO> save(Collection<LeylineDO> entities) throws PersistenceException {
         try {
@@ -96,6 +103,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             throw new PersistenceException("FindFailed");
         }
     }
+
     @SuppressWarnings(value = "unchecked")
     public List<LeylineDO> findAll() throws PersistenceException {
         try {
@@ -105,6 +113,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             throw new PersistenceException("FindFailed");
         }
     }
+
     @SuppressWarnings(value = "unchecked")
     public Page<LeylineDO> findAll(Pageable p) throws PersistenceException {
         try {
@@ -114,10 +123,11 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             throw new PersistenceException("FindFailed");
         }
     }
+
     @SuppressWarnings(value = "unchecked")
-    public Page<LeylineDO> findAll(Predicate p , Pageable pageable) throws PersistenceException {
+    public Page<LeylineDO> findAll(Predicate p, Pageable pageable) throws PersistenceException {
         try {
-            return dao.findAll(p,pageable);
+            return dao.findAll(p, pageable);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -132,13 +142,5 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
-    }
-
-    @SuppressWarnings(value = "unchecked")
-    protected static Map<String , Object> customedQueryResult(String[] params , Stream res){
-        Map<String , Object> resultMap = new HashMap<>();
-        int[] idx = { 0 };
-        res.forEach(e-> resultMap.put(params[idx[0]++],e));
-        return resultMap;
     }
 }

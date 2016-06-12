@@ -7,6 +7,8 @@ import moe.src.leyline.framework.domain.LeylineDO;
  */
 public interface LeylineUser extends LeylineDO {
     public String getPassword();
+
     public String getName();
+
     public int getRole();
 }
