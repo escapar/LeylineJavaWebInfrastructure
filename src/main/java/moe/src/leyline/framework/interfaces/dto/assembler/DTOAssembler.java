@@ -1,15 +1,14 @@
 package moe.src.leyline.framework.interfaces.dto.assembler;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by POJO on 5/30/16.
@@ -34,17 +33,18 @@ public class DTOAssembler {
     }
 
 
-    public static Page buildPageDTO(Page p,Type d){
+    public static Page buildPageDTO(Page p, Type d) {
         return p.map(new DO2DTOConverter().setT(d));
     }
 
-    private static class DO2DTOConverter implements Converter<LeylineDO,LeylineDTO>{
-        Type t ;
-        public LeylineDTO convert(LeylineDO d){
-            return DTOAssembler.buildDTO(d,t);
+    private static class DO2DTOConverter implements Converter<LeylineDO, LeylineDTO> {
+        Type t;
+
+        public LeylineDTO convert(LeylineDO d) {
+            return DTOAssembler.buildDTO(d, t);
         }
 
-        public DO2DTOConverter setT(Type t){
+        public DO2DTOConverter setT(Type t) {
             this.t = t;
             return this;
         }

@@ -1,13 +1,11 @@
 package moe.src.leyline.framework.interfaces.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonView;
-
+import moe.src.leyline.framework.interfaces.view.LeylineView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import moe.src.leyline.framework.interfaces.view.LeylineView;
+import java.util.List;
 
 /**
  * Created by bytenoob on 6/10/16.
