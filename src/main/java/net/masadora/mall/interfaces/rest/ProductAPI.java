@@ -5,6 +5,9 @@ import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.service.ProductService;
 import net.masadora.mall.interfaces.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,5 +38,10 @@ public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Prod
     @RequestMapping(value = "customed/HQL/{id}", method = RequestMethod.GET, produces = "application/json")
     Map customedHQLAPI(@PathVariable Long id) {
         return productService.customedHQLOperationById(id);
+    }
+
+    @RequestMapping(value = "/currentUser" , method = RequestMethod.GET, produces = "application/json")
+    User getUser(){
+        return getCurrentUser();
     }
 }

@@ -5,9 +5,14 @@ import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.domain.LeylineRepo;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -24,11 +29,15 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     @Autowired
     protected T dao;
 
+    @Autowired
+    protected LeylineUserDetailsService userDetailsService;
+
     @SuppressWarnings(value = "unchecked")
     protected static Map<String, Object> customedQueryResult(String[] params, Stream res) {
         Map<String, Object> resultMap = new HashMap<>();
         int[] idx = {0};
         res.forEach(e -> resultMap.put(params[idx[0]++], e));
+        res.close();
         return resultMap;
     }
 
@@ -85,6 +94,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
+    @Cacheable(value="xxxx")
     public LeylineDO findOne(Long id) throws PersistenceException {
         try {
             return (LeylineDO) dao.findOne(id);
@@ -142,5 +152,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
         }
+    }
+
+    public User getCurrentUser() {
+        return userDetailsService.getCurrentUser();
     }
 }
