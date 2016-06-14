@@ -1,4 +1,4 @@
-package net.masadora.mall.business.infrastructure.cache;
+package moe.src.leyline.framework.infrastructure.cache.memcached;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

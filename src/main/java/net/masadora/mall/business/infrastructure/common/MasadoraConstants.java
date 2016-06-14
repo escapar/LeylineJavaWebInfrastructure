@@ -1,4 +1,4 @@
-package net.masadora.mall.business.infrastructure.configurations;
+package net.masadora.mall.business.infrastructure.common;
 
 import lombok.Value;
 

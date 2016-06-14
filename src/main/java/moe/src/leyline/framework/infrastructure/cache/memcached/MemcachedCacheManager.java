@@ -1,11 +1,11 @@
-package net.masadora.mall.business.infrastructure.cache;
+package moe.src.leyline.framework.infrastructure.cache.memcached;
 
 import com.whalin.MemCached.MemCachedClient;
 import com.whalin.MemCached.SockIOPool;
+import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -14,15 +14,16 @@ import java.util.HashSet;
 /**
  * Created by POJO on 6/12/16.
  */
-@Component
-public class MemcachedCacheManager extends AbstractCacheManager{
+
+public class MemcachedCacheManager<T extends MemcachedCache> extends AbstractCacheManager{
     private Collection<Cache> caches = new HashSet<>();
     private MemCachedClient client;
+    private Class<MemcachedCache> cacheT  = (Class<MemcachedCache>)TypeResolver.resolveRawArguments(MemcachedCacheManager.class, getClass())[0];;
+
     @Autowired
     MemcachedPoolConfig memcachedPoolConfig;
 
-    private MemcachedCacheManager(){
-
+    public MemcachedCacheManager(){
     }
 
     public MemcachedCacheManager(MemCachedClient client){
@@ -34,13 +35,23 @@ public class MemcachedCacheManager extends AbstractCacheManager{
         return this.caches;
     }
 
-    public void setCaches(Collection<Cache> caches) {
-        this.caches = caches;
+    @Override
+    public void afterPropertiesSet() {
+        checkState();
+        super.afterPropertiesSet();
     }
 
-    public void setClient(MemCachedClient client) {
-        this.client = client;
-        updateCaches();
+    public MemCachedClient getClient(){
+        return client;
+    }
+
+    public MemcachedCacheManager setClient(MemCachedClient m){
+        client = m;
+        return this;
+    }
+
+    public void setCaches(Collection<Cache> caches) {
+        this.caches = caches;
     }
 
     public Cache getCache(String name){
@@ -53,15 +64,26 @@ public class MemcachedCacheManager extends AbstractCacheManager{
                 e.printStackTrace();
             }
             if (rt == null) {
-                rt = new MemcachedCache(name, client);
-                addCache(rt);
+                try {
+                    rt = cacheT
+                            .getConstructor(String.class, MemCachedClient.class)
+                            .newInstance(name, client);
+                    addCache(rt);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return rt;
     }
 
     private void checkState() {
-        if(client == null){
+        if(client == null) {
+            setClient(buildClient());
+        }
+    }
+
+    private MemCachedClient buildClient(){
             String poolName = "masadoraPool";
             SockIOPool pool = SockIOPool.getInstance(poolName);
 
@@ -87,16 +109,15 @@ public class MemcachedCacheManager extends AbstractCacheManager{
             pool.setSocketTO(memcachedPoolConfig.getSocketTO());
             pool.setAliveCheck(memcachedPoolConfig.getAliveCheck());
             pool.initialize();
-            client = new MemCachedClient(poolName);
-        }
+            return new MemCachedClient(poolName);
     }
 
     private void updateCaches() {
         if(caches != null){
             caches.forEach(e-> {
                 if(e instanceof MemcachedCache){
-                    MemcachedCache memcacheCache = (MemcachedCache)e;
-                    memcacheCache.setClient(client);
+                    MemcachedCache memcachedCache = (MemcachedCache)e;
+                    memcachedCache.setClient(client);
                 }
             });
         }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Prod
     }
 
     @RequestMapping(value = "customed/DSL/{id}", method = RequestMethod.GET, produces = "application/json")
-    Map customedQueryDSLAPI(@PathVariable Long id) {
+    List<ProductDTO> customedQueryDSLAPI(@PathVariable Long id) {
         return productService.customedDSLOperationById(id);
     }
 

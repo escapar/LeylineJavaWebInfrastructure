@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by POJO on 6/3/16.
@@ -16,19 +18,22 @@ public class ProductService extends LeylineDomainService<ProductRepo> {
     @Autowired
     ProductRepo productRepo;
 
-    @Cacheable(key = "#id",cacheNames = "wtf")
+    @Cacheable(key = "#id",cacheNames = "customedSQLProduct#2h")
     public Map customedSQLOperationById(Long id) {
-        String[] paramsField = {"id"};
-        return customedQueryResult(paramsField, productRepo.findCustomedByIdToStreamNative(id));
+        String[] paramsField = {"name"};
+        return customedQueryResult(paramsField,
+                productRepo.findCustomedByIdToStreamNative(id));
     }
 
-    public Map customedDSLOperationById(Long id) {
-        String[] paramsField = {"id"};
-        return customedQueryResult(paramsField, productRepo.findCustomedByIdToStreamDSL(id));
+    public List customedDSLOperationById(Long id) {
+        return productRepo
+                .findCustomedByIdToStreamDSL(id)
+                .collect(Collectors.toList());
     }
 
     public Map customedHQLOperationById(Long id) {
-        String[] paramsField = {"id"};
-        return customedQueryResult(paramsField, productRepo.findCustomedByIdToStreamHQL(id));
+        String[] paramsField = {"name"};
+        return customedQueryResult(paramsField,
+                productRepo.findCustomedByIdToStreamHQL(id));
     }
 }

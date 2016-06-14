@@ -1,4 +1,4 @@
-package moe.src.leyline.framework.infrastructure.configurations;
+package moe.src.leyline.framework.infrastructure.appconfig;
 
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 import org.springframework.context.annotation.Bean;

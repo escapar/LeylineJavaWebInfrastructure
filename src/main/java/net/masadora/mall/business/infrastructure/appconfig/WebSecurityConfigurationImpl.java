@@ -1,6 +1,6 @@
-package net.masadora.mall.business.infrastructure.configurations;
+package net.masadora.mall.business.infrastructure.appconfig;
 
-import moe.src.leyline.framework.infrastructure.configurations.LeylineWebSecurityConfiguration;
+import moe.src.leyline.framework.infrastructure.appconfig.LeylineWebSecurityConfiguration;
 import net.masadora.mall.business.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

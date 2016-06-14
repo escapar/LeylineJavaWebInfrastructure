@@ -1,4 +1,4 @@
-package moe.src.leyline.framework.infrastructure.configurations;
+package moe.src.leyline.framework.infrastructure.appconfig;
 
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
