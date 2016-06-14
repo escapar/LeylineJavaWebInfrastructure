@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
-import com.querydsl.core.types.Predicate;
+import com.mysema.query.types.Predicate;
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
@@ -15,6 +15,7 @@ import moe.src.leyline.framework.service.LeylineDomainService;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
+
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;

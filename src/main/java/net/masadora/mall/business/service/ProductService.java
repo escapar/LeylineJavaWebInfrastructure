@@ -1,6 +1,7 @@
 package net.masadora.mall.business.service;
 
 import moe.src.leyline.framework.service.LeylineDomainService;
+import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.domain.product.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,6 +32,9 @@ public class ProductService extends LeylineDomainService<ProductRepo> {
                 .collect(Collectors.toList());
     }
 
+    public Product findProductsById(Long id){
+        return productRepo.findById(id);
+    }
     public Map customedHQLOperationById(Long id) {
         String[] paramsField = {"name"};
         return customedQueryResult(paramsField,

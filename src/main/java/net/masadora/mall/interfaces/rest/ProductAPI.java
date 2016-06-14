@@ -45,4 +45,9 @@ public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Prod
     User getUser(){
         return getCurrentUser();
     }
+
+    @RequestMapping(value = "/test/{id}" , method = RequestMethod.GET, produces = "application/json")
+    Product getProductById(@PathVariable Long id){
+        return productService.findProductsById(id);
+    }
 }

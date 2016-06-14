@@ -22,4 +22,6 @@ public interface ProductRepo extends LeylineRepo<Product> {
         return Stream.of(this.findAll(QProduct.product.id.eq(id)));
     }
 
+    Product findById(Long id);
+
 }
