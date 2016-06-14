@@ -52,10 +52,6 @@ public abstract class MemcachedCache implements Cache {
         return (T)get(key);
     }
 
-    @Override
-    public <T> T get(Object key, Callable<T> valueLoader) {
-        return (T)get(key);
-    }
 
     @Override
     public void put(Object key, Object value) {

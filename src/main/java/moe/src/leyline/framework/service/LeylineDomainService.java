@@ -1,6 +1,6 @@
 package moe.src.leyline.framework.service;
 
-import com.querydsl.core.types.Predicate;
+import com.mysema.query.types.Predicate;
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.domain.LeylineRepo;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
