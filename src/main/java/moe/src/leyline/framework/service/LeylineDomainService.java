@@ -35,9 +35,11 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     @SuppressWarnings(value = "unchecked")
     protected static Map<String, Object> customedQueryResult(String[] params, Stream res) {
         Map<String, Object> resultMap = new HashMap<>();
-        int[] idx = {0};
-        res.forEach(e -> resultMap.put(params[idx[0]++], e));
-        res.close();
+        if(params!=null && params.length>0) {
+            int[] idx = {0};
+            res.forEach(e -> resultMap.put(params[idx[0]++], e));
+            res.close();
+        }
         return resultMap;
     }
 
