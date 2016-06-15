@@ -3,6 +3,7 @@ package moe.src.leyline.framework.service;
 import com.mysema.query.types.Predicate;
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.domain.LeylineRepo;
+import moe.src.leyline.framework.infrastructure.common.Utils;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,17 +15,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
  * Created by POJO on 5/29/16.
  */
 @Service
+@Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
 public abstract class LeylineDomainService<T extends LeylineRepo> {
     @Autowired
     protected T dao;
@@ -33,14 +35,19 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     protected LeylineUserDetailsService userDetailsService;
 
     @SuppressWarnings(value = "unchecked")
-    protected static Map<String, Object> customedQueryResult(String[] params, Stream res) {
-        Map<String, Object> resultMap = new HashMap<>();
-        if(params!=null && params.length>0) {
-            int[] idx = {0};
-            res.forEach(e -> resultMap.put(params[idx[0]++], e));
-            res.close();
+    protected static List<Map<String, Object>> resMap(String[] params, Iterable res) {
+        List resultList = new ArrayList<Map<String,Object>>();
+        if(params!=null && params.length>0 && res!=null) {
+            for(Object i : res){
+                int c = 0;
+                HashMap resMap = new HashMap();
+                for(Object e : (Object[])i){
+                    resMap.put(params[c++],e);
+                }
+                resultList.add(resMap);
+            }
         }
-        return resultMap;
+        return resultList;
     }
 
     public LeylineDO save(LeylineDO entity) throws PersistenceException {
@@ -96,7 +103,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Cacheable(value="xxxx")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public LeylineDO findOne(Long id) throws PersistenceException {
         try {
             return (LeylineDO) dao.findOne(id);
@@ -107,6 +114,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public List<LeylineDO> findAll(List<Integer> ids) throws PersistenceException {
         try {
             return (List<LeylineDO>) dao.findAll(ids);
@@ -117,6 +125,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public List<LeylineDO> findAll() throws PersistenceException {
         try {
             return (List<LeylineDO>) dao.findAll();
@@ -127,6 +136,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<LeylineDO> findAll(Pageable p) throws PersistenceException {
         try {
             return dao.findAll(p);
@@ -137,6 +147,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<LeylineDO> findAll(Predicate p, Pageable pageable) throws PersistenceException {
         try {
             return dao.findAll(p, pageable);
@@ -147,6 +158,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public List<LeylineDO> findAll(Sort s) throws PersistenceException {
         try {
             return (List<LeylineDO>) dao.findAll(s);
@@ -159,4 +171,5 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     public User getCurrentUser() {
         return userDetailsService.getCurrentUser();
     }
+
 }
