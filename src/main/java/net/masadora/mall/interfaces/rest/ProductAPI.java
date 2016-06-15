@@ -1,5 +1,6 @@
 package net.masadora.mall.interfaces.rest;
 
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
 import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.service.ProductService;
@@ -27,7 +28,7 @@ public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Prod
     ProductService productService;
 
     @RequestMapping(value = "customed/SQL/{id}", method = RequestMethod.GET, produces = "application/json")
-    Map customedNativeAPI(@PathVariable Long id) {
+    List<Map<String,Object>> customedNativeAPI(@PathVariable Long id) throws PersistenceException {
         return productService.customedSQLOperationById(id);
     }
 
@@ -37,7 +38,7 @@ public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Prod
     }
 
     @RequestMapping(value = "customed/HQL/{id}", method = RequestMethod.GET, produces = "application/json")
-    Map customedHQLAPI(@PathVariable Long id) {
+    List<Map<String,Object>> customedHQLAPI(@PathVariable Long id) {
         return productService.customedHQLOperationById(id);
     }
 
