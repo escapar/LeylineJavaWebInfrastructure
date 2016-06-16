@@ -16,6 +16,9 @@ public abstract class LeylineWebSecurityConfiguration<S extends LeylineUserDetai
     @Autowired
     private S userDetailsService;
 
+    public LeylineWebSecurityConfiguration(Boolean a){
+        super(a);
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);

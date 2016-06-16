@@ -15,28 +15,28 @@ import org.springframework.context.annotation.PropertySource;
 
 public class MemcachedPoolConfig {
     @Value("${database.memcached.object.servers}")
-    String servers;
+    private String servers;
 
     @Value("${memcached.object.weights}")
-    String weights;
+    private String weights;
 
-    Boolean failover;
+    private Boolean failover;
 
-    Boolean failback;
+    private Boolean failback;
 
-    Integer initConn;
+    private Integer initConn;
 
-    Integer minConn;
+    private Integer minConn;
 
-    Integer maxConn;
+    private Integer maxConn;
 
-    Integer maintSleep;
+    private Integer maintSleep;
 
-    Boolean nagle;
+    private Boolean nagle;
 
-    Integer socketTO;
+    private Integer socketTO;
 
-    Boolean aliveCheck;
+    private Boolean aliveCheck;
 
     public String getServers() {
         return servers;

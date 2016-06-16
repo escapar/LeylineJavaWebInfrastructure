@@ -26,7 +26,7 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
 
     @SuppressWarnings(value = "unchecked")
     @Override
-    public UserDetails loadUserByUsername(String username) throws
+    public User loadUserByUsername(String username) throws
             UsernameNotFoundException {
         D user = (D) userRepo.findByNameEquals(username);
         if (user == null) {
