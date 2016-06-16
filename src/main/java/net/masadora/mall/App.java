@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories(basePackages = "net.masadora.mall.business")
-@ComponentScan(basePackages = {"net.masadora.mall.business", "net.masadora.mall.interfaces"})
+@ComponentScan(basePackages = {"net.masadora.mall.business", "net.masadora.mall.interfaces","net.masadora.mall.business.infrastructure.common"})
 @EntityScan(basePackages = "net.masadora.mall.business.domain")
 @EnableCaching
 

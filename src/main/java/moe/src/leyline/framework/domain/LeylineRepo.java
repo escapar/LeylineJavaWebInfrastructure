@@ -34,6 +34,10 @@ public interface LeylineRepo<T extends LeylineDO> extends PagingAndSortingReposi
 
     @Override
     @QueryHints(value = { @QueryHint(name = "org.hibernate.cacheable", value = "true")})
+    T findOne(Long id);
+
+    @Override
+    @QueryHints(value = { @QueryHint(name = "org.hibernate.cacheable", value = "true")})
     Iterable<T> findAll(Predicate predicate, Sort sort);
 
     @Override
