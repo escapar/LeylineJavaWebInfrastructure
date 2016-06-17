@@ -15,7 +15,7 @@ import moe.src.leyline.framework.domain.LeylineDO;
  */
 @Entity
 @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
-
+@Cacheable
 @EqualsAndHashCode
 @Data
 public class Product implements LeylineDO {

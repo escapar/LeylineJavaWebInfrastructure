@@ -24,7 +24,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
         ActiveMQAutoConfiguration.class,
 })
 @EntityScan("moe.src.leyline.framework.domain")
-@ComponentScan(basePackages = "moe.src.leyline.framework")
+@ComponentScan(basePackages = {"moe.src.leyline.framework","moe.src.leyline.framework.infrastructure.security"})
 
 public abstract class LeylineApp {
 
