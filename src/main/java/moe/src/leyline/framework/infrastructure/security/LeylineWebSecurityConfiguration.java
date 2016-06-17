@@ -1,4 +1,4 @@
-package moe.src.leyline.framework.infrastructure.appconfig;
+package moe.src.leyline.framework.infrastructure.security;
 
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +31,7 @@ public abstract class LeylineWebSecurityConfiguration<S extends LeylineUserDetai
                 .anyRequest().permitAll();
     }
 
+    public S getUserDetailsService(){
+        return userDetailsService;
+    }
 }
