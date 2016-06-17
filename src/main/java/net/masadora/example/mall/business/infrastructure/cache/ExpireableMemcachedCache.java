@@ -1,4 +1,4 @@
-package net.masadora.mall.business.infrastructure.cache;
+package net.masadora.example.mall.business.infrastructure.cache;
 
 import com.whalin.MemCached.MemCachedClient;
 import moe.src.leyline.framework.infrastructure.cache.memcached.MemcachedCache;

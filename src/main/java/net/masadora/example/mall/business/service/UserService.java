@@ -1,4 +1,4 @@
-package net.masadora.mall.business.service;
+package net.masadora.example.mall.business.service;
 
 import javaslang.collection.Stream;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
@@ -7,14 +7,12 @@ import net.masadora.mall.business.domain.user.UserRepo;
 import net.masadora.mall.business.infrastructure.common.CookieUtil;
 import net.masadora.mall.business.infrastructure.common.DESUtil;
 import net.masadora.mall.business.infrastructure.common.MasadoraProps;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 /**

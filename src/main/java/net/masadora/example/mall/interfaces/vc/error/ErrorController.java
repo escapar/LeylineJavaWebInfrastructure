@@ -1,4 +1,4 @@
-package net.masadora.mall.interfaces.vc.error;
+package net.masadora.example.mall.interfaces.vc.error;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.*;

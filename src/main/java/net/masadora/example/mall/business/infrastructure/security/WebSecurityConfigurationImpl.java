@@ -1,4 +1,4 @@
-package net.masadora.mall.business.infrastructure.security;
+package net.masadora.example.mall.business.infrastructure.security;
 
 import moe.src.leyline.framework.infrastructure.security.LeylineWebSecurityConfiguration;
 import net.masadora.mall.business.service.UserService;

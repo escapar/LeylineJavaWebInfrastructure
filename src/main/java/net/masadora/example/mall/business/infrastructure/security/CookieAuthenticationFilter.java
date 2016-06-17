@@ -1,4 +1,4 @@
-package net.masadora.mall.business.infrastructure.security;
+package net.masadora.example.mall.business.infrastructure.security;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
