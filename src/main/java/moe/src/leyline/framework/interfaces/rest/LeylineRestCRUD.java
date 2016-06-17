@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
-import com.querydsl.core.types.Predicate;
+import com.mysema.query.types.Predicate;
 import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
@@ -12,8 +12,10 @@ import moe.src.leyline.framework.interfaces.dto.PageJSON;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.interfaces.view.LeylineView;
 import moe.src.leyline.framework.service.LeylineDomainService;
+import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
+
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -26,6 +28,10 @@ import org.springframework.data.querydsl.binding.QuerydslPredicateBuilder;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +61,9 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     private final JavaType typeDOList;
     @Autowired
     protected T service;
+
+    @Autowired
+    protected LeylineUserDetailsService userDetailsService;
 
     @SuppressWarnings(value = "unchecked")
     public LeylineRestCRUD() {
@@ -158,5 +167,8 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         service.delete(id);
     }
 
+    public User getCurrentUser() {
+        return userDetailsService.getCurrentUser();
+    }
 }
 

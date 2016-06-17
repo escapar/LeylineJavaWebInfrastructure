@@ -1,7 +1,7 @@
 package moe.src.leyline.framework.interfaces.vc;
 
 import com.google.common.reflect.TypeToken;
-import com.querydsl.core.types.Predicate;
+import com.mysema.query.types.Predicate;
 import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
