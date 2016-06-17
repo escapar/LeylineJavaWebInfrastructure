@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import moe.src.leyline.framework.domain.LeylineRepo;
-import net.masadora.mall.business.domain.product.QProduct;
 
 /**
  * Created by POJO on 6/3/16.
