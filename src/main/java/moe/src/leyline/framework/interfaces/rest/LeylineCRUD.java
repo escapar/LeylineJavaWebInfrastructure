@@ -16,4 +16,6 @@ public interface LeylineCRUD<T> {
     PageImpl list(Pageable p) throws Exception;
 
     T find(Long id) throws Exception;
+
+
 }

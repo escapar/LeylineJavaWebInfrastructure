@@ -4,8 +4,10 @@ import javaslang.collection.Stream;
 import moe.src.leyline.framework.domain.user.LeylineUser;
 import moe.src.leyline.framework.domain.user.LeylineUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +26,7 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
 
     @SuppressWarnings(value = "unchecked")
     @Override
-    public UserDetails loadUserByUsername(String username) throws
+    public User loadUserByUsername(String username) throws
             UsernameNotFoundException {
         D user = (D) userRepo.findByNameEquals(username);
         if (user == null) {
@@ -40,4 +42,15 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
     public Collection<? extends GrantedAuthority> getRole(D user) {
         return Stream.of(new SimpleGrantedAuthority("ROLE_USER")).toJavaList();
     }
+
+    public User getCurrentUser() {
+        AbstractAuthenticationToken auth = (AbstractAuthenticationToken)
+                SecurityContextHolder.getContext().getAuthentication();
+        return  auth.getPrincipal() instanceof User ? (User)auth.getPrincipal() : null;
+    }
+
+    public Boolean isLoggedInUserEq(LeylineUser user){
+        return getCurrentUser()!=null && user.getName().equals(getCurrentUser().getUsername());
+    }
+
 }
