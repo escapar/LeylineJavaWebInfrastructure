@@ -49,4 +49,8 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
         return  auth.getPrincipal() instanceof User ? (User)auth.getPrincipal() : null;
     }
 
+    public Boolean isLoggedInUserEq(LeylineUser user){
+        return getCurrentUser()!=null && user.getName().equals(getCurrentUser().getUsername());
+    }
+
 }

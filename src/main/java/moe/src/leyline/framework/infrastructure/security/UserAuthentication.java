@@ -1,4 +1,4 @@
-package net.masadora.mall.business.infrastructure.appconfig;
+package moe.src.leyline.framework.infrastructure.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

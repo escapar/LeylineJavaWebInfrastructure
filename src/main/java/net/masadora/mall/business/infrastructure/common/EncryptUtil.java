@@ -20,13 +20,5 @@ public class EncryptUtil {
     public static boolean match(String rawPassword, String password) {
          return encoder.matches(rawPassword, password);
     }
-    
-    public static void main(String[] args) {
-		System.out.println(EncryptUtil.encrypt("每次结果都不一样伐?"));
-		System.out.println(EncryptUtil.encrypt("每次结果都不一样伐?"));
-        System.out.println(EncryptUtil.encrypt("每次结果都不一样伐?"));
-		System.out.println(EncryptUtil.encrypt("每次结果都不一样伐?"));
-        System.out.println(EncryptUtil.encrypt("每次结果都不一样伐?"));
-        //但是把每次结果拿出来进行match，你会发现可以得到true。
-	}
+
  }
