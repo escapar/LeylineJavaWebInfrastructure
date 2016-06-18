@@ -1,15 +1,12 @@
 package moe.src.leyline.framework.infrastructure.cache.memcached;
 
-import com.whalin.MemCached.MemCachedClient;
-import org.joda.time.DateTime;
-import org.springframework.cache.Cache;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.support.SimpleValueWrapper;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-
 import java.util.Date;
-import java.util.concurrent.Callable;
+
+import com.whalin.MemCached.MemCachedClient;
+
+import org.springframework.cache.Cache;
+import org.springframework.cache.support.SimpleValueWrapper;
+import org.springframework.util.Assert;
 
 /**
  * Created by POJO on 6/12/16.

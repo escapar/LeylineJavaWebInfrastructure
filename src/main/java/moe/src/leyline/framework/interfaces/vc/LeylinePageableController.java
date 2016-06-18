@@ -1,12 +1,10 @@
 package moe.src.leyline.framework.interfaces.vc;
 
+import java.lang.reflect.Type;
+
 import com.google.common.reflect.TypeToken;
 import com.mysema.query.types.Predicate;
-import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
-import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.service.LeylineDomainService;
+
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -27,7 +25,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.reflect.Type;
+import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.service.LeylineDomainService;
 
 /**
  * Created by POJO on 6/7/16.
