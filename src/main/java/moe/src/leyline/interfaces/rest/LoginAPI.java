@@ -13,37 +13,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Value;
 import moe.src.leyline.business.domain.user.DomainUser;
 import moe.src.leyline.business.domain.user.UserRepo;
+import moe.src.leyline.business.infrastructure.security.JWTTokenUtils;
 
 /**
  * Created by POJO on 6/8/16.
  */
 @RestController
-@RequestMapping(value = "api/admin/")
+@RequestMapping(value = "api/user/")
 public class LoginAPI {
 
     @Autowired
     UserRepo userRepo;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestBody final UserLogin login)
             throws ServletException {
 
-        if (login.username == null || login.password == null) {
+        if (login == null) {
             throw new ServletException("Invalid login");
         }
         DomainUser domainUser = userRepo.checkAndGet(login.username, login.password);
 
-
-        String name = login.username;
-
-        return  Jwts.builder().setSubject(login.username)
-                .claim("roles", domainUser.getRole()).claim("name", name).claim("id", domainUser.getId()).setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "FBSASECRET!").compact();
+        return JWTTokenUtils.sign(domainUser);
     }
 
-    @RequestMapping(value = "/reg", method = RequestMethod.POST)
+    @RequestMapping(value = "reg", method = RequestMethod.POST)
     public String reg(@RequestBody final UserLogin reg)
             throws ServletException {
 
@@ -60,8 +57,8 @@ public class LoginAPI {
     }
 
 
-    private static class UserLogin {
-        public String username;
-        public String password;
+    @Value private static class UserLogin {
+        private String username;
+        private String password;
     }
 }

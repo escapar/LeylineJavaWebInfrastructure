@@ -2,9 +2,13 @@ package moe.src.leyline.framework.interfaces.vc.error;
 
 import java.util.Map;
 
+import lombok.Data;
+import lombok.ToString;
+
 /**
  * Created by bytenoob on 6/17/16.
  */
+@Data @ToString
 public class ErrorBrief {
 
     public Integer status;
