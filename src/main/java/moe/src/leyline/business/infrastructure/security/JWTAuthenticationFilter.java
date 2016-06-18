@@ -28,17 +28,9 @@ public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
 
     @Override
     public Authentication getAuthentication(HttpServletRequest request) throws ServletException{
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("JUICE ")) {
-            return null;
-        }
-
-        final String token = authHeader.substring(6); // The part after "JUICE "
-
         try {
-            Claims c = JWTTokenUtils.parse(token);
+            Claims c = JWTTokenUtils.parse(request);
             DomainUser domainUser = userService.getByClaims(c);
-            //request.setAttribute("claims", c);
             //MDC.put("name", claims.get("name"));
             return domainUser == null ? null :  new UserAuthentication(new User(domainUser.getName(), domainUser.getPassword(),userService.getRole(domainUser)));
         }

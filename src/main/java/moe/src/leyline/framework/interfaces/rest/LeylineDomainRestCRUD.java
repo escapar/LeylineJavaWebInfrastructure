@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.domain.LeylineRepo;
+import moe.src.leyline.framework.domain.LeylineCachingRepo;
 import moe.src.leyline.framework.interfaces.dto.PageJSON;
 
 
@@ -18,7 +18,7 @@ import moe.src.leyline.framework.interfaces.dto.PageJSON;
  */
 @Component
 @EnableSpringDataWebSupport
-public abstract class LeylineDomainRestCRUD<T extends LeylineRepo, D extends LeylineDO> implements LeylineCRUD<D> {
+public abstract class LeylineDomainRestCRUD<T extends LeylineCachingRepo, D extends LeylineDO> implements LeylineCRUD<D> {
     @Autowired
     protected T dao;
 

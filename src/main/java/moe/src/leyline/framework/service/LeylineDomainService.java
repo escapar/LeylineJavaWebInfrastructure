@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.LeylineCachingRepo;
 import moe.src.leyline.framework.domain.LeylineRepo;
+import moe.src.leyline.framework.domain.user.LeylineUser;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 
 /**
@@ -27,7 +29,7 @@ import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceExc
  */
 @Service
 @Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
-public abstract class LeylineDomainService<T extends LeylineRepo> {
+public abstract class LeylineDomainService<T extends LeylineRepo,D extends LeylineDO> {
     @Autowired
     protected T dao;
 
@@ -50,9 +52,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
         return resultList;
     }
 
-    public LeylineDO save(LeylineDO entity) throws PersistenceException {
+    public D save(D entity) throws PersistenceException {
         try {
-            return (LeylineDO) dao.save(entity);
+            return (D)dao.save(entity);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("InsertFailed");
@@ -60,9 +62,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public List<LeylineDO> save(Collection<LeylineDO> entities) throws PersistenceException {
+    public List<D> save(Collection<D> entities) throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.save(entities);
+            return (List<D>) dao.save(entities);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("InsertFailed");
@@ -70,7 +72,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public boolean delete(Collection<LeylineDO> entities) throws PersistenceException {
+    public boolean delete(Collection<D> entities) throws PersistenceException {
         try {
             dao.delete(entities);
         } catch (Exception e) {
@@ -92,7 +94,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public boolean delete(LeylineDO entity) throws PersistenceException {
+    public boolean delete(D entity) throws PersistenceException {
         try {
             dao.delete(entity);
         } catch (Exception e) {
@@ -104,9 +106,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public LeylineDO findOne(Long id) throws PersistenceException {
+    public D findOne(Long id) throws PersistenceException {
         try {
-            return (LeylineDO) dao.findOne(id);
+            return (D)dao.findOne(id);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -115,9 +117,15 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public List<LeylineDO> findAll(List<Integer> ids) throws PersistenceException {
+    public D get(Long id) throws PersistenceException {
+        return findOne(id);
+    }
+
+    @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    public List<D> findAll(List<Integer> ids) throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.findAll(ids);
+            return (List<D>) dao.findAll(ids);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -126,9 +134,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public List<LeylineDO> findAll() throws PersistenceException {
+    public List<D> findAll() throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.findAll();
+            return (List<D>) dao.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -137,7 +145,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Page<LeylineDO> findAll(Pageable p) throws PersistenceException {
+    public Page<D> findAll(Pageable p) throws PersistenceException {
         try {
             return dao.findAll(p);
         } catch (Exception e) {
@@ -148,7 +156,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Page<LeylineDO> findAll(Predicate p, Pageable pageable) throws PersistenceException {
+    public Page<D> findAll(Predicate p, Pageable pageable) throws PersistenceException {
         try {
             return dao.findAll(p, pageable);
         } catch (Exception e) {
@@ -159,9 +167,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public List<LeylineDO> findAll(Sort s) throws PersistenceException {
+    public List<D> findAll(Sort s) throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.findAll(s);
+            return (List<D>) dao.findAll(s);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -170,6 +178,14 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     public User getCurrentUser() {
         return userDetailsService.getCurrentUser();
+    }
+
+    public Boolean checkOwnerOf(LeylineUser u) {
+        return getCurrentUser().getUsername().equals(u.getName());
+    }
+
+    public Boolean checkOwnerOf(User u) {
+        return getCurrentUser().getUsername().equals(u.getUsername());
     }
 
 }

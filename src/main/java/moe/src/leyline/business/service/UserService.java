@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.jsonwebtoken.Claims;
 import javaslang.collection.Stream;
@@ -51,6 +53,13 @@ public class UserService extends LeylineUserDetailsService<UserRepo, DomainUser>
 
 
     public DomainUser getByClaims(Claims c) throws Exception{
-        return userRepo.findByNameEquals((String)c.get("name"));
+        return c == null ? null : userRepo.findByNameEquals((String)c.get("name"));
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    public DomainUser checkAndGet(String username,String password){
+        return userRepo.checkAndGet(username,password);
+    }
+
+
 }

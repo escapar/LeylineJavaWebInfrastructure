@@ -10,7 +10,6 @@ import moe.src.leyline.framework.domain.user.LeylineUserRepo;
  */
 @Repository
 public interface UserRepo extends LeylineUserRepo<DomainUser> {
-    DomainUser findByNameAndPassword(String name , String password);
 
     default Boolean authOK(String name,String password){
         if(name==null || password==null || name.isEmpty() || password.isEmpty()){

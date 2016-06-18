@@ -20,7 +20,7 @@ import moe.src.leyline.framework.domain.user.LeylineUserRepo;
  * Created by POJO on 6/8/16.
  */
 @Service
-public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D extends LeylineUser> implements UserDetailsService {
+public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D extends LeylineUser> extends LeylineDomainService<T,D> implements UserDetailsService {
     @Autowired
     private T userRepo;
 
