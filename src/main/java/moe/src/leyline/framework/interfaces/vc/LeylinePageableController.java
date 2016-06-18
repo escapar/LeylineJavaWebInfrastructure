@@ -3,7 +3,7 @@ package moe.src.leyline.framework.interfaces.vc;
 import java.lang.reflect.Type;
 
 import com.google.common.reflect.TypeToken;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Predicate;
 
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;

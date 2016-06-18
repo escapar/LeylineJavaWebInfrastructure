@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Predicate;
 
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
