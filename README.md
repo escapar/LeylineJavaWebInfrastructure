@@ -40,13 +40,13 @@ Whalin Memcached Client / Redisson
 MySQL
 
 
-# Fundamental GOALS & SPECS
+# Fundamental GOALS & SPECS [Done]
 
-Automatic Model(ModelMapper)->DTO->Restful API CRUD [OK]
+Automatic Model(ModelMapper)->DTO->Restful API CRUD 
 
-ORM in Spring Data JPA + QueryDSL [Test Needed]
+ORM in Spring Data JPA + QueryDSL 
 
-Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf [Test Needed]
+Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf 
 
 > JsonView + Rest
 
@@ -57,17 +57,17 @@ Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And T
 > Pagination / Sort + Thymeleaf(including Controller) 
 
 
-Smooth Integration of Spring Framework @Cachable and Whalin Memcached  [OK] (Check whalin_memcached Branch for usage example)
+Smooth Integration of Spring Framework @Cachable and Whalin Memcached (Check whalin_memcached Branch for usage example)
 
 ---------------------------------
+
+WORKING ON Use Cases And Examples.
 
 Planning :
 
 Basic Styles 
 
 An Admin Panel in Angular Material 
-
-Use Cases And Examples 
 
 A CLI For both specs mentioned!! 
 
