@@ -29,13 +29,13 @@ Try to implement in interfaces and business packages.
 
 # Environment
 
-Spring Boot / Spring Security / Spring Data JPA + QueryDSL
+Spring Boot / Spring Security / Spring Data JPA + QueryDSL + Hibernate 5
 
 Thymeleaf
 
 Angular 1.x
 
-Whalin Memcached or Redis (Working on Redis)
+Whalin Memcached Client / Redisson
 
 MySQL
 
@@ -91,10 +91,4 @@ POJO http://src.moe/
 MIT
 
 # Donate
-PyTrade Is Enough
-
-# Heroine
-
-![](http://i.imgur.com/zzrQdQL.png)
-
-Copyright SOFTPAL Inc.
+PyTrade
