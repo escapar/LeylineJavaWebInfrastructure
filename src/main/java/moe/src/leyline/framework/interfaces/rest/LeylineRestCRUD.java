@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.user.LeylineUser;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 import moe.src.leyline.framework.interfaces.dto.PageJSON;
@@ -172,6 +173,14 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
 
     public User getCurrentUser() {
         return userDetailsService.getCurrentUser();
+    }
+
+    public Boolean checkOwnerOf(LeylineUser u) {
+        return userDetailsService.checkOwnerOf(u);
+    }
+
+    public Boolean checkOwnerOf(User u) {
+        return userDetailsService.checkOwnerOf(u);
     }
 }
 
