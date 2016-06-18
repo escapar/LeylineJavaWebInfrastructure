@@ -25,21 +25,6 @@ import moe.src.leyline.framework.LeylineApp;
 @EntityScan(basePackages = "moe.src.leyline.business.domain")
 
 public class App extends LeylineApp{
-
-    @Bean(destroyMethod="shutdown")
-    RedissonClient redisson() throws IOException {
-        Config config = new Config();
-        config.useSingleServer().setAddress("127.0.0.1:6379");
-        return Redisson.create(config);
-    }
-
-    @Bean
-    CacheManager cacheManager(RedissonClient redissonClient) {
-        Map<String, CacheConfig> config = new HashMap<>();
-        config.put("testMap", new CacheConfig(24*60*1000, 12*60*1000));
-        return new RedissonSpringCacheManager(redissonClient, config);
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }

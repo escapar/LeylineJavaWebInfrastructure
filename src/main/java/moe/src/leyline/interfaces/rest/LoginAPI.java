@@ -1,10 +1,20 @@
 package moe.src.leyline.interfaces.rest;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.business.domain.user.UserRepo;
 
 /**
  * Created by POJO on 6/8/16.
@@ -13,27 +23,45 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "api/admin/")
 public class LoginAPI {
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    @SuppressWarnings(value = "unchecked")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String admin() {
-        return "boo";
+    @Autowired
+    UserRepo userRepo;
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@RequestBody final UserLogin login)
+            throws ServletException {
+
+        if (login.username == null || login.password == null) {
+            throw new ServletException("Invalid login");
+        }
+        User user = userRepo.checkAndGet(login.username, login.password);
+
+
+        String name = login.username;
+
+        return  Jwts.builder().setSubject(login.username)
+                .claim("roles", user.getRole()).claim("name", name).claim("id",user.getId()).setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "FBSASECRET!").compact();
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    @SuppressWarnings(value = "unchecked")
-    public String login() {
-        return "boo";
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
+    public String reg(@RequestBody final UserLogin reg)
+            throws ServletException {
+
+        if (reg.username == null || reg.password == null) {
+            throw new ServletException("Invalid Params");
+        }
+        User user = new User();
+        user.setName(reg.username);
+        user.setPassword(BCrypt.hashpw(reg.password, BCrypt.gensalt()));
+        user.setRole(0);
+        userRepo.save(user);
+
+        return login(reg);
     }
 
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @SuppressWarnings(value = "unchecked")
-    public String user() {
-        return "boo";
+    private static class UserLogin {
+        public String username;
+        public String password;
     }
 }

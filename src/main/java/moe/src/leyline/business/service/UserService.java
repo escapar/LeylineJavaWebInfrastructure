@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
 import javaslang.collection.Stream;
 import moe.src.leyline.business.domain.user.User;
 import moe.src.leyline.business.domain.user.UserRepo;
@@ -49,11 +50,8 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     }
 
 
-    public org.springframework.security.core.userdetails.User getUserExample(Long id) throws Exception{
-        User user = userRepo.get(id);
-        if(true || user.getPassword().equals("wtfCookieValue")){
-            return new org.springframework.security.core.userdetails.User(user.getName(),user.getPassword(),getRole(user));
-        }
-        return null;
+    public org.springframework.security.core.userdetails.User getByClaims(Claims c) throws Exception{
+        User user = userRepo.findByNameEquals((String)c.get("name"));
+        return user == null ? null :  new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),getRole(user));
     }
 }
