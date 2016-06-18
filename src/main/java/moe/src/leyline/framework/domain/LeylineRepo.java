@@ -1,16 +1,16 @@
 package moe.src.leyline.framework.domain;
 
+import javax.persistence.QueryHint;
+
 import com.mysema.query.types.OrderSpecifier;
 import com.mysema.query.types.Predicate;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.QueryHint;
 
 /**
  * Created by POJO on 6/2/16.

@@ -23,8 +23,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
         WebSocketAutoConfiguration.class,
         ActiveMQAutoConfiguration.class,
 })
-@EntityScan("moe.src.leyline.framework.domain")
-@ComponentScan(basePackages = {"moe.src.leyline.framework","moe.src.leyline.framework.infrastructure.security"})
+@EntityScan(basePackages = {"moe.src.leyline.framework.domain","moe.src.leyline.framework.domain.user"})
+@ComponentScan(basePackages = {"moe.src.leyline.framework"})
 
 public abstract class LeylineApp {
 

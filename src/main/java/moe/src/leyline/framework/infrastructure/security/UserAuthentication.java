@@ -1,12 +1,10 @@
 package moe.src.leyline.framework.infrastructure.security;
 
+import java.util.Collection;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Created by POJO on 6/16/16.

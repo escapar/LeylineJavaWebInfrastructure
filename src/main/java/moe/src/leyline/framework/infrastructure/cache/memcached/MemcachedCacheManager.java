@@ -1,15 +1,15 @@
 package moe.src.leyline.framework.infrastructure.cache.memcached;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import com.whalin.MemCached.MemCachedClient;
 import com.whalin.MemCached.SockIOPool;
+
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
-import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * Created by POJO on 6/12/16.
@@ -84,8 +84,7 @@ public class MemcachedCacheManager<T extends MemcachedCache> extends AbstractCac
     }
 
     private MemCachedClient buildClient(){
-            String poolName = "masadoraPool";
-            SockIOPool pool = SockIOPool.getInstance(poolName);
+            SockIOPool pool = SockIOPool.getInstance();
 
             String servers = memcachedPoolConfig.getServers();
             String weights = memcachedPoolConfig.getWeights();
@@ -109,7 +108,7 @@ public class MemcachedCacheManager<T extends MemcachedCache> extends AbstractCac
             pool.setSocketTO(memcachedPoolConfig.getSocketTO());
             pool.setAliveCheck(memcachedPoolConfig.getAliveCheck());
             pool.initialize();
-            return new MemCachedClient(poolName);
+            return new MemCachedClient();
     }
 
     private void updateCaches() {
