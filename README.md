@@ -35,11 +35,9 @@ Thymeleaf
 
 Angular 1.x
 
-Memcached
+Whalin Memcached or Redis (Working on Redis)
 
 MySQL
-
-ExpressJS Model Proxy ( LONG-TERM GOAL )
 
 
 # Fundamental GOALS & SPECS
@@ -58,16 +56,14 @@ Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And T
 
 > Pagination / Sort + Thymeleaf(including Controller) 
 
-> Basic Styles [LONG-TERM GOAL]
 
-
-Smooth Integration of Spring Framework @Cachable and Memcached  [Pending]
-
-Enforcement of Extensibility ! [WORKING ON IT]
+Smooth Integration of Spring Framework @Cachable and Whalin Memcached  [OK] (Check whalin_memcached Branch for usage example)
 
 ---------------------------------
 
 Planning :
+
+Basic Styles 
 
 An Admin Panel in Angular Material 
 
