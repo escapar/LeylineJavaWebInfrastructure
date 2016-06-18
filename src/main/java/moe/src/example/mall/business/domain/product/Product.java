@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import moe.src.leyline.framework.domain.LeylineDO;

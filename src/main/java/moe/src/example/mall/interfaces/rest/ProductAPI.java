@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import moe.src.example.mall.business.domain.product.Product;
+import moe.src.example.mall.business.service.ProductService;
+import moe.src.example.mall.interfaces.dto.ProductDTO;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
-import net.masadora.mall.business.domain.product.Product;
-import net.masadora.mall.business.service.ProductService;
-import net.masadora.mall.interfaces.dto.ProductDTO;
+
 
 /**
  * Created by POJO on 6/4/16.
