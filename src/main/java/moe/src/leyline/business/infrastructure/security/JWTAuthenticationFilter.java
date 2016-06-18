@@ -30,7 +30,7 @@ public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
     public Authentication getAuthentication(HttpServletRequest request) throws ServletException{
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("JUICE ")) {
-            throw new ServletException("Missing or invalid Authorization header.");
+            return null;
         }
 
         final String token = authHeader.substring(6); // The part after "JUICE "
@@ -43,7 +43,8 @@ public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
             return domainUser == null ? null :  new UserAuthentication(new User(domainUser.getName(), domainUser.getPassword(),userService.getRole(domainUser)));
         }
         catch (final Exception e) {
-            throw new ServletException("Invalid token.");
+            e.printStackTrace();
+            return null;
         }
 
     }

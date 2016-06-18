@@ -13,6 +13,9 @@ public interface UserRepo extends LeylineUserRepo<DomainUser> {
     DomainUser findByNameAndPassword(String name , String password);
 
     default Boolean authOK(String name,String password){
+        if(name==null || password==null || name.isEmpty() || password.isEmpty()){
+            return false;
+        }
         DomainUser u = findByNameEquals(name);
         return u!=null && BCrypt.checkpw(password, u.getPassword());
     }
