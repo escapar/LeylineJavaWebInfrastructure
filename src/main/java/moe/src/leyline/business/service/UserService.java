@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import javaslang.collection.Stream;
-import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.business.domain.user.DomainUser;
 import moe.src.leyline.business.domain.user.UserRepo;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 
@@ -17,7 +17,7 @@ import moe.src.leyline.framework.service.LeylineUserDetailsService;
  * Created by POJO on 6/9/16.
  */
 @Service
-public class UserService extends LeylineUserDetailsService<UserRepo, User> {
+public class UserService extends LeylineUserDetailsService<UserRepo, DomainUser> {
     @Autowired
     UserRepo userRepo;
 
@@ -27,14 +27,14 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     }
 
     @Override
-    public String getPassword(final User user) {
-        return user.getPassword();
+    public String getPassword(final DomainUser domainUser) {
+        return domainUser.getPassword();
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getRole(User user) {
+    public Collection<? extends GrantedAuthority> getRole(DomainUser domainUser) {
         Collection<? extends GrantedAuthority> authorities = null;
-        switch (user.getRole()) {
+        switch (domainUser.getRole()) {
             case 1:
                 authorities = Stream.of("ROLE_ADMIN", "ROLE_USER")
                         .map(SimpleGrantedAuthority::new)
@@ -50,8 +50,7 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     }
 
 
-    public org.springframework.security.core.userdetails.User getByClaims(Claims c) throws Exception{
-        User user = userRepo.findByNameEquals((String)c.get("name"));
-        return user == null ? null :  new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),getRole(user));
+    public DomainUser getByClaims(Claims c) throws Exception{
+        return userRepo.findByNameEquals((String)c.get("name"));
     }
 }

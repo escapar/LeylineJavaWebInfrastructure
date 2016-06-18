@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import moe.src.leyline.framework.domain.user.LeylineUser;
 
@@ -12,8 +13,9 @@ import moe.src.leyline.framework.domain.user.LeylineUser;
  * The persistent class for the user database table.
  */
 @Entity
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User implements LeylineUser {
+@Table(name="User")
+@NamedQuery(name = "DomainUser.findAll", query = "SELECT u FROM DomainUser u")
+public class DomainUser implements LeylineUser {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -26,12 +28,7 @@ public class User implements LeylineUser {
 
     private int role;
 
-    //bi-directional many-to-one association to OrderDetail
-    //@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
-
-    //private List<OrderDetail> orderDetails;
-
-    public User() {
+    public DomainUser() {
     }
 
     public long getId() {
@@ -57,28 +54,6 @@ public class User implements LeylineUser {
     public void setPassword(String password) {
         this.password = password;
     }
-
-	/*public List<OrderDetail> getOrderDetails() {
-        return this.orderDetails;
-	}
-
-	public void setOrderDetails(List<OrderDetail> orderDetails) {
-		this.orderDetails = orderDetails;
-	}
-
-	public OrderDetail addOrderDetail(OrderDetail orderDetail) {
-		getOrderDetails().add(orderDetail);
-		orderDetail.setUser(this);
-
-		return orderDetail;
-	}
-
-	public OrderDetail removeOrderDetail(OrderDetail orderDetail) {
-		getOrderDetails().remove(orderDetail);
-		orderDetail.setUser(null);
-
-		return orderDetail;
-	}*/
 
     public int getRole() {
         return role;

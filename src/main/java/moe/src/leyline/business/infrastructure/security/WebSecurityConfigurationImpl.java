@@ -26,7 +26,7 @@ public class WebSecurityConfigurationImpl extends LeylineWebSecurityConfiguratio
                 .and()
                 .authorizeRequests()
                 .anyRequest().permitAll()
-                .and().addFilterBefore(new ExampleAuthenticationFilter(getUserDetailsService()),
+                .and().addFilterBefore(new JWTAuthenticationFilter(getUserDetailsService()),
                 UsernamePasswordAuthenticationFilter.class).formLogin().and().addFilter(new ExceptionTranslationFilter(new BasicAuthenticationEntryPoint())).csrf().disable();
 
     }

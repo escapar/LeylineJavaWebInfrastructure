@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.business.domain.user.DomainUser;
 import moe.src.leyline.business.domain.user.UserRepo;
 
 /**
@@ -33,13 +33,13 @@ public class LoginAPI {
         if (login.username == null || login.password == null) {
             throw new ServletException("Invalid login");
         }
-        User user = userRepo.checkAndGet(login.username, login.password);
+        DomainUser domainUser = userRepo.checkAndGet(login.username, login.password);
 
 
         String name = login.username;
 
         return  Jwts.builder().setSubject(login.username)
-                .claim("roles", user.getRole()).claim("name", name).claim("id",user.getId()).setIssuedAt(new Date())
+                .claim("roles", domainUser.getRole()).claim("name", name).claim("id", domainUser.getId()).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "FBSASECRET!").compact();
     }
 
@@ -50,11 +50,11 @@ public class LoginAPI {
         if (reg.username == null || reg.password == null) {
             throw new ServletException("Invalid Params");
         }
-        User user = new User();
-        user.setName(reg.username);
-        user.setPassword(BCrypt.hashpw(reg.password, BCrypt.gensalt()));
-        user.setRole(0);
-        userRepo.save(user);
+        DomainUser domainUser = new DomainUser();
+        domainUser.setName(reg.username);
+        domainUser.setPassword(BCrypt.hashpw(reg.password, BCrypt.gensalt()));
+        domainUser.setRole(0);
+        userRepo.save(domainUser);
 
         return login(reg);
     }
