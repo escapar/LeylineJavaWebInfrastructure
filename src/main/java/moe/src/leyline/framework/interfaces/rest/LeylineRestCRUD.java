@@ -1,21 +1,17 @@
 package moe.src.leyline.framework.interfaces.rest;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.mysema.query.types.Predicate;
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
-import moe.src.leyline.framework.interfaces.dto.PageJSON;
-import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.interfaces.view.LeylineView;
-import moe.src.leyline.framework.service.LeylineDomainService;
-import moe.src.leyline.framework.service.LeylineUserDetailsService;
+
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
-
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -28,17 +24,24 @@ import org.springframework.data.querydsl.binding.QuerydslPredicateBuilder;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.PageJSON;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
+import moe.src.leyline.framework.service.LeylineDomainService;
+import moe.src.leyline.framework.service.LeylineUserDetailsService;
 
 /**
  * Created by POJO on 5/30/16.

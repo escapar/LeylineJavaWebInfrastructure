@@ -1,26 +1,26 @@
 package moe.src.leyline.framework.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mysema.query.types.Predicate;
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.domain.LeylineRepo;
-import moe.src.leyline.framework.infrastructure.common.Utils;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Stream;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.LeylineRepo;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 
 /**
  * Created by POJO on 5/29/16.

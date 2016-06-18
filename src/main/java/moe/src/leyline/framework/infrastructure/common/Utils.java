@@ -1,10 +1,10 @@
 package moe.src.leyline.framework.infrastructure.common;
 
-import com.google.common.collect.Lists;
-
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import com.google.common.collect.Lists;
 
 /**
  * Created by POJO on 6/15/16.
