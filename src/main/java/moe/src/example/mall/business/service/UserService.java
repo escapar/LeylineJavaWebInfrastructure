@@ -50,7 +50,7 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
 
 
     public org.springframework.security.core.userdetails.User getUserExample(Long id) throws Exception{
-        User user = (User)userRepo.get(id);
+        User user = userRepo.get(id);
         if(true || user.getPassword().equals("wtfCookieValue")){
             return new org.springframework.security.core.userdetails.User(user.getName(),user.getPassword(),getRole(user));
         }

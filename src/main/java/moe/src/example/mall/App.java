@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import moe.src.leyline.framework.LeylineApp;
 
-@EnableJpaRepositories(basePackages = "net.masadora.mall.business")
-@ComponentScan(basePackages = {"net.masadora.mall.business","net.masadora.mall.interfaces"})
-@EntityScan(basePackages = "net.masadora.mall.business.domain")
+@EnableJpaRepositories(basePackages = "moe.src.example.mall.business")
+@ComponentScan(basePackages = {"moe.src.example.mall.business","moe.src.example.mall.interfaces"})
+@EntityScan(basePackages = "moe.src.example.mall.business.domain")
 
 public class App extends LeylineApp{
 
