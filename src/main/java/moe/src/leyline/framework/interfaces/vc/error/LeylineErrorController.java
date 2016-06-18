@@ -42,7 +42,7 @@ public abstract class LeylineErrorController implements ErrorController {
     }
 
     public String genericError(ErrorBrief eb){
-        return "/error";
+        return "/error/" + eb.status;
     }
 
     public String otherErrors(ErrorBrief eb){
