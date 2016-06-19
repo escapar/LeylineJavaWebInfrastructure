@@ -9,7 +9,7 @@ import moe.src.leyline.framework.domain.user.LeylineUserRepo;
  * Created by POJO on 6/8/16.
  */
 @Repository
-public interface UserRepo extends LeylineUserRepo<DomainUser> {
+public interface DomainUserRepo extends LeylineUserRepo<DomainUser> {
 
     default Boolean authOK(String name,String password){
         if(name==null || password==null || name.isEmpty() || password.isEmpty()){

@@ -12,19 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 import io.jsonwebtoken.Claims;
 import javaslang.collection.Stream;
 import moe.src.leyline.business.domain.user.DomainUser;
-import moe.src.leyline.business.domain.user.UserRepo;
+import moe.src.leyline.business.domain.user.DomainUserRepo;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 
 /**
  * Created by POJO on 6/9/16.
  */
 @Service
-public class UserService extends LeylineUserDetailsService<UserRepo, DomainUser> {
+public class DomainUserService extends LeylineUserDetailsService<DomainUserRepo, DomainUser> {
     @Autowired
-    UserRepo userRepo;
+    DomainUserRepo domainUserRepo;
 
 
-    public UserService(){
+    public DomainUserService(){
 
     }
 
@@ -53,12 +53,12 @@ public class UserService extends LeylineUserDetailsService<UserRepo, DomainUser>
 
 
     public DomainUser getByClaims(Claims c) throws Exception{
-        return c == null ? null : userRepo.findByNameEquals((String)c.get("name"));
+        return c == null ? null : domainUserRepo.findByNameEquals((String)c.get("name"));
     }
 
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public DomainUser checkAndGet(String username,String password){
-        return userRepo.checkAndGet(username,password);
+        return domainUserRepo.checkAndGet(username,password);
     }
 
 

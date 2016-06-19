@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import moe.src.leyline.business.domain.user.DomainUser;
-import moe.src.leyline.business.service.UserService;
+import moe.src.leyline.business.service.DomainUserService;
 import moe.src.leyline.framework.infrastructure.security.StatelessAuthenticationFilter;
 import moe.src.leyline.framework.infrastructure.security.UserAuthentication;
 
@@ -19,20 +19,20 @@ import moe.src.leyline.framework.infrastructure.security.UserAuthentication;
  */
 @Component("CookieAuthenticationFilter")
 public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
-    public UserService userService;
+    public DomainUserService domainUserService;
 
     @Autowired
-    public JWTAuthenticationFilter(UserService userService){
-        this.userService = userService;
+    public JWTAuthenticationFilter(DomainUserService domainUserService){
+        this.domainUserService = domainUserService;
     }
 
     @Override
     public Authentication getAuthentication(HttpServletRequest request) throws ServletException{
         try {
             Claims c = JWTTokenUtils.parse(request);
-            DomainUser domainUser = userService.getByClaims(c);
+            DomainUser domainUser = domainUserService.getByClaims(c);
             //MDC.put("name", claims.get("name"));
-            return domainUser == null ? null :  new UserAuthentication(new User(domainUser.getName(), domainUser.getPassword(),userService.getRole(domainUser)));
+            return domainUser == null ? null :  new UserAuthentication(new User(domainUser.getName(), domainUser.getPassword(), domainUserService.getRole(domainUser)));
         }
         catch (final Exception e) {
             e.printStackTrace();

@@ -7,14 +7,14 @@ import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-import moe.src.leyline.business.service.UserService;
+import moe.src.leyline.business.service.DomainUserService;
 import moe.src.leyline.framework.infrastructure.security.LeylineWebSecurityConfiguration;
 
 /**
  * Created by bytenoob on 6/9/16.
  */
 @Configuration
-public class WebSecurityConfigurationImpl extends LeylineWebSecurityConfiguration<UserService> {
+public class WebSecurityConfigurationImpl extends LeylineWebSecurityConfiguration<DomainUserService> {
 
     public WebSecurityConfigurationImpl() {
         super(true);

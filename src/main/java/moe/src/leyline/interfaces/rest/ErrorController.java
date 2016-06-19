@@ -1,6 +1,5 @@
-package moe.src.leyline.interfaces.vc.error;
+package moe.src.leyline.interfaces.rest;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import moe.src.leyline.framework.interfaces.vc.error.ErrorBrief;
