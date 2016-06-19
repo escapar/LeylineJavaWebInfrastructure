@@ -2,8 +2,16 @@ package moe.src.leyline.business.domain.website;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
+
+import groovy.transform.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 import moe.src.leyline.business.domain.user.DomainUser;
 
 /**
@@ -14,6 +22,10 @@ import moe.src.leyline.business.domain.user.DomainUser;
 @AllArgsConstructor
 @Table(name="website_user_verify")
 @NamedQuery(name="WebsiteUserVerify.findAll", query="SELECT w FROM WebsiteUserVerify w")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@EqualsAndHashCode
+@ToString
 public class WebsiteUserVerify implements moe.src.leyline.framework.domain.LeylineDO {
 	private static final long serialVersionUID = 1L;
 
