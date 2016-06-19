@@ -16,7 +16,6 @@ public class ErrorBrief {
     public String message;
     public String timeStamp;
     public String trace;
-    public String exception;
 
     public ErrorBrief(int status, Map<String, Object> errorAttributes) {
         this.status = status;
@@ -24,7 +23,6 @@ public class ErrorBrief {
         this.message = (String) errorAttributes.get("message");
         this.timeStamp = errorAttributes.get("timestamp").toString();
         this.trace = (String) errorAttributes.get("trace");
-        this.exception = (String) errorAttributes.get("exception");
     }
 
 }

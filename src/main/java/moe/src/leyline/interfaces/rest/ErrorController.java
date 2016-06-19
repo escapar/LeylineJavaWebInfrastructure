@@ -11,11 +11,6 @@ import moe.src.leyline.framework.interfaces.vc.error.LeylineErrorController;
 @RestController
 public class ErrorController extends LeylineErrorController {
     @Override
-    public String handle403(ErrorBrief eb) {
-        return "redirect:http://login.gi";
-    }
-
-    @Override
     public String genericError(ErrorBrief eb){
         return eb.toString();
     }

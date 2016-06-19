@@ -1,14 +1,21 @@
 package moe.src.leyline.business.domain.topic;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-
 import java.util.List;
 
-import org.hibernate.annotations.*;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import groovy.transform.EqualsAndHashCode;
 import lombok.ToString;
@@ -31,7 +38,7 @@ public class Topic implements moe.src.leyline.framework.domain.LeylineDO {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
-	private String id;
+	private Long id;
 
 	private int status;
 
@@ -57,11 +64,11 @@ public class Topic implements moe.src.leyline.framework.domain.LeylineDO {
 	public Topic() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

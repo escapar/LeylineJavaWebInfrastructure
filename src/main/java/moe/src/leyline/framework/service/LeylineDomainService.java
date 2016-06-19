@@ -179,6 +179,10 @@ public abstract class LeylineDomainService<T extends LeylineRepo,D extends Leyli
         return userDetailsService.getCurrentUser();
     }
 
+    public LeylineUser getCurrentDomainUser() {
+        return userDetailsService.getByNameEq(getCurrentUser().getUsername());
+    }
+
     public Boolean checkOwnerOf(LeylineUser u) {
         return getCurrentUser().getUsername().equals(u.getName());
     }
