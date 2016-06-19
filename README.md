@@ -1,16 +1,6 @@
-# Leyline 灵脉
-A Web Development Workflow , Gendai Mahou made Simple.
-
-The concept of Leyline comes from stories in Ancient English ~~, TYPE-MOON and various GALGAMES~~.
-
-
-# For what?
-
-We build no more wheels.
-
-Meanwhile , we provide a better integration for starting Web App development smoothly with most fresh and reliable techs.
-
-Smooth = Prototype in a flash , further implement elegantly and achieve final solution in a good pace.
+# src.moe
+用于实现萌豚友链互换和轻量级讨论版的Py交易网站。
+基于master分支的Leyline。
 
 # Usage
 
@@ -31,58 +21,15 @@ Try to implement in interfaces and business packages.
 
 Spring Boot / Spring Security / Spring Data JPA + QueryDSL + Hibernate 5
 
-Thymeleaf
+Angular 1.x(可能)
 
-Angular 1.x
-
-Whalin Memcached Client / Redisson
+Redisson
 
 MySQL
 
 
 # Fundamental GOALS & SPECS [Done]
 
-Automatic Model(ModelMapper)->DTO->Restful API CRUD 
-
-ORM in Spring Data JPA + QueryDSL 
-
-Smooth Integration of JsonView、Spring Security、Pagination/Sort、 Rest And Thymeleaf 
-
-> JsonView + Rest
-
-> Spring Security + Thymeleaf(including Controller) + Rest
-
-> Pagination / Sort + Rest 
-
-> Pagination / Sort + Thymeleaf(including Controller) 
-
-
-Smooth Integration of Spring Framework @Cachable and Whalin Memcached (Check whalin_memcached Branch for usage example)
-
----------------------------------
-
-WORKING ON Use Cases And Examples.
-
-Planning :
-
-Basic Styles 
-
-An Admin Panel in Angular Material 
-
-A CLI For both specs mentioned!! 
-
-
-# Long Term GOALS
-
-i18n
-
-A Restful API 2 ExpressJS Model Proxy Codegen
-
-Integration of Other Components in Spring Eco-system (ex. Spring XD)
-
-A CI Including Testing and Automatic Deployment
-
-etc...
 
 # Contributors
 POJO http://src.moe/    
