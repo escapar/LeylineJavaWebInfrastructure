@@ -30,7 +30,7 @@ public abstract class LeylineDomainRestCRUD<T extends LeylineCachingRepo, D exte
 
     @SuppressWarnings(value = "unchecked")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public D find(Integer id) {
+    public D find(Long id) {
         return (D) dao.findOne(id);
     }
 
