@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.domain.LeylineCachingRepo;
 import moe.src.leyline.framework.domain.LeylineRepo;
 import moe.src.leyline.framework.domain.user.LeylineUser;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;

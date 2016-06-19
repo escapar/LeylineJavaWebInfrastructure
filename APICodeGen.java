@@ -21,8 +21,8 @@ import javaslang.Tuple2;
 import javaslang.collection.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Value;
-import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
 import moe.src.example.mall.interfaces.rest.ProductAPI;
+import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
 
 /**
  * Created by POJO on 6/11/16.
