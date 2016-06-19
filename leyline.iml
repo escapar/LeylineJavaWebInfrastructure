@@ -159,6 +159,10 @@
     <orderEntry type="library" name="Maven: org.thymeleaf:thymeleaf:2.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: ognl:ognl:3.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.unbescape:unbescape:1.1.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.qiniu:qiniu-java-sdk:7.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-configuration-processor:1.4.0.M3" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20140107" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.3.0.RC2" level="project" />
@@ -232,8 +236,15 @@
     <orderEntry type="library" name="Maven: io.netty:netty-handler:4.0.36.Final" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor:reactor-stream:2.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:2.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: net.openhft:zero-allocation-hashing:0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.asynchttpclient:async-http-client:2.0.6" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.0.37.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-epoll:linux-x86_64:4.0.37.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.asynchttpclient:netty-resolver-dns:2.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.asynchttpclient:netty-resolver:2.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.asynchttpclient:netty-codec-dns:2.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.typesafe.netty:netty-reactive-streams:1.0.6" level="project" />
   </component>
 </module>

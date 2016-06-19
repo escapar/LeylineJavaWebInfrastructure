@@ -1,14 +1,21 @@
 package moe.src.leyline.business.domain.website;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-
 import java.util.List;
 
-import org.hibernate.annotations.*;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import groovy.transform.EqualsAndHashCode;
 import lombok.ToString;
@@ -31,7 +38,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
-	private String id;
+	private Long id;
 
 	@Column(name="created_at")
 	private Long createdAt;
@@ -48,6 +55,8 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 
 	private String title;
 
+	private String verifyKey;
+
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="owner_id")
@@ -57,6 +66,9 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 	@OneToMany(mappedBy="master")
 	private List<WebsiteRelation> friends;
 
+	@OneToMany(mappedBy="website")
+	private List<WebsiteUserVerify> websiteUserVerifies;
+
 	//bi-directional many-to-one association to WebsiteRelation
 	@OneToMany(mappedBy="servant")
 	private List<WebsiteRelation> referencedBy;
@@ -64,11 +76,11 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 	public Website() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -80,7 +92,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		this.createdAt = createdAt;
 	}
 
-	public Object getDescription() {
+	public String getDescription() {
 		return this.description;
 	}
 
@@ -88,7 +100,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		this.description = description;
 	}
 
-	public Object getDomain() {
+	public String getDomain() {
 		return this.domain;
 	}
 
@@ -104,7 +116,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public Object getScreenshot() {
+	public String getScreenshot() {
 		return this.screenshot;
 	}
 
@@ -112,7 +124,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		this.screenshot = screenshot;
 	}
 
-	public Object getTitle() {
+	public String getTitle() {
 		return this.title;
 	}
 
@@ -122,6 +134,14 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 
 	public DomainUser getUser() {
 		return this.user;
+	}
+
+	public String getVerifyKey() {
+		return verifyKey;
+	}
+
+	public void setVerifyKey(final String verifyKey) {
+		this.verifyKey = verifyKey;
 	}
 
 	public void setUser(DomainUser user) {
@@ -148,6 +168,18 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		friend.setMaster(null);
 
 		return friend;
+	}
+
+	public void addVerify(DomainUser u) {
+		getWebsiteUserVerifies().add(new WebsiteUserVerify(null,u,this));
+	}
+
+	public List<WebsiteUserVerify> getWebsiteUserVerifies() {
+		return websiteUserVerifies;
+	}
+
+	public void setWebsiteUserVerifies(final List<WebsiteUserVerify> websiteUserVerifies) {
+		this.websiteUserVerifies = websiteUserVerifies;
 	}
 
 	public List<WebsiteRelation> getReferencedBy() {

@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
     public Long id;
     public String username;
     public String password;
+    public String domain;
+
 
     public Long getId() {
         return id;
@@ -34,5 +36,13 @@ import lombok.AllArgsConstructor;
 
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(final String domain) {
+        this.domain = domain;
     }
 }

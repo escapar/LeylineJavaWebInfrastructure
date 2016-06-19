@@ -43,17 +43,12 @@ public class LoginAPI extends LeylineRestCRUD<DomainUserService,UserDTO,DomainUs
 
     @RequestMapping(value = "reg", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
     public @ResponseBody TokenDTO reg(@RequestBody final UserLoginDTO reg)
-            throws PersistenceException,LeylineException {
+            throws LeylineException {
 
         if (reg.username == null || reg.password == null) {
             throw new LeylineException("Invalid Params");
         }
-        DomainUser domainUser = new DomainUser();
-        domainUser.setName(reg.username);
-        domainUser.setUnHashedPassword(reg.password);
-        domainUser.setRole(0);
-        domainUserService.save(domainUser);
-
+        domainUserService.reg(reg);
         return login(reg);
     }
 
@@ -64,7 +59,7 @@ public class LoginAPI extends LeylineRestCRUD<DomainUserService,UserDTO,DomainUs
         //checkOwnerOf(u)
         u.setUnHashedPassword(userLogin.password);
         u = domainUserService.save(u);
-        return login(new UserLoginDTO(u.getId(),u.getName(),userLogin.getPassword()));
+        return login(new UserLoginDTO(u.getId(),u.getName(),userLogin.getPassword(),null));
     }
 
 
