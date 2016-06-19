@@ -14,6 +14,7 @@ import moe.src.leyline.business.domain.user.DomainUser;
 import moe.src.leyline.business.domain.website.Website;
 import moe.src.leyline.business.domain.website.WebsiteRepo;
 import moe.src.leyline.business.domain.website.WebsiteUserVerify;
+import moe.src.leyline.business.infrastructure.screenshot.ScreenshotProcess;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.service.LeylineDomainService;
 
@@ -78,5 +79,9 @@ public class WebsiteService extends LeylineDomainService<WebsiteRepo,Website> {
 
     private Website getByKey(String key){
         return websiteRepo.getByVerifyKey(key);
+    }
+
+    public byte[] screenshot(Long id) throws Exception{
+        return ScreenshotProcess.execute(get(id).getDomain());
     }
 }

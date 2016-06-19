@@ -45,4 +45,9 @@ public class WebsiteAPI extends LeylineRestCRUD<WebsiteService,WebsiteDTO,Websit
     public @ResponseBody Boolean websiteVerifyManual(@PathVariable Long id ) throws PersistenceException,InterruptedException,ExecutionException{
         return websiteService.verifyManually(id);
     }
+
+    @RequestMapping(value = "{id}/screenshot", method = RequestMethod.GET)
+    public @ResponseBody void screenshot(@PathVariable Long id ) throws Exception{
+        websiteService.screenshot(id);
+    }
 }
