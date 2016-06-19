@@ -35,8 +35,8 @@ public class WebsiteAPI extends LeylineRestCRUD<WebsiteService,WebsiteDTO,Websit
         return websiteService.verifyByURL(id,url);
     }
 
-    @RequestMapping(value = "{key}/verify/friend", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
-    public @ResponseBody Boolean websiteVerify(@PathVariable String key ) throws PersistenceException,InterruptedException,ExecutionException{
+    @RequestMapping(value = "verify/friend", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
+    public @ResponseBody Boolean websiteVerify(@RequestBody String key ) throws PersistenceException,InterruptedException,ExecutionException{
         return websiteService.verifyByFriend(key);
     }
 

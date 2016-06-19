@@ -27,7 +27,7 @@ import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceExc
  * Created by POJO on 5/29/16.
  */
 @Service
-@Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
+@Transactional(rollbackFor = Throwable.class)
 public abstract class LeylineDomainService<T extends LeylineRepo,D extends LeylineDO> {
     @Autowired
     protected T dao;

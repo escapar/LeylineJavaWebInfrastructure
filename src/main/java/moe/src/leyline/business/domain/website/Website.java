@@ -3,6 +3,7 @@ package moe.src.leyline.business.domain.website;
 import java.util.List;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,24 +32,23 @@ import moe.src.leyline.business.domain.user.DomainUser;
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @EqualsAndHashCode
-@ToString
 public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private Long id;
 
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	private Long createdAt;
 
 	private String description;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String domain;
 
-	@Column(name="modified_at")
+	@Column(name = "modified_at")
 	private Long modifiedAt;
 
 	private String screenshot;
@@ -59,18 +59,18 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="owner_id")
+	@JoinColumn(name = "owner_id")
 	private DomainUser user;
 
 	//bi-directional many-to-one association to WebsiteRelation
-	@OneToMany(mappedBy="master")
+	@OneToMany(mappedBy = "master")
 	private List<WebsiteRelation> friends;
 
-	@OneToMany(mappedBy="website")
+	@OneToMany(mappedBy = "website",cascade = CascadeType.ALL)
 	private List<WebsiteUserVerify> websiteUserVerifies;
 
 	//bi-directional many-to-one association to WebsiteRelation
-	@OneToMany(mappedBy="servant")
+	@OneToMany(mappedBy = "servant")
 	private List<WebsiteRelation> referencedBy;
 
 	public Website() {
@@ -171,7 +171,21 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 	}
 
 	public void addVerify(DomainUser u) {
-		getWebsiteUserVerifies().add(new WebsiteUserVerify(null,u,this));
+		addWebsiteUserVerify(new WebsiteUserVerify(null, u, this));
+	}
+
+	public WebsiteUserVerify addWebsiteUserVerify(WebsiteUserVerify websiteUserVerify) {
+		getWebsiteUserVerifies().add(websiteUserVerify);
+		websiteUserVerify.setWebsite(this);
+
+		return websiteUserVerify;
+	}
+
+	public WebsiteUserVerify removeWebsiteUserVerify(WebsiteUserVerify websiteUserVerify) {
+		getWebsiteUserVerifies().remove(websiteUserVerify);
+		websiteUserVerify.setWebsite(null);
+
+		return websiteUserVerify;
 	}
 
 	public List<WebsiteUserVerify> getWebsiteUserVerifies() {
@@ -203,5 +217,6 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 
 		return referencedBy;
 	}
+
 
 }

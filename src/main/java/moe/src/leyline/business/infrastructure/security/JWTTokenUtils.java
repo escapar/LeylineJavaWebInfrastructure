@@ -34,7 +34,7 @@ public class JWTTokenUtils {
     }
 
     public static Claims parse(final String token){
-        return Jwts.parser().setSigningKey(signingKey).requireNotBefore(new DateTime().minusWeeks(1).toDate())
+        return Jwts.parser().setSigningKey(signingKey)
                 .parseClaimsJws(token).getBody();
     }
 
@@ -44,7 +44,7 @@ public class JWTTokenUtils {
                 .claim("role", user.getRole())
                 .claim("name", user.getName())
                 .claim("id", user.getId())
-                .setIssuedAt(new Date())
+                .setExpiration(new DateTime().plusWeeks(1).toDate())
                 .signWith(SignatureAlgorithm.HS256, signingKey)
                 .compact();
     }

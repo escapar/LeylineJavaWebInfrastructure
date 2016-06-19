@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javaslang.collection.Stream;
 import moe.src.leyline.framework.domain.user.LeylineUser;
 import moe.src.leyline.framework.domain.user.LeylineUserRepo;
+import moe.src.leyline.framework.infrastructure.security.UserAuthentication;
 
 /**
  * Created by POJO on 6/8/16.
@@ -44,9 +46,9 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
     }
 
     public User getCurrentUser() {
-        AbstractAuthenticationToken auth = (AbstractAuthenticationToken)
+        Authentication auth =
                 SecurityContextHolder.getContext().getAuthentication();
-        return  auth.getPrincipal() instanceof User ? (User)auth.getPrincipal() : null;
+        return  auth.getDetails() instanceof User ? (User)auth.getDetails() : null;
     }
 
     public D getByNameEq(String name){
