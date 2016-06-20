@@ -115,12 +115,4 @@ public class DESUtil {
 		return new String(Base64.decode(new String(decrypt(hexStr2ByteArr(strIn)))));
 	}
 
-	public static void main(String[] args) {
-		try {
-			System.out.println(DESUtil.doubleEncrypt("12"));
-			System.out.println(DESUtil.doubleDecrypt(DESUtil.doubleEncrypt("12")));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

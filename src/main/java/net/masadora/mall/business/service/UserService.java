@@ -1,20 +1,17 @@
 package net.masadora.mall.business.service;
 
 import javaslang.collection.Stream;
-import moe.src.leyline.framework.service.LeylineUserDetailsService;
+import net.masadora.mall.framework.service.LeylineUserDetailsService;
 import net.masadora.mall.business.domain.user.User;
 import net.masadora.mall.business.domain.user.UserRepo;
 import net.masadora.mall.business.infrastructure.common.CookieUtil;
 import net.masadora.mall.business.infrastructure.common.DESUtil;
 import net.masadora.mall.business.infrastructure.common.MasadoraProps;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 /**
@@ -40,7 +37,7 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     @Override
     public Collection<? extends GrantedAuthority> getRole(User user) {
         Collection<? extends GrantedAuthority> authorities = null;
-        switch (user.getRole()) {
+        switch (user.getRole().getId().intValue()) {
             case 1:
                 authorities = Stream.of("ROLE_ADMIN", "ROLE_USER")
                         .map(SimpleGrantedAuthority::new)

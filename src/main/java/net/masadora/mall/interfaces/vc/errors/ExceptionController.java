@@ -1,15 +1,8 @@
 package net.masadora.mall.interfaces.vc.errors;
 
-import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.*;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -17,7 +10,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by POJO on 6/16/16.
@@ -35,7 +27,7 @@ public class ExceptionController implements ErrorController {
         // Appropriate HTTP response code (e.g. 404 or 500) is automatically set by Spring.
         // Here we just define response body.
         ErrorBrief eb= new ErrorBrief(response.getStatus(), getErrorAttributes(request, false));
-        if(eb.exception.contains("access")){
+        if(eb.exception!=null && eb.exception.contains("access")){
             return "redirect:http://masadora.gi";
         }
         return eb.toString();

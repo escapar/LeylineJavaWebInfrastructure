@@ -1,6 +1,6 @@
 package net.masadora.mall.interfaces.vc.product;
 
-import moe.src.leyline.framework.interfaces.vc.LeylinePageableController;
+import net.masadora.mall.framework.interfaces.vc.LeylinePageableController;
 import net.masadora.mall.business.service.ProductService;
 import net.masadora.mall.interfaces.dto.ProductDTO;
 import org.springframework.stereotype.Controller;
