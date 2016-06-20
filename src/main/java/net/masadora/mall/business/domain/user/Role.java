@@ -9,6 +9,8 @@ import javax.persistence.*;
  */
 @Entity
 @Data
+@Cacheable
+@Table(name="s_role")
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
 public class Role {
     @Id

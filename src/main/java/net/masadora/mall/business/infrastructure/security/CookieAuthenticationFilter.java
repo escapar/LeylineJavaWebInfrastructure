@@ -20,20 +20,30 @@ import javax.servlet.http.HttpServletRequest;
 public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<UserService> {
 
     @Override
-    public Authentication getAuthentication(HttpServletRequest request) throws ServletException{
-        Cookie cookie = CookieUtil.getCookieByName(request);
-        if(cookie != null) {
-            try {
-                String cookieValue = DESUtil.decrypt(cookie.getValue());
-                User user = getUserService().getUserByCookieValue(cookieValue);
-                if (user != null) {
-                    return new UserAuthentication(user);
+    public Authentication getAuthentication(HttpServletRequest request){
+        net.masadora.mall.business.domain.user.User domainUser;
+        if(request.getSession().getAttribute("user")!=null) {
+            domainUser = ( net.masadora.mall.business.domain.user.User)request.getSession().getAttribute("user");
+            return new UserAuthentication(new User(domainUser.getName(),domainUser.getPassword(),getUserService().getRole(domainUser.getRole().getId())));
+        }else {
+            Cookie cookie = CookieUtil.getCookieByName(request);
+            if (cookie != null) {
+                try {
+                    String cookieValue = DESUtil.decrypt(cookie.getValue());
+                    User user = getUserService().getUserByCookieValue(cookieValue);
+                    if (user != null) {
+                        request.getSession().setAttribute("user", getUserService().getDomainUserByCookieValue(cookieValue));
+                        return new UserAuthentication(user);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
                 }
-            }catch (Exception e){
-                e.printStackTrace();
             }
-
         }
-        throw new ServletException("authError");
+        return null;
     }
+
+
+
 }

@@ -193,6 +193,6 @@ public class CookieUtil {
 		Cookie cookie = CookieUtil.getCookieByName(masadoraProps.logoutCookieName, request);
 		return cookie != null ? true : false;
 	}
-	
+
 
 }

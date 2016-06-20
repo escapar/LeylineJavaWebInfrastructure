@@ -10,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Cacheable
 @Table(name="mall_d_vendor")
 @NamedQuery(name="Vendor.findAll", query="SELECT v FROM Vendor v")
 public class Vendor implements Serializable {

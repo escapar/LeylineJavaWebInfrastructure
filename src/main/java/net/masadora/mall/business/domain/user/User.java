@@ -8,6 +8,7 @@ import javax.persistence.*;
  * The persistent class for the user database table.
  */
 @Entity
+@Table(name = "d_user")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements LeylineUser {
     private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public class User implements LeylineUser {
     @Column(name="EMAIL_VERIFIED")
     private String emailVerified;
 
-    private byte gender;
+    private Short gender;
 
     @Column(name="LAST_LOGIN")
     private Long lastLogin;
@@ -53,7 +54,7 @@ public class User implements LeylineUser {
     @Column(name="SHOW_R18")
     private Boolean showR18;
 
-    private int status;
+    private Integer status;
 
     public User() {
     }
@@ -106,11 +107,11 @@ public class User implements LeylineUser {
         this.emailVerified = emailVerified;
     }
 
-    public byte getGender() {
+    public Short getGender() {
         return this.gender;
     }
 
-    public void setGender(byte gender) {
+    public void setGender(Short gender) {
         this.gender = gender;
     }
 
@@ -178,11 +179,11 @@ public class User implements LeylineUser {
         this.showR18 = showR18;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Cacheable
 @Table(name="mall_d_category")
 @NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
 public class Category implements Serializable {

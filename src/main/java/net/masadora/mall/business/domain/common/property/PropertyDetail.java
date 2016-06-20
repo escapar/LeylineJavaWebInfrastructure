@@ -11,6 +11,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Cacheable
 @Table(name="mall_d_property_detail")
 @NamedQuery(name="PropertyDetail.findAll", query="SELECT p FROM PropertyDetail p")
 public class PropertyDetail implements Serializable {

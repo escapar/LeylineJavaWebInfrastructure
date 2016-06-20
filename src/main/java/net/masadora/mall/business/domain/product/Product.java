@@ -59,18 +59,6 @@ public class Product implements LeylineDO {
 	@OneToMany(mappedBy="rootProduct", cascade={CascadeType.MERGE})
 	private List<Product> subProducts;
 
-	//bi-directional many-to-many association to Property
-	@ManyToMany
-	@JoinTable(
-		name="mall_m2m_property_2_product"
-		, joinColumns={
-			@JoinColumn(name="PRODUCT_ID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="PROPERTY_ID")
-			}
-		)
-	private List<Property> mallDProperties;
 
 	//uni-directional many-to-one association to Vendor
 	@ManyToOne
@@ -219,13 +207,6 @@ public class Product implements LeylineDO {
 		return subProduct;
 	}
 
-	public List<Property> getMallDProperties() {
-		return this.mallDProperties;
-	}
-
-	public void setMallDProperties(List<Property> mallDProperties) {
-		this.mallDProperties = mallDProperties;
-	}
 
 	public Vendor getVendor() {
 		return this.vendor;

@@ -10,6 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Cacheable
 @Table(name="mall_d_coupon")
 @NamedQuery(name="Coupon.findAll", query="SELECT c FROM Coupon c")
 public class Coupon implements Serializable {

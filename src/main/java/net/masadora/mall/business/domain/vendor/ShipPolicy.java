@@ -9,6 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Cacheable
 @Table(name="mall_d_ship_policy")
 @NamedQuery(name="ShipPolicy.findAll", query="SELECT s FROM ShipPolicy s")
 public class ShipPolicy implements Serializable {

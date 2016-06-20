@@ -13,6 +13,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Cacheable
 @Table(name="mall_d_property")
 @NamedQuery(name="Property.findAll", query="SELECT p FROM Property p")
 public class Property implements Serializable {
@@ -23,10 +24,6 @@ public class Property implements Serializable {
 	private Long id;
 
 	private String name;
-
-	//bi-directional many-to-many association to Product
-	@ManyToMany(mappedBy="mallDProperties")
-	private List<Product> mallDProducts;
 
 
 	public Property() {
@@ -48,12 +45,5 @@ public class Property implements Serializable {
 		this.name = name;
 	}
 
-	public List<Product> getMallDProducts() {
-		return this.mallDProducts;
-	}
-
-	public void setMallDProducts(List<Product> mallDProducts) {
-		this.mallDProducts = mallDProducts;
-	}
 
 }

@@ -35,9 +35,13 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getRole(User user) {
+    public Collection<? extends GrantedAuthority> getRole(User user){
+       return getRole(user.getRole().getId());
+    }
+
+    public Collection<? extends GrantedAuthority> getRole(Long id) {
         Collection<? extends GrantedAuthority> authorities = null;
-        switch (user.getRole().getId().intValue()) {
+        switch (id.intValue()) {
             case 1:
                 authorities = Stream.of("ROLE_ADMIN", "ROLE_USER")
                         .map(SimpleGrantedAuthority::new)
@@ -53,6 +57,8 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     }
 
 
+
+
     /**
      * 检测cookievalue合法性
      * @param cookieValue
@@ -66,6 +72,18 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
                 User user = userRepo.get(Long.valueOf(DESUtil.decrypt(values[0])));
                 if(user.getPassword().equals(DESUtil.decrypt(values[2])))
                     return new org.springframework.security.core.userdetails.User(user.getName(),user.getPassword(),getRole(user));
+            }
+        }
+        return null;
+    }
+
+    public User getDomainUserByCookieValue(String cookieValue) throws Exception{
+        if(cookieValue.contains(":")){
+            String[] values = cookieValue.split(":");
+            if(CookieUtil.webKeyOKAY(values[1])){
+                User user = userRepo.get(Long.valueOf(DESUtil.decrypt(values[0])));
+                if(user.getPassword().equals(DESUtil.decrypt(values[2])))
+                    return user;
             }
         }
         return null;

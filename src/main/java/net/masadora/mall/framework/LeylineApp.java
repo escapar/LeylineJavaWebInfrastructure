@@ -10,6 +10,7 @@ import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 /**
  * Created by bytenoob on 6/9/16.
@@ -17,7 +18,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 @EnableSpringDataWebSupport
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
+@EnableWebSecurity
 @SpringBootApplication(exclude = {
         RepositoryRestMvcAutoConfiguration.class,
         JmxAutoConfiguration.class,
