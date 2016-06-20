@@ -1,0 +1,150 @@
+[
+  {
+    "name": "ProductAPI",
+    "api": [
+      {
+        "find": {
+          "produces": "ProductDTO",
+          "params": [
+            "Long"
+          ],
+          "req": [
+            {
+              "method": "GET",
+              "produces": "application/json",
+              "value": "api/product/{id}"
+            }
+          ]
+        }
+      },
+      {
+        "listWithDetail": {
+          "produces": "PageJSON",
+          "params": [],
+          "req": [
+            {
+              "method": "GET",
+              "value": "api/product/query"
+            }
+          ]
+        }
+      },
+      {
+        "delete": {
+          "produces": "void",
+          "params": [],
+          "req": [
+            {
+              "method": "DELETE",
+              "produces": "application/json",
+              "value": "api/product/"
+            }
+          ]
+        }
+      },
+      {
+        "list": {
+          "produces": "PageJSON",
+          "params": [],
+          "req": [
+            {
+              "method": "GET",
+              "produces": "application/json",
+              "value": "api/product/"
+            }
+          ]
+        }
+      },
+      {
+        "updateOne": {
+          "produces": "void",
+          "params": [],
+          "req": [
+            {
+              "method": "POST",
+              "produces": "application/json",
+              "value": "api/product/one"
+            }
+          ]
+        }
+      },
+      {
+        "insert": {
+          "produces": "void",
+          "params": [],
+          "req": [
+            {
+              "method": "PUT",
+              "produces": "application/json",
+              "value": "api/product/"
+            }
+          ]
+        }
+      },
+      {
+        "update": {
+          "produces": "void",
+          "params": [],
+          "req": [
+            {
+              "method": "POST",
+              "produces": "application/json",
+              "value": "api/product/"
+            }
+          ]
+        }
+      },
+      {
+        "delete": {
+          "produces": "void",
+          "params": [
+            "Long"
+          ],
+          "req": [
+            {
+              "method": "DELETE",
+              "produces": "application/json",
+              "value": "api/product/{id}"
+            }
+          ]
+        }
+      },
+      {
+        "listWithQuery": {
+          "produces": "PageJSON",
+          "params": [],
+          "req": [
+            {
+              "method": "GET",
+              "value": "api/product/list/query"
+            }
+          ]
+        }
+      },
+      {
+        "insertOne": {
+          "produces": "ProductDTO",
+          "params": [],
+          "req": [
+            {
+              "method": "PUT",
+              "produces": "application/json",
+              "value": "api/product/one"
+            }
+          ]
+        }
+      }
+    ],
+    "dto": [
+      {
+        "id": "int"
+      },
+      {
+        "name": "String"
+      },
+      {
+        "price": "double"
+      }
+    ]
+  }
+]

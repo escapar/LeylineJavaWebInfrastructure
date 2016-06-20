@@ -1,5 +1,6 @@
 package net.masadora.mall.framework;
 
+import net.masadora.mall.framework.interfaces.vc.LeylineErrorController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
@@ -22,9 +23,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
         JmxAutoConfiguration.class,
         WebSocketAutoConfiguration.class,
         ActiveMQAutoConfiguration.class,
+        LeylineErrorController.class
 })
 @EntityScan("net.masaadora.mall.framework.domain")
-@ComponentScan(basePackages = {"net.masadora.mall.framework","net.masadora.mall.framework.infrastructure.cache.memcached"})
+@ComponentScan(basePackages = {"net.masadora.mall.framework.domain","net.masadora.mall.framework.infrastructure"})
 
 public abstract class LeylineApp {
 
