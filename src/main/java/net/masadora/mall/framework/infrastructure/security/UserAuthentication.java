@@ -3,6 +3,7 @@ package net.masadora.mall.framework.infrastructure.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
@@ -11,10 +12,10 @@ import java.util.Collection;
  */
 public class UserAuthentication implements Authentication {
 
-    private final User user;
+    private final UserDetails user;
     private boolean authenticated = true;
 
-    public UserAuthentication(User user) {
+    public UserAuthentication(UserDetails user) {
         this.user = user;
     }
 
@@ -34,7 +35,7 @@ public class UserAuthentication implements Authentication {
     }
 
     @Override
-    public User getDetails() {
+    public UserDetails getDetails() {
         return user;
     }
 

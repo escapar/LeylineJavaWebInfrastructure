@@ -34,30 +34,6 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
         return user.getPassword();
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getRole(User user){
-       return getRole(user.getRole().getId());
-    }
-
-    public Collection<? extends GrantedAuthority> getRole(Long id) {
-        Collection<? extends GrantedAuthority> authorities = null;
-        switch (id.intValue()) {
-            case 1:
-                authorities = Stream.of("ROLE_ADMIN", "ROLE_USER")
-                        .map(SimpleGrantedAuthority::new)
-                        .toJavaList();
-                break;
-            case 2:
-                authorities = Stream.of("ROLE_USER")
-                        .map(SimpleGrantedAuthority::new)
-                        .toJavaList();
-        }
-
-        return authorities;
-    }
-
-
-
 
     /**
      * 检测cookievalue合法性
@@ -65,19 +41,7 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
      * @return User
      * @throws Exception
      */
-    public org.springframework.security.core.userdetails.User getUserByCookieValue(String cookieValue) throws Exception{
-        if(cookieValue.contains(":")){
-            String[] values = cookieValue.split(":");
-            if(CookieUtil.webKeyOKAY(values[1])){
-                User user = userRepo.get(Long.valueOf(DESUtil.decrypt(values[0])));
-                if(user.getPassword().equals(DESUtil.decrypt(values[2])))
-                    return new org.springframework.security.core.userdetails.User(user.getName(),user.getPassword(),getRole(user));
-            }
-        }
-        return null;
-    }
-
-    public User getDomainUserByCookieValue(String cookieValue) throws Exception{
+    public User getUserByCookieValue(String cookieValue) throws Exception{
         if(cookieValue.contains(":")){
             String[] values = cookieValue.split(":");
             if(CookieUtil.webKeyOKAY(values[1])){
@@ -88,4 +52,5 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
         }
         return null;
     }
+
 }

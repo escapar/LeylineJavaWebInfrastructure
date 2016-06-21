@@ -1,8 +1,11 @@
 package net.masadora.mall.business.domain.user;
 
+import net.masadora.mall.business.infrastructure.common.AuthUtil;
 import net.masadora.mall.framework.domain.user.LeylineUser;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * The persistent class for the user database table.
@@ -10,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "d_user")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User implements LeylineUser {
+public class User implements LeylineUser{
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -131,8 +134,38 @@ public class User implements LeylineUser {
         this.name = name;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthUtil.getRole(role.getId());
+    }
+
     public String getPassword() {
         return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -185,5 +218,10 @@ public class User implements LeylineUser {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public void eraseCredentials() {
+
     }
 }

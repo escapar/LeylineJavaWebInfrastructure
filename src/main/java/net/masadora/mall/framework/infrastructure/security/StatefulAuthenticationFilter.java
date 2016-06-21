@@ -1,5 +1,6 @@
 package net.masadora.mall.framework.infrastructure.security;
 
+import net.masadora.mall.business.infrastructure.common.AuthUtil;
 import net.masadora.mall.framework.service.LeylineUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.springframework.security.access.AccessDeniedException;
@@ -33,23 +34,18 @@ public abstract class StatefulAuthenticationFilter<T extends LeylineUserDetailsS
         Class<T> userServiceClass = (Class<T>)TypeResolver.resolveRawArguments(StatefulAuthenticationFilter.class, getClass())[0];
         WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
         userService = webApplicationContext.getBean(userServiceClass);
-        handleAuth((HttpServletRequest)request);
+        handleAuth(request);
         filterChain.doFilter(request, response);
     }
 
     public abstract Authentication getAuthentication(HttpServletRequest request);
 
     public void handleAuth(HttpServletRequest request){
-            HttpServletRequest httpRequest = request;
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if(authentication == null){
-                authentication = getAuthentication(httpRequest);
-                if(authentication == null){
-                    authentication = new UsernamePasswordAuthenticationToken("anonymous", "", Arrays.asList(new SimpleGrantedAuthority("ROLE_ANONYMOUS")));
-                }
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-
+        Authentication authentication = getAuthentication(request);
+        if(authentication == null){
+            authentication = new UsernamePasswordAuthenticationToken("anonymous", "", AuthUtil.getRole(AuthUtil.ANONYMOUS));
+        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
 

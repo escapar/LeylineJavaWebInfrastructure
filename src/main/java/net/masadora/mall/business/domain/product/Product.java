@@ -5,6 +5,8 @@ import net.masadora.mall.business.domain.common.property.Property;
 import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.vendor.Vendor;
 import net.masadora.mall.framework.domain.LeylineDO;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -65,7 +67,7 @@ public class Product implements LeylineDO {
 	private Vendor vendor;
 
 	//bi-directional many-to-one association to ProductImage
-	@OneToMany(mappedBy="product")
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<ProductImage> images;
 
 	//bi-directional many-to-one association to PropertyDetail
@@ -87,6 +89,9 @@ public class Product implements LeylineDO {
 	private List<Category> categories;
 
 	public Product() {
+		if(createdAt == null){
+			createdAt = new DateTime().getMillis();
+		}
 	}
 
 	public Long getId() {
@@ -102,7 +107,7 @@ public class Product implements LeylineDO {
 	}
 
 	public void setCreatedAt(Long createdAt) {
-		this.createdAt = createdAt;
+		this.createdAt = createdAt == null ? new DateTime().getMillis() : createdAt;
 	}
 
 	public Long getDeletedAt() {
@@ -226,14 +231,12 @@ public class Product implements LeylineDO {
 
 	public ProductImage addImage(ProductImage image) {
 		getImages().add(image);
-		image.setProduct(this);
 
 		return image;
 	}
 
 	public ProductImage removeImage(ProductImage image) {
 		getImages().remove(image);
-		image.setProduct(null);
 
 		return image;
 	}

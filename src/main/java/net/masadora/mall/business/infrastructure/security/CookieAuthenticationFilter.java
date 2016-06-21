@@ -1,12 +1,12 @@
 package net.masadora.mall.business.infrastructure.security;
 
+import net.masadora.mall.business.domain.user.User;
 import net.masadora.mall.framework.infrastructure.security.StatefulAuthenticationFilter;
 import net.masadora.mall.framework.infrastructure.security.UserAuthentication;
 import net.masadora.mall.business.infrastructure.common.CookieUtil;
 import net.masadora.mall.business.infrastructure.common.DESUtil;
 import net.masadora.mall.business.service.UserService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -21,18 +21,18 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
 
     @Override
     public Authentication getAuthentication(HttpServletRequest request){
-        net.masadora.mall.business.domain.user.User domainUser;
+        User user;
         if(request.getSession().getAttribute("user")!=null) {
-            domainUser = ( net.masadora.mall.business.domain.user.User)request.getSession().getAttribute("user");
-            return new UserAuthentication(new User(domainUser.getName(),domainUser.getPassword(),getUserService().getRole(domainUser.getRole().getId())));
+            user = (User)request.getSession().getAttribute("user");
+            return new UserAuthentication(user);
         }else {
             Cookie cookie = CookieUtil.getCookieByName(request);
             if (cookie != null) {
                 try {
                     String cookieValue = DESUtil.decrypt(cookie.getValue());
-                    User user = getUserService().getUserByCookieValue(cookieValue);
+                    user = getUserService().getUserByCookieValue(cookieValue);
                     if (user != null) {
-                        request.getSession().setAttribute("user", getUserService().getDomainUserByCookieValue(cookieValue));
+                        request.getSession().setAttribute("user", user);
                         return new UserAuthentication(user);
                     }
                 } catch (Exception e) {
