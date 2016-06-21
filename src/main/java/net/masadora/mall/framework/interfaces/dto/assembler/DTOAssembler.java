@@ -20,23 +20,18 @@ public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
 
 
     public DTO buildDTO(DO d, Type dtoT) {
-        m.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return m.map(d, dtoT);
     }
 
     public DO buildDO(DTO d, Type dtoT) {
-        m.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return m.map(d, dtoT);
     }
 
     public List buildDOList(List<? extends LeylineDTO> d, Type doT) {
-        m.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return d.stream().map(e -> m.map(e, doT)).collect(Collectors.toList());
     }
 
     public List buildDTOList(List<? extends LeylineDO> d, Type dtoT) {
-        m.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-
         return d.stream().map(e -> m.map(e, dtoT)).collect(Collectors.toList());
     }
 

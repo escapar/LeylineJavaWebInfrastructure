@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import net.masadora.mall.business.domain.common.category.Category;
 import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
 import net.masadora.mall.framework.interfaces.view.LeylineView;
 import net.masadora.mall.interfaces.dto.category.CategoryDTO;
+import net.masadora.mall.interfaces.dto.property.PropertyDetailDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -47,11 +47,17 @@ public class ProductDTO implements LeylineDTO {
     private int vendorId;
     @JsonView(LeylineView.LIST.class)
     private String vendorName;
+
     @JsonView(LeylineView.LIST.class)
     @JsonDeserialize(contentAs=ProductImageDTO.class)
     private Set<ProductImageDTO> images;
+
     @JsonView(LeylineView.LIST.class)
     @JsonDeserialize(contentAs=CategoryDTO.class)
     private List<CategoryDTO> categories;
+
+    @JsonView(LeylineView.LIST.class)
+    @JsonDeserialize(contentAs=PropertyDetailDTO.class)
+    private List<PropertyDetailDTO> properties;
 
 }

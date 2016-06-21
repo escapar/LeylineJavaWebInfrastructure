@@ -1,11 +1,10 @@
 package net.masadora.mall.business.domain.common.property;
 
 import net.masadora.mall.business.domain.common.category.Category;
-import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.framework.domain.LeylineDO;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -15,9 +14,9 @@ import java.util.List;
  */
 @Entity
 @Cacheable
-@Table(name="mall_d_property")
-@NamedQuery(name="Property.findAll", query="SELECT p FROM Property p")
-public class Property implements LeylineDO {
+@Table(name="mall_d_property_group")
+@NamedQuery(name="PropertyGroup.findAll", query="SELECT p FROM PropertyGroup p")
+public class PropertyGroup implements LeylineDO {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,9 +26,12 @@ public class Property implements LeylineDO {
 	private String name;
 
 	@ManyToOne
-	private PropertyGroup group;
+	private Category category;
 
-	public Property() {
+	@OneToMany(mappedBy = "group")
+	private List<Property> properties;
+
+	public PropertyGroup() {
 	}
 
 	public Long getId() {
@@ -48,11 +50,19 @@ public class Property implements LeylineDO {
 		this.name = name;
 	}
 
-	public PropertyGroup getGroup() {
-		return group;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setGroup(PropertyGroup group) {
-		this.group = group;
+	public void setCategory(Category category){
+		this.category = category;
+	}
+
+	public List<Property> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<Property> properties) {
+		this.properties = properties;
 	}
 }

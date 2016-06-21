@@ -36,6 +36,10 @@ public class ProductService extends LeylineDomainService<ProductRepo,Product> {
                     entity.getImages().parallelStream().map(
                             i-> i.setProduct(entity))
                             .collect(Collectors.toList()));
+            entity.setProperties(
+                    entity.getProperties().parallelStream().map(
+                            i-> i.setProduct(entity))
+                            .collect(Collectors.toList()));
 
 
             return repo.save(entity);

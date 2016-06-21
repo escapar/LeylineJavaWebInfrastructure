@@ -1,6 +1,7 @@
 package net.masadora.mall.business.domain.common.property;
 
 import net.masadora.mall.business.domain.product.Product;
+import net.masadora.mall.framework.domain.LeylineDO;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Cacheable
 @Table(name="mall_d_property_detail")
 @NamedQuery(name="PropertyDetail.findAll", query="SELECT p FROM PropertyDetail p")
-public class PropertyDetail implements Serializable {
+public class PropertyDetail implements LeylineDO {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -28,7 +29,7 @@ public class PropertyDetail implements Serializable {
 	private Product product;
 
 	//uni-directional many-to-one association to Property
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Property property;
 
 	public PropertyDetail() {
@@ -38,32 +39,36 @@ public class PropertyDetail implements Serializable {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public PropertyDetail setId(Long id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getValue() {
 		return this.value;
 	}
 
-	public void setValue(String value) {
+	public PropertyDetail setValue(String value) {
 		this.value = value;
+		return this;
 	}
 
 	public Product getProduct() {
 		return this.product;
 	}
 
-	public void setProduct(Product product) {
+	public PropertyDetail setProduct(Product product) {
 		this.product = product;
+		return this;
 	}
 
 	public Property getProperty() {
 		return this.property;
 	}
 
-	public void setProperty(Property property) {
+	public PropertyDetail setProperty(Property property) {
 		this.property = property;
+		return this;
 	}
 
 }

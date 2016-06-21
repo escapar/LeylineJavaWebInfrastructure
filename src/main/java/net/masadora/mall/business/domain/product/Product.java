@@ -60,7 +60,7 @@ public class Product implements LeylineDO {
 	private Product rootProduct;
 
 	//bi-directional many-to-one association to Product
-	@OneToMany(mappedBy="rootProduct", cascade={CascadeType.MERGE})
+	@OneToMany(mappedBy="rootProduct", cascade=CascadeType.MERGE)
 	private List<Product> subProducts;
 
 
@@ -73,7 +73,7 @@ public class Product implements LeylineDO {
 	private List<ProductImage> images;
 
 	//bi-directional many-to-one association to PropertyDetail
-	@OneToMany(mappedBy="product")
+	@OneToMany(mappedBy="product",cascade = CascadeType.MERGE)
 	private List<PropertyDetail> properties;
 
 
