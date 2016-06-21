@@ -1,18 +1,16 @@
-package net.masadora.mall.interfaces.dto;
+package net.masadora.mall.interfaces.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.sun.tools.javac.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import net.masadora.mall.business.domain.common.category.Category;
 import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
 import net.masadora.mall.framework.interfaces.view.LeylineView;
+import net.masadora.mall.interfaces.dto.category.CategoryDTO;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,10 +48,10 @@ public class ProductDTO implements LeylineDTO {
     @JsonView(LeylineView.LIST.class)
     private String vendorName;
     @JsonView(LeylineView.LIST.class)
-    private boolean searchable;
-    @JsonView(LeylineView.LIST.class)
     @JsonDeserialize(contentAs=ProductImageDTO.class)
     private Set<ProductImageDTO> images;
-
+    @JsonView(LeylineView.LIST.class)
+    @JsonDeserialize(contentAs=CategoryDTO.class)
+    private List<CategoryDTO> categories;
 
 }

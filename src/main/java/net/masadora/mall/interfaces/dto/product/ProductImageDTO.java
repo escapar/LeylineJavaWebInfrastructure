@@ -1,4 +1,4 @@
-package net.masadora.mall.interfaces.dto;
+package net.masadora.mall.interfaces.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;

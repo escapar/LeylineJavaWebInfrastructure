@@ -281,5 +281,12 @@ public class Product implements LeylineDO {
 		return property;
 	}
 
+	public List<Category> getCategories() {
+		return categories;
+	}
 
+	public Product setCategories(List<Category> categories) {
+		this.categories = categories;
+		return this;
+	}
 }

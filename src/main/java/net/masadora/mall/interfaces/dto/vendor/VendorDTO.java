@@ -1,4 +1,4 @@
-package net.masadora.mall.interfaces.dto;
+package net.masadora.mall.interfaces.dto.vendor;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

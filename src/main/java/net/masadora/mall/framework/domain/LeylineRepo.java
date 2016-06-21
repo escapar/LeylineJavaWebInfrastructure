@@ -14,7 +14,7 @@ import javax.persistence.QueryHint;
 /**
  * Created by POJO on 6/2/16.
  */
-public interface LeylineRepo<T extends LeylineDO> extends PagingAndSortingRepository<T, Long>, QueryDslPredicateExecutor {
+public interface LeylineRepo<T extends LeylineDO> extends PagingAndSortingRepository<T, Long>, QueryDslPredicateExecutor<T> {
     @Override
     @QueryHints(value = { @QueryHint(name = "org.hibernate.cacheable", value = "true")})
     Iterable<T> findAll(Predicate predicate);

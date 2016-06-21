@@ -44,7 +44,7 @@ import java.util.List;
 @EnableSpringDataWebSupport
 public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends LeylineDTO, O extends LeylineDO> implements LeylineCRUD {
     private ObjectMapper mapper = new ObjectMapper();
-
+    public DTOAssembler<O,D> dtoAssembler;
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
     private final Class<?>[] typeArgs;
@@ -73,6 +73,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         this.typeDO = TypeToken.of(classDO).getType();
         typeDTOList = mapper.getTypeFactory().constructCollectionType(List.class, classDTO);
         typeDOList = mapper.getTypeFactory().constructCollectionType(List.class, classDO);
+        setDTOAssembler(new DTOAssembler());
     }
 
     private Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException {
@@ -82,7 +83,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         Predicate predicate = predicateBuilder.getPredicate(domainType, parameters, bindings);
 
         Page res = service.findAll(predicate, p);
-        return DTOAssembler.buildPageDTO(res, typeDTO);
+        return dtoAssembler.buildPageDTO(res, typeDTO);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
@@ -91,7 +92,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @SuppressWarnings(value = "unchecked")
     public PageJSON<D> list(Pageable p) throws PersistenceException {
         Page res = service.findAll(p);
-        res = DTOAssembler.buildPageDTO(res, typeDTO);
+        res = dtoAssembler.buildPageDTO(res, typeDTO);
         return new PageJSON<>(res, p);
     }
 
@@ -116,7 +117,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {
-        return (D) DTOAssembler.buildDTO(service.findOne(id), typeDTO);
+        return (D) dtoAssembler.buildDTO((O)service.findOne(id), typeDTO);
     }
 
 
@@ -124,14 +125,14 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody String json) throws IOException, PersistenceException {
-        service.save(DTOAssembler.buildDOList(mapper.readValue(json, typeDTOList), typeDO));
+        service.save(dtoAssembler.buildDOList(mapper.readValue(json, typeDTOList), typeDO));
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json",produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void updateOne(@RequestBody D obj) throws IOException, PersistenceException {
-        service.save(DTOAssembler.buildDO(obj, typeDO));
+        service.save(dtoAssembler.buildDO(obj, typeDO));
     }
 
     @RequestMapping(value = "/batch", method = RequestMethod.PUT, produces = "application/json")
@@ -147,7 +148,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     public D insertOne(@RequestBody D obj) throws PersistenceException {
         ModelMapper mm = new ModelMapper();
         mm.getConfiguration().setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
-        return mm.map(service.save(DTOAssembler.buildDO(obj, typeDO)), typeDTO);
+        return mm.map(service.save(dtoAssembler.buildDO(obj, typeDO)), typeDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
@@ -175,8 +176,10 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         return userDetailsService.getCurrentUser();
     }
 
-    public ObjectMapper getMapper() {
-        return mapper;
+    public void setDTOAssembler(DTOAssembler dtoAssembler) {
+        this.dtoAssembler = dtoAssembler;
     }
+
+
 }
 

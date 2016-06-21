@@ -43,6 +43,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
     private Type typeDTO;
     private Integer pagesize = 20;
     private String modelName;
+    private DTOAssembler dtoAssembler = new DTOAssembler();
 
     @SuppressWarnings(value = "unchecked")
     public LeylinePageableController() {
@@ -60,12 +61,12 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
         Predicate predicate = predicateBuilder.getPredicate(domainType, parameters, bindings);
 
         Page res = service.findAll(predicate, p);
-        return DTOAssembler.buildPageDTO(res, typeDTO);
+        return dtoAssembler.buildPageDTO(res, typeDTO);
     }
 
     public String list(Model model, Pageable pageable) throws LeylineException {
         Page res = service.findAll(pageable);
-        model.addAttribute("page", DTOAssembler.buildPageDTO(res, typeDTO));
+        model.addAttribute("page", dtoAssembler.buildPageDTO(res, typeDTO));
         return modelName.concat("/list");
     }
 
@@ -103,7 +104,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
 
     @RequestMapping("/detail_{id}")
     public String list(Model model, @PathVariable Long id) throws LeylineException {
-        model.addAttribute("res", DTOAssembler.buildDTO(service.findOne(id), typeDTO));
+        model.addAttribute("res", dtoAssembler.buildDTO(service.findOne(id), typeDTO));
         return modelName.concat("/detail");
     }
 
@@ -115,5 +116,11 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
         this.pagesize = pagesize;
     }
 
+    public DTOAssembler getDtoAssembler() {
+        return dtoAssembler;
+    }
 
+    public void setDtoAssembler(DTOAssembler dtoAssembler) {
+        this.dtoAssembler = dtoAssembler;
+    }
 }
