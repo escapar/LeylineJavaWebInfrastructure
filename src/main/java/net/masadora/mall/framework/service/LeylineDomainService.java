@@ -21,9 +21,9 @@ import java.util.*;
  */
 @Service
 @Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
-public abstract class LeylineDomainService<T extends LeylineRepo> {
+public abstract class LeylineDomainService<T extends LeylineRepo,E extends LeylineDO> {
     @Autowired
-    protected T dao;
+    protected T repo;
 
     @Autowired
     protected LeylineUserDetailsService userDetailsService;
@@ -44,9 +44,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
         return resultList;
     }
 
-    public LeylineDO save(LeylineDO entity) throws PersistenceException {
+    public E save(E entity) throws PersistenceException {
         try {
-            return (LeylineDO) dao.save(entity);
+            return (E) repo.save(entity);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("InsertFailed");
@@ -54,9 +54,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public List<LeylineDO> save(Collection<LeylineDO> entities) throws PersistenceException {
+    public List<E> save(Collection<E> entities) throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.save(entities);
+            return (List<E>) repo.save(entities);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("InsertFailed");
@@ -64,9 +64,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public boolean delete(Collection<LeylineDO> entities) throws PersistenceException {
+    public boolean delete(Collection<E> entities) throws PersistenceException {
         try {
-            dao.delete(entities);
+            repo.delete(entities);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("DeleteFailed");
@@ -77,7 +77,7 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     @SuppressWarnings(value = "unchecked")
     public boolean delete(Long id) throws PersistenceException {
         try {
-            dao.delete(id);
+            repo.delete(id);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("DeleteFailed");
@@ -86,9 +86,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public boolean delete(LeylineDO entity) throws PersistenceException {
+    public boolean delete(E entity) throws PersistenceException {
         try {
-            dao.delete(entity);
+            repo.delete(entity);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("DeleteFailed");
@@ -98,9 +98,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public LeylineDO findOne(Long id) throws PersistenceException {
+    public E findOne(Long id) throws PersistenceException {
         try {
-            return (LeylineDO) dao.findOne(id);
+            return (E) repo.findOne(id);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -109,9 +109,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public List<LeylineDO> findAll(List<Integer> ids) throws PersistenceException {
+    public List<? extends E> findAll(List<Integer> ids) throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.findAll(ids);
+            return (List<? extends E>) repo.findAll(ids);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -120,9 +120,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public List<LeylineDO> findAll() throws PersistenceException {
+    public List<? extends E> findAll() throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.findAll();
+            return (List<? extends E>) repo.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -131,9 +131,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Page<LeylineDO> findAll(Pageable p) throws PersistenceException {
+    public Page<? extends E> findAll(Pageable p) throws PersistenceException {
         try {
-            return dao.findAll(p);
+            return repo.findAll(p);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -142,9 +142,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Page<LeylineDO> findAll(Predicate p, Pageable pageable) throws PersistenceException {
+    public Page<? extends E> findAll(Predicate p, Pageable pageable) throws PersistenceException {
         try {
-            return dao.findAll(p, pageable);
+            return repo.findAll(p, pageable);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");
@@ -153,9 +153,9 @@ public abstract class LeylineDomainService<T extends LeylineRepo> {
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public List<LeylineDO> findAll(Sort s) throws PersistenceException {
+    public List<? extends E> findAll(Sort s) throws PersistenceException {
         try {
-            return (List<LeylineDO>) dao.findAll(s);
+            return (List<? extends E>) repo.findAll(s);
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenceException("FindFailed");

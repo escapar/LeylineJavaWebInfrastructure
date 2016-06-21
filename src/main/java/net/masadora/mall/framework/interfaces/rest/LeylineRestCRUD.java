@@ -43,7 +43,7 @@ import java.util.List;
 @Component
 @EnableSpringDataWebSupport
 public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends LeylineDTO, O extends LeylineDO> implements LeylineCRUD {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
@@ -120,28 +120,28 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     }
 
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/batch", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody String json) throws IOException, PersistenceException {
         service.save(DTOAssembler.buildDOList(mapper.readValue(json, typeDTOList), typeDO));
     }
 
-    @RequestMapping(value = "/one", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void updateOne(@RequestBody D obj) throws IOException, PersistenceException {
         service.save(DTOAssembler.buildDO(obj, typeDO));
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(value = "/batch", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void insert(@RequestBody String json) throws IOException, PersistenceException {
-        service.save(DTOAssembler.buildDOList(mapper.readValue(json, typeDTOList), typeDO));
+        update(json);
     }
 
-    @RequestMapping(value = "/one", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D insertOne(@RequestBody D obj) throws PersistenceException {
@@ -164,8 +164,19 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         service.delete(id);
     }
 
+    @RequestMapping(value = "/batch", method = RequestMethod.DELETE, produces = "application/json")
+    @ResponseBody
+    @SuppressWarnings(value = "unchecked")
+    public void deleteBatch(@RequestBody List<Long> id) throws PersistenceException {
+        delete(id);
+    }
+
     public User getCurrentUser() {
         return userDetailsService.getCurrentUser();
+    }
+
+    public ObjectMapper getMapper() {
+        return mapper;
     }
 }
 

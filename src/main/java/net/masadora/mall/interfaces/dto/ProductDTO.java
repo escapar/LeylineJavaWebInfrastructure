@@ -23,20 +23,37 @@ import java.util.Set;
 @Data
 public class ProductDTO implements LeylineDTO {
 
+    @JsonView(LeylineView.LIST.class)
     private Long id;
+    @JsonView(LeylineView.LIST.class)
     private Long createdAt;
+    @JsonView(LeylineView.LIST.class)
     private Long deletedAt;
+    @JsonView(LeylineView.LIST.class)
     private String description;
+    @JsonView(LeylineView.LIST.class)
     private Long modifiedAt;
+    @JsonView(LeylineView.LIST.class)
     private String name;
+    @JsonView(LeylineView.LIST.class)
     private float price;
+    @JsonView(LeylineView.LIST.class)
     private boolean reservable;
+    @JsonView(LeylineView.LIST.class)
     private int soldCount;
+    @JsonView(LeylineView.LIST.class)
     private int stock;
+    @JsonView(LeylineView.LIST.class)
     private int weight;
+    @JsonView(LeylineView.LIST.class)
     private int vendorId;
+    @JsonView(LeylineView.LIST.class)
     private String vendorName;
+    @JsonView(LeylineView.LIST.class)
+    private boolean searchable;
+    @JsonView(LeylineView.LIST.class)
     @JsonDeserialize(contentAs=ProductImageDTO.class)
     private Set<ProductImageDTO> images;
+
 
 }

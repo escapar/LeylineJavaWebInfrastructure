@@ -33,32 +33,36 @@ public class ProductImage implements Serializable {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public ProductImage setId(Long id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getDescription() {
 		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public ProductImage setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public String getUrl() {
 		return this.url;
 	}
 
-	public void setUrl(String url) {
+	public ProductImage setUrl(String url) {
 		this.url = url;
+		return this;
 	}
 
 	public Product getProduct() {
 		return this.product;
 	}
 
-	public void setProduct(Product product) {
+	public ProductImage setProduct(Product product) {
 		this.product = product;
+		return this;
 	}
 
 }

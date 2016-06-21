@@ -37,7 +37,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
     @Autowired
-    S service;
+    public S service;
     private Class<?>[] typeArgs;
     private Class<T> classDTO;
     private Type typeDTO;
@@ -114,4 +114,6 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
     public void setPagesize(Integer pagesize) {
         this.pagesize = pagesize;
     }
+
+
 }

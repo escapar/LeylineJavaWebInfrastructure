@@ -6,10 +6,12 @@ import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.vendor.Vendor;
 import net.masadora.mall.framework.domain.LeylineDO;
 import org.joda.time.DateTime;
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.*;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class Product implements LeylineDO {
 	private Vendor vendor;
 
 	//bi-directional many-to-one association to ProductImage
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="product",cascade = CascadeType.MERGE)
 	private List<ProductImage> images;
 
 	//bi-directional many-to-one association to PropertyDetail
@@ -98,104 +100,117 @@ public class Product implements LeylineDO {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public Product setId(Long id) {
 		this.id = id;
+		return this;
 	}
 
 	public Long getCreatedAt() {
 		return this.createdAt;
 	}
 
-	public void setCreatedAt(Long createdAt) {
+	public Product setCreatedAt(Long createdAt) {
 		this.createdAt = createdAt == null ? new DateTime().getMillis() : createdAt;
+		return this;
 	}
 
 	public Long getDeletedAt() {
 		return this.deletedAt;
 	}
 
-	public void setDeletedAt(Long deletedAt) {
+	public Product setDeletedAt(Long deletedAt) {
 		this.deletedAt = deletedAt;
+		return this;
 	}
 
 	public String getDescription() {
 		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public Product setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public Long getModifiedAt() {
 		return this.modifiedAt;
 	}
 
-	public void setModifiedAt(Long modifiedAt) {
+	public Product setModifiedAt(Long modifiedAt) {
 		this.modifiedAt = modifiedAt;
+		return this;
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public Product setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public float getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(float price) {
+	public Product setPrice(float price) {
 		this.price = price;
+		return this;
 	}
 
 	public boolean getReservable() {
 		return this.reservable;
 	}
 
-	public void setReservable(boolean reservable) {
+	public Product setReservable(boolean reservable) {
 		this.reservable = reservable;
+		return this;
 	}
 
 	public int getSoldCount() {
 		return this.soldCount;
 	}
 
-	public void setSoldCount(int soldCount) {
+	public Product setSoldCount(int soldCount) {
 		this.soldCount = soldCount;
+		return this;
 	}
 
 	public int getStock() {
 		return this.stock;
 	}
 
-	public void setStock(int stock) {
+	public Product setStock(int stock) {
 		this.stock = stock;
+		return this;
 	}
 
 	public int getWeight() {
 		return this.weight;
 	}
 
-	public void setWeight(int weight) {
+	public Product setWeight(int weight) {
 		this.weight = weight;
+		return this;
 	}
 
 	public Product getRootProduct() {
 		return this.rootProduct;
 	}
 
-	public void setRootProduct(Product rootProduct) {
+	public Product setRootProduct(Product rootProduct) {
 		this.rootProduct = rootProduct;
+		return this;
 	}
 
 	public List<Product> getSubProducts() {
 		return this.subProducts;
 	}
 
-	public void setSubProducts(List<Product> subProducts) {
+	public Product setSubProducts(List<Product> subProducts) {
 		this.subProducts = subProducts;
+		return this;
 	}
 
 	public Product addSubProduct(Product subProduct) {
@@ -217,27 +232,29 @@ public class Product implements LeylineDO {
 		return this.vendor;
 	}
 
-	public void setVendor(Vendor vendor) {
+	public Product setVendor(Vendor vendor) {
 		this.vendor = vendor;
+		return this;
 	}
 
 	public List<ProductImage> getImages() {
 		return this.images;
 	}
 
-	public void setImages(List<ProductImage> images) {
+	public Product setImages(List<ProductImage> images) {
 		this.images = images;
+		return this;
 	}
 
 	public ProductImage addImage(ProductImage image) {
 		getImages().add(image);
-
+		image.setProduct(this);
 		return image;
 	}
 
 	public ProductImage removeImage(ProductImage image) {
 		getImages().remove(image);
-
+		image.setProduct(null);
 		return image;
 	}
 
@@ -245,8 +262,9 @@ public class Product implements LeylineDO {
 		return this.properties;
 	}
 
-	public void setProperties(List<PropertyDetail> properties) {
+	public Product setProperties(List<PropertyDetail> properties) {
 		this.properties = properties;
+		return this;
 	}
 
 	public PropertyDetail addProperty(PropertyDetail property) {
@@ -262,5 +280,6 @@ public class Product implements LeylineDO {
 
 		return property;
 	}
+
 
 }
