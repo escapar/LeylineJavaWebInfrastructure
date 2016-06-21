@@ -34,23 +34,27 @@ public class ProductController extends LeylinePageableController<ProductService,
     public ProductController(){
         setDtoAssembler(new ProductDTOAssembler());
     }
+
     public String list(Model model, Pageable pageable,String keyword) throws LeylineException {
         Page res = productService.search(keyword,pageable);
-        model.addAttribute("page", getDtoAssembler().buildPageDTO(res, ProductDTO.class));
-        return "product/list";
+        return list(model,res);
     }
 
     public String list(Model model, Pageable pageable,Long categoryId,String keyword) throws LeylineException {
         Page res = productService.search(keyword,categoryId,pageable);
-        model.addAttribute("page", getDtoAssembler().buildPageDTO(res, ProductDTO.class));
-        return "product/list";
+        return list(model,res);
+    }
+
+    public String list(Model model, Pageable pageable,Long categoryId) throws LeylineException {
+        Page res = productService.search(categoryId,pageable);
+        return list(model,res);
     }
 
     /**
      *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/page/0
      **/
     @RequestMapping("sort/{property}/{direction}/keyword/{keyword}/page/{page}")
-    public String listByPropertyAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws LeylineException {
+    public String listByKeywordAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws LeylineException {
         return list(model, getPageRequest(page,direction,property,pagesize),keyword);
     }
 
@@ -58,25 +62,16 @@ public class ProductController extends LeylinePageableController<ProductService,
      *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/catogory/1/page/0
      **/
     @RequestMapping("sort/{property}/{direction}/keyword/{keyword}/category/{categoryId}/page/{page}")
-    public String listByPropertyAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId,@PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws LeylineException {
-        /*MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.put("keyword", Arrays.asList(keyword));
-        parameters.put("categoryId",Arrays.asList(category));
-        Page res = doQueryDSL(getPageRequest(page,direction,property,pagesize),parameters);
-        model.addAttribute("page", DTOAssembler.buildPageDTO(res, ProductDTO.class));*/
+    public String listByKeywordAndCategoryAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId,@PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws LeylineException {
         return list(model, getPageRequest(page,direction,property,pagesize),categoryId,keyword);
     }
 
-    public PageRequest getPageRequest(Integer page,String direction, String property, Integer pagesize) throws LeylineException {
-        Sort.Direction d = Sort.Direction.DESC;
-        Pageable pReal;
-        if (direction != null && !direction.isEmpty() && direction.toUpperCase().equals("ASC")) {
-            d = Sort.Direction.ASC;
-        }
-        if(pagesize == null){
-            pagesize = getPagesize();
-        }
-        return new PageRequest(page, pagesize, d, property.split(","));
+    /**
+     *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/catogory/1/page/0
+     **/
+    @RequestMapping("sort/{property}/{direction}/category/{categoryId}/page/{page}")
+    public String listByKeywordAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId,@PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws LeylineException {
+        return list(model, getPageRequest(page,direction,property,pagesize),categoryId);
     }
 }
 

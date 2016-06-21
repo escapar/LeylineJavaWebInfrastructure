@@ -64,6 +64,11 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
         return dtoAssembler.buildPageDTO(res, typeDTO);
     }
 
+    public String list(Model model, Page page) throws LeylineException {
+        model.addAttribute("page",page);
+        return modelName.concat("/list");
+    }
+
     public String list(Model model, Pageable pageable) throws LeylineException {
         Page res = service.findAll(pageable);
         model.addAttribute("page", dtoAssembler.buildPageDTO(res, typeDTO));
@@ -80,16 +85,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
 
     @RequestMapping("/page/{page}")
     public String list(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @RequestParam(required = false, defaultValue = "id") String properties, @RequestParam(required = false) Integer pagesize) throws LeylineException {
-        Sort.Direction d = Sort.Direction.DESC;
-        Pageable pReal;
-        if (direction != null && !direction.isEmpty() && direction.toUpperCase().equals("ASC")) {
-            d = Sort.Direction.ASC;
-        }
-        if (pagesize == null || pagesize <= 0) {
-            pagesize = this.pagesize;
-        }
-        pReal = new PageRequest(page, pagesize, d, properties.split(","));
-        return list(model, pReal);
+        return list(model, getPageRequest(page,direction,properties,pagesize));
     }
 
     @RequestMapping("sort/{property}/page/{page}")
@@ -99,13 +95,24 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
 
     @RequestMapping("sort/{property}/{direction}/page/{page}")
     public String listByPropertyAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @RequestParam(required = false) Integer pagesize) throws LeylineException {
-        return listByProperty(model, page, direction, property, pagesize);
+        return list(model, page, direction, property, pagesize);
     }
 
     @RequestMapping("/detail_{id}")
     public String list(Model model, @PathVariable Long id) throws LeylineException {
         model.addAttribute("res", dtoAssembler.buildDTO(service.findOne(id), typeDTO));
         return modelName.concat("/detail");
+    }
+
+    public PageRequest getPageRequest(Integer page,String direction, String property, Integer pagesize) throws LeylineException {
+        Sort.Direction d = Sort.Direction.DESC;
+        if (direction != null && !direction.isEmpty() && direction.toUpperCase().equals("ASC")) {
+            d = Sort.Direction.ASC;
+        }
+        if(pagesize == null){
+            pagesize = getPagesize();
+        }
+        return new PageRequest(page, pagesize, d, property.split(","));
     }
 
     public Integer getPagesize() {

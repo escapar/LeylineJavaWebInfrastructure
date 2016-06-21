@@ -25,7 +25,10 @@ public interface ProductRepo extends LeylineRepo<Product>,QuerydslBinderCustomiz
     @QueryHints(value = { @QueryHint(name = "org.hibernate.cacheable", value = "true")})
     Page<Product> findByNameLikeAndCategories_IdAndRootProductIsNull(String name,Long categoryId,Pageable p);
 
-    @Override
+    @QueryHints(value = { @QueryHint(name = "org.hibernate.cacheable", value = "true")})
+    Page<Product> findByCategories_IdAndRootProductIsNull(Long categoryId,Pageable p);
+
+    @Override //TODO: 这个还没测试!
     default void customize(QuerydslBindings bindings, QProduct product) {
 
         bindings.bind(product.name).first((path, value) -> path.contains(value));

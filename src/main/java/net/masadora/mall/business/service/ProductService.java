@@ -64,6 +64,10 @@ public class ProductService extends LeylineDomainService<ProductRepo,Product> {
         }
     }
 
+    public Page<Product> search(Long categoryId, Pageable p){
+        return productRepo.findByCategories_IdAndRootProductIsNull(categoryId,p);
+    }
+
     public Page<Product> search(String keyword, Pageable p){
         return productRepo.findByNameLikeAndRootProductIsNull("%"+keyword+"%",p);
     }
