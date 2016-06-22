@@ -74,7 +74,7 @@ public class APICodeGen {
                                 ImmutableMap.of(
                                         e.getName(),
                                         ImmutableMap.<String, Object>builder()
-                                                .put("produces", processTypeString(e.getReturnType().getName().replace("LeylineDTO", processControllerDTO(controller))))
+                                                .put("produces", processTypeString(e.getReturnType().getName().replace("AppDTO", processControllerDTO(controller))))
                                                 .put("params", processParameterAnnotations(e.getParameters()))
                                                 .put("req", processDeclaredAnnotations(e.getDeclaredAnnotations(), entryURL))
                                                 .build()
