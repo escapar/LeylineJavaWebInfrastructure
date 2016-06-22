@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,16 +82,29 @@ public class ProductService extends LeylineDomainService<ProductRepo,Product> {
         }
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<Product> search(Long categoryId, Pageable p){
         return productRepo.findByCategories_IdAndRootProductIsNull(categoryId,p);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<Product> search(String keyword, Pageable p){
         return productRepo.findByNameLikeAndRootProductIsNull("%"+keyword+"%",p);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<Product> search(String keyword, Long categoryId , Pageable p){
         return productRepo.findByNameLikeAndCategories_IdAndRootProductIsNull("%"+keyword+"%",categoryId,p);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    public Page<Product> filter(String keyword, List<Long> propertyIds , Pageable p){
+        return productRepo.findByNameLikeAndProperties_IdInAndRootProductIsNull("%"+keyword+"%",propertyIds,p);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    public Page<Product> filter(List<Long> propertyIds , Pageable p){
+        return productRepo.findByProperties_IdInAndRootProductIsNull(propertyIds,p);
     }
 
 }
