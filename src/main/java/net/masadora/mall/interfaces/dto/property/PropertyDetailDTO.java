@@ -10,9 +10,9 @@ import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
 public class PropertyDetailDTO implements LeylineDTO {
     private Long id;
 
-    private Long propertyId;
+    //private Long propertyId;
 
-    private String propertyName;
+    //private String propertyName;
 
     private String value;
 }

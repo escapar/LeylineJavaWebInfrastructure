@@ -1,5 +1,6 @@
 package net.masadora.mall.interfaces.vc.product;
 
+import net.masadora.mall.business.service.PropertyService;
 import net.masadora.mall.framework.infrastructure.common.exceptions.LeylineException;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
 import net.masadora.mall.framework.interfaces.vc.LeylinePageableController;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -32,6 +34,8 @@ import java.util.stream.Collectors;
 public class ProductController extends LeylinePageableController<ProductService, ProductDTO> {
     @Autowired
     ProductService productService;
+    @Autowired
+    PropertyService propertyService;
 
     public ProductController(){
         setDtoAssembler(new ProductDTOAssembler());
@@ -59,6 +63,8 @@ public class ProductController extends LeylinePageableController<ProductService,
         Page res = productService.search(categoryId,pageable);
         return list(model,res);
     }
+
+
 
     /**
      *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/page/0
@@ -99,5 +105,11 @@ public class ProductController extends LeylinePageableController<ProductService,
     public String listByProductPropertiesAndKeyword(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws LeylineException {
         return filterThenList(model, getPageRequest(page,direction,property,pagesize),productProperties,keyword);
     }
+/*
+    @RequestMapping("category/{categoryId}")
+    public String filterTest(Model model, @PathVariable Long categoryId) throws LeylineException {
+        Map m = propertyService.getPropertyDetailForPropertyFilter(categoryId);
+        return "product/list";
+    }*/
 }
 
