@@ -32,14 +32,14 @@ public class ProductService extends LeylineDomainService<ProductRepo,Product> {
     @Override
     public Product save(Product entity) throws PersistenceException {
         try {
-            entity.setImages(
+          /*  entity.setImages(
                     entity.getImages().parallelStream().map(
                             i-> i.setProduct(entity))
                             .collect(Collectors.toList()));
             entity.setProperties(
                     entity.getProperties().parallelStream().map(
                             i-> i.setProduct(entity))
-                            .collect(Collectors.toList()));
+                            .collect(Collectors.toList()));*/
 
 
             return repo.save(entity);

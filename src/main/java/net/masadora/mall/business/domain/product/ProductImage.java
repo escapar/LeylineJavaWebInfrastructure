@@ -22,9 +22,6 @@ public class ProductImage implements Serializable {
 
 	private String url;
 
-	//bi-directional many-to-one association to Product
-	@ManyToOne
-	private Product product;
 
 	public ProductImage() {
 	}
@@ -56,13 +53,5 @@ public class ProductImage implements Serializable {
 		return this;
 	}
 
-	public Product getProduct() {
-		return this.product;
-	}
-
-	public ProductImage setProduct(Product product) {
-		this.product = product;
-		return this;
-	}
 
 }

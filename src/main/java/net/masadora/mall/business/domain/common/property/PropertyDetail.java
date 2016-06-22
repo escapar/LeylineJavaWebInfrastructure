@@ -24,13 +24,11 @@ public class PropertyDetail implements LeylineDO {
 
 	private String value;
 
-	//bi-directional many-to-one association to Product
-	@ManyToOne
-	private Product product;
-
 	//uni-directional many-to-one association to Property
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Property property;
+
+	private Boolean display;
 
 	public PropertyDetail() {
 	}
@@ -53,14 +51,6 @@ public class PropertyDetail implements LeylineDO {
 		return this;
 	}
 
-	public Product getProduct() {
-		return this.product;
-	}
-
-	public PropertyDetail setProduct(Product product) {
-		this.product = product;
-		return this;
-	}
 
 	public Property getProperty() {
 		return this.property;
@@ -71,4 +61,11 @@ public class PropertyDetail implements LeylineDO {
 		return this;
 	}
 
+	public Boolean getDisplay() {
+		return display;
+	}
+
+	public void setDisplay(Boolean display) {
+		this.display = display;
+	}
 }

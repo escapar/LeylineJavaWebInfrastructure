@@ -23,8 +23,7 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
     public Authentication getAuthentication(HttpServletRequest request){
         User user;
         if(request.getSession().getAttribute("user")!=null) {
-            user = (User)request.getSession().getAttribute("user");
-            return new UserAuthentication(user);
+            return (User)request.getSession().getAttribute("user");
         }else {
             Cookie cookie = CookieUtil.getCookieByName(request);
             if (cookie != null) {
@@ -33,7 +32,7 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
                     user = getUserService().getUserByCookieValue(cookieValue);
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
-                        return new UserAuthentication(user);
+                        return user;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

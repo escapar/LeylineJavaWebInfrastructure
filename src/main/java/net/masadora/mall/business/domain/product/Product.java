@@ -69,13 +69,9 @@ public class Product implements LeylineDO {
 	private Vendor vendor;
 
 	//bi-directional many-to-one association to ProductImage
-	@OneToMany(mappedBy="product",cascade = CascadeType.MERGE)
+	@OneToMany(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "PRODUCT_ID")
 	private List<ProductImage> images;
-
-	//bi-directional many-to-one association to PropertyDetail
-	@OneToMany(mappedBy="product",cascade = CascadeType.MERGE)
-	private List<PropertyDetail> properties;
-
 
 	//uni-directional many-to-many association to Category
 	@ManyToMany
@@ -89,6 +85,19 @@ public class Product implements LeylineDO {
 			}
 		)
 	private List<Category> categories;
+
+	//uni-directional many-to-many association to Category
+	@ManyToMany
+	@JoinTable(
+			name="mall_m2m_property_detail_2_product"
+			, joinColumns={
+			@JoinColumn(name="PRODUCT_ID")
+	}
+			, inverseJoinColumns={
+			@JoinColumn(name="PROPERTY_DETAIL_ID")
+	}
+	)
+	private List<PropertyDetail> properties;
 
 	public Product() {
 		if(createdAt == null){
@@ -248,13 +257,13 @@ public class Product implements LeylineDO {
 
 	public ProductImage addImage(ProductImage image) {
 		getImages().add(image);
-		image.setProduct(this);
+	//	image.setProduct(this);
 		return image;
 	}
 
 	public ProductImage removeImage(ProductImage image) {
 		getImages().remove(image);
-		image.setProduct(null);
+	//	image.setProduct(null);
 		return image;
 	}
 
@@ -269,14 +278,14 @@ public class Product implements LeylineDO {
 
 	public PropertyDetail addProperty(PropertyDetail property) {
 		getProperties().add(property);
-		property.setProduct(this);
+	//	property.setProduct(this);
 
 		return property;
 	}
 
 	public PropertyDetail removeProperty(PropertyDetail property) {
 		getProperties().remove(property);
-		property.setProduct(null);
+	//	property.setProduct(null);
 
 		return property;
 	}

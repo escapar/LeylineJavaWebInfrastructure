@@ -26,8 +26,8 @@ public class Property implements LeylineDO {
 
 	private String name;
 
-	@ManyToOne
-	private PropertyGroup group;
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Category category;
 
 	public Property() {
 	}
@@ -48,11 +48,11 @@ public class Property implements LeylineDO {
 		this.name = name;
 	}
 
-	public PropertyGroup getGroup() {
-		return group;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setGroup(PropertyGroup group) {
-		this.group = group;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

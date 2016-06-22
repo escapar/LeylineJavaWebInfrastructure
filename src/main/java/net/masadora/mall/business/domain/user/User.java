@@ -59,6 +59,9 @@ public class User implements LeylineUser{
 
     private Integer status;
 
+    @Transient
+    private boolean authenticated = true;
+
     public User() {
     }
 
@@ -137,6 +140,31 @@ public class User implements LeylineUser{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthUtil.getRole(role.getId());
+    }
+
+    @Override
+    public Object getCredentials() {
+        return password;
+    }
+
+    @Override
+    public User getDetails() {
+        return this;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return name;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    @Override
+    public void setAuthenticated(boolean b) throws IllegalArgumentException {
+        authenticated = b;
     }
 
     public String getPassword() {
