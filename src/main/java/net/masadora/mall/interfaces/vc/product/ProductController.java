@@ -1,5 +1,6 @@
 package net.masadora.mall.interfaces.vc.product;
 
+import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.service.PropertyService;
 import net.masadora.mall.framework.infrastructure.common.exceptions.LeylineException;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("product")
-public class ProductController extends LeylinePageableController<ProductService, ProductDTO> {
+public class ProductController extends LeylinePageableController<ProductService, Product,ProductDTO> {
     @Autowired
     ProductService productService;
     @Autowired

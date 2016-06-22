@@ -34,8 +34,8 @@ public class PropertyService extends LeylineDomainService<PropertyDetailRepo,Pro
         propertyRepo.findByCategoryId(categoryId).forEach(i->{
                 List r = repo.findByPropertyAndDisplayTrue(i);
                 if(r.size()>0) resMap.put(i.getName(),
-                        new DTOAssembler<PropertyDetail,PropertyDetailDTO>().buildDTOList(
-                                repo.findByPropertyAndDisplayTrue(i),PropertyDetailDTO.class));
+                        new DTOAssembler<PropertyDetail,PropertyDetailDTO>(PropertyDetail.class,PropertyDetailDTO.class).buildDTOList(
+                                repo.findByPropertyAndDisplayTrue(i)));
             }
         );
         return resMap;

@@ -2,6 +2,7 @@ package net.masadora.mall.framework.interfaces.dto.assembler;
 
 import net.masadora.mall.framework.domain.LeylineDO;
 import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
+import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
@@ -17,40 +18,53 @@ import java.util.stream.Collectors;
  */
 public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
     public ModelMapper m = new ModelMapper();
-
-
-    public DTO buildDTO(DO d, Type dtoT) {
-        return m.map(d, dtoT);
+    Type typeDO;
+    Type typeDTO;
+    public DTOAssembler() {
+        Class<?>[] typeArgs=TypeResolver.resolveRawArguments(DTOAssembler.class, getClass());
+        typeDO=getType(typeArgs[0]);
+        typeDTO=getType(typeArgs[1]);
     }
 
-    public DO buildDO(DTO d, Type dtoT) {
-        return m.map(d, dtoT);
+    public DTOAssembler(Type DO , Type DTO) {
+        typeDO = DO;
+        typeDTO = DTO;
     }
 
-    public List buildDOList(List<? extends LeylineDTO> d, Type doT) {
-        return d.stream().map(e -> m.map(e, doT)).collect(Collectors.toList());
+    public DTOAssembler(Class<?> DO , Class<?> DTO) {
+        typeDO = getType(DO);
+        typeDTO = getType(DTO);
     }
 
-    public List buildDTOList(List<? extends LeylineDO> d, Type dtoT) {
-        return d.stream().map(e -> m.map(e, dtoT)).collect(Collectors.toList());
+    public DTO buildDTO(DO d) {
+        return m.map(d, typeDTO);
+    }
+
+    public DO buildDO(DTO d) {
+        return m.map(d, typeDO);
+    }
+
+    public List buildDOList(List<DTO> d) {
+        return d.stream().map(e -> buildDO(e)).collect(Collectors.toList());
+    }
+
+    public List buildDTOList(List<DO> d) {
+        return d.stream().map(e -> buildDTO(e)).collect(Collectors.toList());
     }
 
 
-    public Page buildPageDTO(Page p, Type d) {
-        return p.map(new DO2DTOConverter().setT(d));
+    public Page buildPageDTO(Page p) {
+        return p.map(new DO2DTOConverter());
     }
 
     private class DO2DTOConverter implements Converter<DO, DTO> {
-        Type t;
-
         public DTO convert(DO d) {
-            return buildDTO(d, t);
+            return buildDTO(d);
         }
+    }
 
-        public DO2DTOConverter setT(Type t) {
-            this.t = t;
-            return this;
-        }
+    private static Type getType(Class c){
+        return com.google.common.reflect.TypeToken.of(c).getType();
     }
 
 }

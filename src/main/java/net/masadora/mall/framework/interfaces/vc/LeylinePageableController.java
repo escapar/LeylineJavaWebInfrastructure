@@ -2,6 +2,7 @@ package net.masadora.mall.framework.interfaces.vc;
 
 import com.google.common.reflect.TypeToken;
 import com.mysema.query.types.Predicate;
+import net.masadora.mall.framework.domain.LeylineDO;
 import net.masadora.mall.framework.infrastructure.common.exceptions.LeylineException;
 import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
 import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
@@ -33,25 +34,30 @@ import java.lang.reflect.Type;
  * Created by POJO on 6/7/16.
  */
 @Controller
-public abstract class LeylinePageableController<S extends LeylineDomainService, T extends LeylineDTO> {
+public abstract class LeylinePageableController<S extends LeylineDomainService, DO extends LeylineDO,T extends LeylineDTO> {
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
     @Autowired
     public S service;
     private Class<?>[] typeArgs;
+    private Class<T> classDO;
     private Class<T> classDTO;
+    private Type typeDO;
     private Type typeDTO;
     private Integer pagesize = 20;
     private String modelName;
-    private DTOAssembler dtoAssembler = new DTOAssembler();
+    public DTOAssembler<DO,T> dtoAssembler;
 
     @SuppressWarnings(value = "unchecked")
     public LeylinePageableController() {
         typeArgs = TypeResolver.resolveRawArguments(LeylinePageableController.class, getClass());
-        classDTO = (Class<T>) typeArgs[1];
+        classDO = (Class<T>) typeArgs[1];
+        classDTO = (Class<T>) typeArgs[2];
         this.typeDTO = TypeToken.of(classDTO).getType();
+        this.typeDO = TypeToken.of(classDTO).getType();
         String[] nameOfDTO = typeDTO.getTypeName().split("\\.");
         modelName = nameOfDTO[nameOfDTO.length - 1].toLowerCase().replace("dto", "");
+        setDtoAssembler(new DTOAssembler(typeDO,typeDTO));
     }
 
     public Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException {
@@ -61,7 +67,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
         Predicate predicate = predicateBuilder.getPredicate(domainType, parameters, bindings);
 
         Page res = service.findAll(predicate, p);
-        return dtoAssembler.buildPageDTO(res, typeDTO);
+        return dtoAssembler.buildPageDTO(res);
     }
 
     public String list(Model model, Page page) throws LeylineException {
@@ -71,7 +77,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
 
     public String list(Model model, Pageable pageable) throws LeylineException {
         Page res = service.findAll(pageable);
-        model.addAttribute("page", dtoAssembler.buildPageDTO(res, typeDTO));
+        model.addAttribute("page", dtoAssembler.buildPageDTO(res));
         return modelName.concat("/list");
     }
 
@@ -100,7 +106,7 @@ public abstract class LeylinePageableController<S extends LeylineDomainService, 
 
     @RequestMapping("/detail_{id}")
     public String list(Model model, @PathVariable Long id) throws LeylineException {
-        model.addAttribute("res", dtoAssembler.buildDTO(service.findOne(id), typeDTO));
+        model.addAttribute("res", dtoAssembler.buildDTO((DO)service.findOne(id)));
         return modelName.concat("/detail");
     }
 

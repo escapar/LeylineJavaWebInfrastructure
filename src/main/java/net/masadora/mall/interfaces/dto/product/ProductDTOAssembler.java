@@ -22,7 +22,7 @@ public class ProductDTOAssembler extends DTOAssembler<Product,ProductDTO>{
     public ModelMapper m = new ModelMapper();
 
     @Override
-    public Product buildDO(ProductDTO d, Type dtoT) {
+    public Product buildDO(ProductDTO d) {
         Product res = m.map(d, Product.class);
         Type categoryListType = new TypeToken<List<Category>>() {}.getType();
         Type propertyListType = new TypeToken<List<PropertyDetail>>() {}.getType();

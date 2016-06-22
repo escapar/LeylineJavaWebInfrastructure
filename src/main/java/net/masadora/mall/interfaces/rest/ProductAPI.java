@@ -37,8 +37,8 @@ public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Prod
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody ProductUpdateDTO dto) throws IOException, PersistenceException {
         productService.saveBatchAdmin(
-                dtoAssembler.buildDO(dto.getRoot(),Product.class),
-                dtoAssembler.buildDOList(dto.getOthers(),Product.class));
+                dtoAssembler.buildDO(dto.getRoot()),
+                dtoAssembler.buildDOList(dto.getOthers()));
     }
 
     @RequestMapping(value = "/filter/{catId}", method = RequestMethod.GET, produces = "application/json")

@@ -73,7 +73,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         this.typeDO = TypeToken.of(classDO).getType();
         typeDTOList = mapper.getTypeFactory().constructCollectionType(List.class, classDTO);
         typeDOList = mapper.getTypeFactory().constructCollectionType(List.class, classDO);
-        setDTOAssembler(new DTOAssembler());
+        setDTOAssembler(new DTOAssembler<>(typeDO,typeDTO));
     }
 
     private Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException {
@@ -83,7 +83,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         Predicate predicate = predicateBuilder.getPredicate(domainType, parameters, bindings);
 
         Page res = service.findAll(predicate, p);
-        return dtoAssembler.buildPageDTO(res, typeDTO);
+        return dtoAssembler.buildPageDTO(res);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
@@ -92,7 +92,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @SuppressWarnings(value = "unchecked")
     public PageJSON<D> list(Pageable p) throws PersistenceException {
         Page res = service.findAll(p);
-        res = dtoAssembler.buildPageDTO(res, typeDTO);
+        res = dtoAssembler.buildPageDTO(res);
         return new PageJSON<>(res, p);
     }
 
@@ -117,7 +117,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {
-        return (D) dtoAssembler.buildDTO((O)service.findOne(id), typeDTO);
+        return (D) dtoAssembler.buildDTO((O)service.findOne(id));
     }
 
 
@@ -125,14 +125,14 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody String json) throws IOException, PersistenceException {
-        service.save(dtoAssembler.buildDOList(mapper.readValue(json, typeDTOList), typeDO));
+        service.save(dtoAssembler.buildDOList(mapper.readValue(json, typeDTOList)));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json",produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void updateOne(@RequestBody D obj) throws IOException, PersistenceException {
-        service.save(dtoAssembler.buildDO(obj, typeDO));
+        service.save(dtoAssembler.buildDO(obj));
     }
 
     @RequestMapping(value = "/batch", method = RequestMethod.PUT, produces = "application/json")
@@ -148,7 +148,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     public D insertOne(@RequestBody D obj) throws PersistenceException {
         ModelMapper mm = new ModelMapper();
         mm.getConfiguration().setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
-        return mm.map(service.save(dtoAssembler.buildDO(obj, typeDO)), typeDTO);
+        return mm.map(service.save(dtoAssembler.buildDO(obj)), typeDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
@@ -176,7 +176,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
         return userDetailsService.getCurrentUser();
     }
 
-    public void setDTOAssembler(DTOAssembler dtoAssembler) {
+    public void setDTOAssembler(DTOAssembler<O,D> dtoAssembler) {
         this.dtoAssembler = dtoAssembler;
     }
 
