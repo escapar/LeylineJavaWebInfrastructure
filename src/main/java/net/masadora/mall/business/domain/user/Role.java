@@ -1,7 +1,7 @@
 package net.masadora.mall.business.domain.user;
 
 import lombok.Data;
-import net.masadora.mall.framework.domain.LeylineDO;
+import net.masadora.mall.framework.domain.AppDO;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Cacheable
 @Table(name="s_role")
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
-public class Role implements LeylineDO{
+public class Role implements AppDO {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;

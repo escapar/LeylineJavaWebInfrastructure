@@ -1,6 +1,6 @@
 package net.masadora.mall.framework;
 
-import net.masadora.mall.framework.interfaces.vc.LeylineErrorController;
+import net.masadora.mall.framework.interfaces.vc.AppErrorController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 /**
- * Created by bytenoob on 6/9/16.
+ * 一些和业务无关的最底层配置
  */
 
 @EnableSpringDataWebSupport
@@ -24,11 +24,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
         JmxAutoConfiguration.class,
         WebSocketAutoConfiguration.class,
         ActiveMQAutoConfiguration.class,
-        LeylineErrorController.class
+        AppErrorController.class
 })
 @EntityScan("net.masaadora.mall.framework.domain")
 @ComponentScan(basePackages = {"net.masadora.mall.framework.domain","net.masadora.mall.framework.infrastructure"})
 
-public abstract class LeylineApp {
+public abstract class FrameworkApp {
 
 }

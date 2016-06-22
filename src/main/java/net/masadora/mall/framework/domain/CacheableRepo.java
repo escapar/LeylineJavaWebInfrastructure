@@ -12,9 +12,9 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import javax.persistence.QueryHint;
 
 /**
- * Created by POJO on 6/2/16.
+ * 给所有抽象Repo操作加上缓存hint
  */
-public interface LeylineRepo<T extends LeylineDO> extends PagingAndSortingRepository<T, Long>, QueryDslPredicateExecutor<T> {
+public interface CacheableRepo<T extends AppDO> extends PagingAndSortingRepository<T, Long>, QueryDslPredicateExecutor<T> {
     @Override
     @QueryHints(value = { @QueryHint(name = "org.hibernate.cacheable", value = "true")})
     Iterable<T> findAll(Predicate predicate);

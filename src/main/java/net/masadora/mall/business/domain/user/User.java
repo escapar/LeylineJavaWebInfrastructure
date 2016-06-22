@@ -3,7 +3,7 @@ package net.masadora.mall.business.domain.user;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.masadora.mall.business.infrastructure.common.AuthUtil;
-import net.masadora.mall.framework.domain.user.LeylineUser;
+import net.masadora.mall.framework.domain.user.AppUser;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ import java.util.Collection;
 @Cacheable
 @EqualsAndHashCode
 @ToString
-public class User implements LeylineUser{
+public class User implements AppUser {
     private static final long serialVersionUID = 1L;
 
     @Id

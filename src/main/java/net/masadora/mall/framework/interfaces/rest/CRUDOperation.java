@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 /**
  * Created by POJO on 5/30/16.
  */
-public interface LeylineCRUD<T> {
+public interface CRUDOperation<T> {
     void update(String t) throws Exception;
 
     void insert(String t) throws Exception;

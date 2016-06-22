@@ -1,6 +1,6 @@
 package net.masadora.mall;
 
-import net.masadora.mall.framework.LeylineApp;
+import net.masadora.mall.framework.FrameworkApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "net.masadora.mall.business.domain")
 @EnableCaching
 
-public class App extends LeylineApp {
+public class App extends FrameworkApp {
 
 
     public static void main(String[] args) {

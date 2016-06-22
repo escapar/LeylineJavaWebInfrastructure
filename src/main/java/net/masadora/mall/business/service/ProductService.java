@@ -3,7 +3,7 @@ package net.masadora.mall.business.service;
 import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.domain.product.ProductRepo;
 import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
-import net.masadora.mall.framework.service.LeylineDomainService;
+import net.masadora.mall.framework.service.TransactionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by POJO on 6/3/16.
  */
 @Service
-public class ProductService extends LeylineDomainService<ProductRepo,Product> {
+public class ProductService extends TransactionalService<ProductRepo,Product> {
 
     @Autowired
     ProductRepo productRepo;

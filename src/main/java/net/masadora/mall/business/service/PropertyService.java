@@ -6,7 +6,7 @@ import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.common.property.PropertyDetailRepo;
 import net.masadora.mall.business.domain.common.property.PropertyRepo;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
-import net.masadora.mall.framework.service.LeylineDomainService;
+import net.masadora.mall.framework.service.TransactionalService;
 import net.masadora.mall.interfaces.dto.property.PropertyDetailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class PropertyService extends LeylineDomainService<PropertyDetailRepo,Property> {
+public class PropertyService extends TransactionalService<PropertyDetailRepo,Property> {
     @Autowired
     PropertyRepo propertyRepo;
     DTOAssembler<PropertyDetail, PropertyDetailDTO> assembler =  new DTOAssembler<>(PropertyDetail.class, PropertyDetailDTO.class);

@@ -1,8 +1,8 @@
 package net.masadora.mall.framework.service;
 
 import com.mysema.query.types.Predicate;
-import net.masadora.mall.framework.domain.LeylineDO;
-import net.masadora.mall.framework.domain.LeylineRepo;
+import net.masadora.mall.framework.domain.AppDO;
+import net.masadora.mall.framework.domain.CacheableRepo;
 import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,12 +21,12 @@ import java.util.*;
  */
 @Service
 @Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
-public abstract class LeylineDomainService<T extends LeylineRepo,E extends LeylineDO> {
+public abstract class TransactionalService<T extends CacheableRepo,E extends AppDO> {
     @Autowired
     protected T repo;
 
     @Autowired
-    protected LeylineUserDetailsService userDetailsService;
+    protected MasadoraUserDetailsService userDetailsService;
 
     @SuppressWarnings(value = "unchecked")
     protected static List<Map<String, Object>> resMap(String[] params, Iterable res) {

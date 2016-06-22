@@ -4,7 +4,7 @@ import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.service.ProductService;
 import net.masadora.mall.business.service.PropertyService;
 import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
-import net.masadora.mall.framework.interfaces.rest.LeylineRestCRUD;
+import net.masadora.mall.framework.interfaces.rest.RestCRUD;
 import net.masadora.mall.interfaces.dto.product.ProductDTO;
 import net.masadora.mall.interfaces.dto.product.ProductDTOAssembler;
 import net.masadora.mall.interfaces.dto.product.ProductUpdateDTO;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by POJO on 6/4/16.
@@ -20,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "api/product")
 
-public class ProductAPI extends LeylineRestCRUD<ProductService, ProductDTO, Product> {
+public class ProductAPI extends RestCRUD<ProductService, Product, ProductDTO> {
     @Autowired
     ProductService productService;
     @Autowired

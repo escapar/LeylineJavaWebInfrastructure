@@ -1,6 +1,6 @@
 package net.masadora.mall.business.domain.common.property;
 
-import net.masadora.mall.framework.domain.LeylineRepo;
+import net.masadora.mall.framework.domain.CacheableRepo;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by POJO on 6/21/16.
  */
-public interface PropertyDetailRepo extends LeylineRepo<PropertyDetail> {
+public interface PropertyDetailRepo extends CacheableRepo<PropertyDetail> {
     List<PropertyDetail> findByPropertyAndDisplayTrue(Property p);
 
    // @Query("from PropertyDetail pd where pd.property.category.id = ?1 group by pd.property.id"

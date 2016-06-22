@@ -3,7 +3,7 @@ package net.masadora.mall.framework.interfaces.vc;
 import java.util.Map;
 
 /**
- * Created by bytenoob on 6/17/16.
+ * 错误信息类
  */
 public class ErrorBrief {
 

@@ -1,7 +1,7 @@
 package net.masadora.mall.framework.infrastructure.security;
 
 import net.masadora.mall.business.infrastructure.common.AuthUtil;
-import net.masadora.mall.framework.service.LeylineUserDetailsService;
+import net.masadora.mall.framework.service.MasadoraUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by POJO on 6/16/16.
+ * 有状态的用户验证类,不包含具体逻辑,需要业务层implement getAuthentication
  */
-public abstract class StatefulAuthenticationFilter<T extends LeylineUserDetailsService> extends OncePerRequestFilter {
+public abstract class StatefulAuthenticationFilter<T extends MasadoraUserDetailsService> extends OncePerRequestFilter {
     private T userService;
 
     @Override

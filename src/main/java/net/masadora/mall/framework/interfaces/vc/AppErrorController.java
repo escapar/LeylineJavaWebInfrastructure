@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Created by POJO on 6/16/16.
+ * 拦截并处理错误信息,需要在业务层implement
  */
 
-public abstract class LeylineErrorController implements ErrorController {
+public abstract class AppErrorController implements ErrorController {
 
     private static final String PATH = "/error";
 

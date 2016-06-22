@@ -3,7 +3,7 @@ package net.masadora.mall.business.domain.product;
 import net.masadora.mall.business.domain.common.category.Category;
 import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.vendor.Vendor;
-import net.masadora.mall.framework.domain.LeylineDO;
+import net.masadora.mall.framework.domain.AppDO;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name="mall_d_product")
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
-public class Product implements LeylineDO {
+public class Product implements AppDO {
 	private static final long serialVersionUID = 1L;
 
 	@Id

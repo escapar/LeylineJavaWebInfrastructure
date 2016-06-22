@@ -5,14 +5,14 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.mysema.query.types.Predicate;
-import net.masadora.mall.framework.domain.LeylineDO;
+import net.masadora.mall.framework.domain.AppDO;
 import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
-import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
+import net.masadora.mall.framework.interfaces.dto.AppDTO;
 import net.masadora.mall.framework.interfaces.dto.PageJSON;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
-import net.masadora.mall.framework.interfaces.view.LeylineView;
-import net.masadora.mall.framework.service.LeylineDomainService;
-import net.masadora.mall.framework.service.LeylineUserDetailsService;
+import net.masadora.mall.framework.interfaces.view.AppView;
+import net.masadora.mall.framework.service.TransactionalService;
+import net.masadora.mall.framework.service.MasadoraUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -37,11 +37,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Created by POJO on 5/30/16.
+ * 分页增删改查Restful API控制器抽象类,自动完成DO->DTO的Mapping
+ * 包含了分页排序的基础功能
+ * Mapping可以通过替换Assembler来自定义
  */
 @Component
 @EnableSpringDataWebSupport
-public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends LeylineDTO, O extends LeylineDO> implements LeylineCRUD {
+public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, D extends AppDTO> implements CRUDOperation {
     private ObjectMapper mapper = new ObjectMapper();
     public DTOAssembler<O,D> dtoAssembler;
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
@@ -59,14 +61,14 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     protected T service;
 
     @Autowired
-    protected LeylineUserDetailsService userDetailsService;
+    protected MasadoraUserDetailsService userDetailsService;
 
     @SuppressWarnings(value = "unchecked")
-    public LeylineRestCRUD() {
-        typeArgs = TypeResolver.resolveRawArguments(LeylineRestCRUD.class, getClass());
+    public RestCRUD() {
+        typeArgs = TypeResolver.resolveRawArguments(RestCRUD.class, getClass());
         classService = (Class<T>) typeArgs[0];
-        classDTO = (Class<D>) typeArgs[1];
-        classDO = (Class<O>) typeArgs[2];
+        classDTO = (Class<D>) typeArgs[2];
+        classDO = (Class<O>) typeArgs[1];
         this.typeService = TypeToken.of(classService).getType();
         this.typeDTO = TypeToken.of(classDTO).getType();
         this.typeDO = TypeToken.of(classDO).getType();
@@ -86,7 +88,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(LeylineView.LIST.class)
+    @JsonView(AppView.LIST.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public PageJSON<D> list(Pageable p) throws PersistenceException {
@@ -96,7 +98,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     }
 
     @SuppressWarnings(value = "unchecked")
-    @JsonView(LeylineView.LIST.class)
+    @JsonView(AppView.LIST.class)
     @RequestMapping(value = "/list/query", method = RequestMethod.GET)
     public PageJSON<D> listWithQuery(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
@@ -104,7 +106,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     }
 
     @SuppressWarnings(value = "unchecked")
-    @JsonView(LeylineView.DETAIL.class)
+    @JsonView(AppView.DETAIL.class)
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public PageJSON<D> listWithDetail(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
@@ -112,7 +114,7 @@ public abstract class LeylineRestCRUD<T extends LeylineDomainService, D extends 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(LeylineView.DETAIL.class)
+    @JsonView(AppView.DETAIL.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {

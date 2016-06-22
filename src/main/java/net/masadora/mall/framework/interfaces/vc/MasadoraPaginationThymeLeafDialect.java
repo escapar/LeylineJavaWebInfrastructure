@@ -1,4 +1,4 @@
-package net.masadora.mall.framework.infrastructure.appconfig;
+package net.masadora.mall.framework.interfaces.vc;
 
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.thymeleaf.dialect.springdata.SpringDataDialect;
  * Created by POJO on 6/8/16.
  */
 @Configuration
-public class LeylinePaginationThymeLeafDialect extends ThymeleafAutoConfiguration {
+public class MasadoraPaginationThymeLeafDialect extends ThymeleafAutoConfiguration {
     @Bean
     public SpringDataDialect springDataDialect() {
         return new SpringDataDialect();

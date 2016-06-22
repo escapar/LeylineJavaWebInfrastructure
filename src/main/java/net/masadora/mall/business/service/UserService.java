@@ -5,7 +5,7 @@ import net.masadora.mall.business.domain.user.UserRepo;
 import net.masadora.mall.business.infrastructure.common.CookieUtil;
 import net.masadora.mall.business.infrastructure.common.DESUtil;
 import net.masadora.mall.business.infrastructure.common.MasadoraProps;
-import net.masadora.mall.framework.service.LeylineUserDetailsService;
+import net.masadora.mall.framework.service.MasadoraUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * Created by POJO on 6/9/16.
  */
 @Service
-public class UserService extends LeylineUserDetailsService<UserRepo, User> {
+public class UserService extends MasadoraUserDetailsService<UserRepo, User> {
     @Autowired
     UserRepo userRepo;
 

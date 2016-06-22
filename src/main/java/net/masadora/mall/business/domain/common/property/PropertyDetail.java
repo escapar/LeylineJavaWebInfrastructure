@@ -1,6 +1,6 @@
 package net.masadora.mall.business.domain.common.property;
 
-import net.masadora.mall.framework.domain.LeylineDO;
+import net.masadora.mall.framework.domain.AppDO;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Cacheable
 @Table(name="mall_d_property_detail")
 @NamedQuery(name="PropertyDetail.findAll", query="SELECT p FROM PropertyDetail p")
-public class PropertyDetail implements LeylineDO {
+public class PropertyDetail implements AppDO {
 	private static final long serialVersionUID = 1L;
 
 	@Id

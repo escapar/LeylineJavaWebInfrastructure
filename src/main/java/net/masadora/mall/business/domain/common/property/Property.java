@@ -3,7 +3,7 @@ package net.masadora.mall.business.domain.common.property;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.masadora.mall.business.domain.common.category.Category;
-import net.masadora.mall.framework.domain.LeylineDO;
+import net.masadora.mall.framework.domain.AppDO;
 
 import javax.persistence.*;
 
@@ -18,7 +18,7 @@ import javax.persistence.*;
 @ToString
 @Table(name="mall_d_property")
 @NamedQuery(name="Property.findAll", query="SELECT p FROM Property p")
-public class Property implements LeylineDO {
+public class Property implements AppDO {
 	private static final long serialVersionUID = 1L;
 
 	@Id

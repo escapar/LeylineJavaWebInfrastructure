@@ -24,11 +24,9 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
                 return (User) request.getSession().getAttribute("user");
             }catch (Exception e){
                 e.printStackTrace();
-                return reAuth(request);
             }
-        }else {
-            return reAuth(request);
         }
+        return reAuth(request);
     }
 
     public User reAuth(HttpServletRequest request){
