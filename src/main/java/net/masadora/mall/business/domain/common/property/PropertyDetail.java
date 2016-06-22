@@ -1,9 +1,7 @@
 package net.masadora.mall.business.domain.common.property;
 
-import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.framework.domain.LeylineDO;
 
-import java.io.Serializable;
 import javax.persistence.*;
 
 

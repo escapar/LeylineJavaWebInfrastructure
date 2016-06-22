@@ -15,7 +15,6 @@ import net.masadora.mall.framework.service.LeylineDomainService;
 import net.masadora.mall.framework.service.LeylineUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
-
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;

@@ -1,11 +1,9 @@
 package net.masadora.mall.business.infrastructure.security;
 
-import net.masadora.mall.framework.infrastructure.security.LeylineWebSecurityConfiguration;
 import net.masadora.mall.business.service.UserService;
+import net.masadora.mall.framework.infrastructure.security.LeylineWebSecurityConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**

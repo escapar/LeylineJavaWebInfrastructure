@@ -1,10 +1,8 @@
 package net.masadora.mall.business.domain.product;
 
-import net.masadora.mall.business.domain.common.category.Category;
 import net.masadora.mall.framework.domain.LeylineRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;

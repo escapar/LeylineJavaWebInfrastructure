@@ -1,7 +1,7 @@
 package net.masadora.mall.business.domain.order;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 

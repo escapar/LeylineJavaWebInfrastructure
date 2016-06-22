@@ -1,7 +1,5 @@
 package net.masadora.mall.business.service;
 
-import net.masadora.mall.business.domain.common.property.PropertyDetailRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;

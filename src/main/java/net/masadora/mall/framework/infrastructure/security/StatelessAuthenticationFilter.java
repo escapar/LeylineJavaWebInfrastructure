@@ -1,14 +1,10 @@
 package net.masadora.mall.framework.infrastructure.security;
 
-import net.masadora.mall.framework.service.LeylineUserDetailsService;
-import org.jodah.typetools.TypeResolver;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.*;

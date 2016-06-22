@@ -1,15 +1,13 @@
 package net.masadora.mall.business.infrastructure.security;
 
 import net.masadora.mall.business.domain.user.User;
-import net.masadora.mall.framework.infrastructure.security.StatefulAuthenticationFilter;
-import net.masadora.mall.framework.infrastructure.security.UserAuthentication;
 import net.masadora.mall.business.infrastructure.common.CookieUtil;
 import net.masadora.mall.business.infrastructure.common.DESUtil;
 import net.masadora.mall.business.service.UserService;
+import net.masadora.mall.framework.infrastructure.security.StatefulAuthenticationFilter;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,28 +19,34 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
 
     @Override
     public Authentication getAuthentication(HttpServletRequest request){
-        User user;
         if(request.getSession().getAttribute("user")!=null) {
-            return (User)request.getSession().getAttribute("user");
+            try {
+                return (User) request.getSession().getAttribute("user");
+            }catch (Exception e){
+                e.printStackTrace();
+                return reAuth(request);
+            }
         }else {
-            Cookie cookie = CookieUtil.getCookieByName(request);
-            if (cookie != null) {
-                try {
-                    String cookieValue = DESUtil.decrypt(cookie.getValue());
-                    user = getUserService().getUserByCookieValue(cookieValue);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                        return user;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
+            return reAuth(request);
+        }
+    }
+
+    public User reAuth(HttpServletRequest request){
+        Cookie cookie = CookieUtil.getCookieByName(request);
+        if (cookie != null) {
+            try {
+                String cookieValue = DESUtil.decrypt(cookie.getValue());
+                User user = getUserService().getUserByCookieValue(cookieValue);
+                if (user != null) {
+                    request.getSession().setAttribute("user", user);
+                    return user;
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
         }
         return null;
     }
-
-
 
 }

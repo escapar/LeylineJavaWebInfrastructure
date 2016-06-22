@@ -1,10 +1,10 @@
 package net.masadora.mall.business.service;
 
+import javaslang.collection.Stream;
 import net.masadora.mall.business.domain.common.property.Property;
 import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.common.property.PropertyDetailRepo;
 import net.masadora.mall.business.domain.common.property.PropertyRepo;
-import net.masadora.mall.business.domain.product.ProductRepo;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
 import net.masadora.mall.framework.service.LeylineDomainService;
 import net.masadora.mall.interfaces.dto.property.PropertyDetailDTO;
@@ -26,18 +26,32 @@ import java.util.stream.Collectors;
 public class PropertyService extends LeylineDomainService<PropertyDetailRepo,Property> {
     @Autowired
     PropertyRepo propertyRepo;
+    DTOAssembler<PropertyDetail, PropertyDetailDTO> assembler =  new DTOAssembler<>(PropertyDetail.class, PropertyDetailDTO.class);
 
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Map<String,List<PropertyDetailDTO>> getPropertyDetailForPropertyFilter(Long categoryId){
+    @SuppressWarnings(value = "unchecked")
+    public Map<String,List<PropertyDetailDTO>> getPropertyDetailForPropertyFilter(Long categoryId,List<Long> existing){
         Map<String,List<PropertyDetailDTO>> resMap = new HashMap<>();
-
-        propertyRepo.findByCategoryId(categoryId).forEach(i->{
-                List r = repo.findByPropertyAndDisplayTrue(i);
-                if(r.size()>0) resMap.put(i.getName(),
-                        new DTOAssembler<PropertyDetail,PropertyDetailDTO>(PropertyDetail.class,PropertyDetailDTO.class).buildDTOList(
-                                repo.findByPropertyAndDisplayTrue(i)));
-            }
-        );
+        List existingProperties = findPropertyByPropertyIds(existing);
+        propertyRepo.findByCategoryId(categoryId).parallelStream().filter(i->!existingProperties.contains(i))
+                .forEach(i->{
+                    List r = repo.findByPropertyAndDisplayTrue(i);
+                    if (r.size() > 0) {
+                        resMap.put(i.getName(), assembler.buildDTOList(repo.findByPropertyAndDisplayTrue(i)));
+                    }
+                });
         return resMap;
+    }
+
+    public String findDetailsByPropertyIds(List<Long> existing) {
+        return Stream.of(existing.toArray())
+                .map(i ->assembler.buildDTO(repo.get((long)i)))
+                .map(PropertyDetailDTO::toString)
+                .reduce((i,j)->i+j);
+
+    }
+
+    public List<Property> findPropertyByPropertyIds(List<Long> existing){
+        return existing.parallelStream().map(i->repo.get(i).getProperty()).collect(Collectors.toList());
     }
 }

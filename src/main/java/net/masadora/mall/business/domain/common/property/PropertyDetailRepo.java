@@ -1,11 +1,9 @@
 package net.masadora.mall.business.domain.common.property;
 
-import net.masadora.mall.business.domain.common.category.Category;
 import net.masadora.mall.framework.domain.LeylineRepo;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by POJO on 6/21/16.

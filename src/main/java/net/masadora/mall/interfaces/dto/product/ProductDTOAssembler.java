@@ -1,15 +1,11 @@
 package net.masadora.mall.interfaces.dto.product;
 
 import net.masadora.mall.business.domain.common.category.Category;
-import net.masadora.mall.business.domain.common.property.Property;
 import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.product.Product;
-import net.masadora.mall.framework.domain.LeylineDO;
-import net.masadora.mall.framework.interfaces.dto.LeylineDTO;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.modelmapper.convention.MatchingStrategies;
 
 import java.lang.reflect.Type;
 import java.util.List;

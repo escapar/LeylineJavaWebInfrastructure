@@ -1,9 +1,9 @@
 package net.masadora.mall.business.service;
 
-import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
-import net.masadora.mall.framework.service.LeylineDomainService;
 import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.business.domain.product.ProductRepo;
+import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
+import net.masadora.mall.framework.service.LeylineDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by POJO on 6/3/16.

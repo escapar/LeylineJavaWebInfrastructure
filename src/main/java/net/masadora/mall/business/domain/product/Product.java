@@ -1,18 +1,12 @@
 package net.masadora.mall.business.domain.product;
 
 import net.masadora.mall.business.domain.common.category.Category;
-import net.masadora.mall.business.domain.common.property.Property;
 import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.vendor.Vendor;
 import net.masadora.mall.framework.domain.LeylineDO;
 import org.joda.time.DateTime;
-import org.springframework.data.annotation.*;
 
-import java.io.Serializable;
 import javax.persistence.*;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
 import java.util.List;
 
 

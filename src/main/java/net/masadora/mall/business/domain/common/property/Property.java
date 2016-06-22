@@ -1,12 +1,11 @@
 package net.masadora.mall.business.domain.common.property;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import net.masadora.mall.business.domain.common.category.Category;
-import net.masadora.mall.business.domain.product.Product;
 import net.masadora.mall.framework.domain.LeylineDO;
 
-import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -15,6 +14,8 @@ import java.util.List;
  */
 @Entity
 @Cacheable
+@EqualsAndHashCode(exclude={"category"})
+@ToString
 @Table(name="mall_d_property")
 @NamedQuery(name="Property.findAll", query="SELECT p FROM Property p")
 public class Property implements LeylineDO {
