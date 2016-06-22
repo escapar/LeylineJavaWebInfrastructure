@@ -21,6 +21,11 @@ public class ExpireableMemcachedCache extends MemcachedCache {
         super(name,client);
     }
 
+    /**
+     * Annotation的名字的#后面可以指定过期时间 如果是!话就是时间戳
+     * @param name
+     * @return
+     */
     @Override
     public Date getExpiryByName(String name){
         String ttl =

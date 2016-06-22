@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Created by POJO on 6/7/16.
+ * 商品相关后端渲染控制器
  */
 @Controller
 @RequestMapping("product")
@@ -34,83 +34,125 @@ public class ProductController extends PageableController<ProductService, Produc
         setDtoAssembler(new ProductDTOAssembler());
     }
 
-    public String list(Model model, Pageable pageable,String keyword) throws ApplicationException {
-        Page res = productService.search(keyword,pageable);
-        return list(model,res);
-    }
 
-    public String list(Model model, Pageable pageable,Long categoryId,String keyword) throws ApplicationException {
+    /**
+     * 根据类目和关键词搜索
+     * @param model
+     * @param pageable
+     * @param categoryId
+     * @param keyword
+     * @return
+     * @throws ApplicationException
+     */
+    public String listByCategoryAndKeyword(Model model, Pageable pageable, Long categoryId, String keyword) throws ApplicationException {
         Page res = productService.search(keyword,categoryId,pageable);
         return list(model,res);
     }
 
-    // 这个不应该用了！!!!
-    public String filterThenList(Model model, Pageable pageable,String productProperties,String keyword) throws ApplicationException {
-        List productPList = Arrays.asList(productProperties.split(",")).parallelStream().map(i->Long.valueOf(i)).collect(Collectors.toList());
-        Page res = keyword == null || keyword.isEmpty() ?
-                productService.filter(productPList,pageable) :
-                productService.filter(keyword,productPList,pageable);
-        return list(model,res);
-    }
-
-    public String list(Model model, Pageable pageable,Long categoryId) throws ApplicationException {
-        Page res = productService.search(categoryId,pageable);
-        return list(model,res);
-    }
-
-    public String listWithFilter(Long categoryId,String productProperties, Model model, Pageable pageable,String keyword) throws ApplicationException {
-        List productPList = Arrays.asList(productProperties.split(",")).parallelStream().map(i->Long.valueOf(i)).collect(Collectors.toList());
+    /**
+     * 带筛选器列出
+     * @param model
+     * @param pageable
+     * @param productProperties
+     * @param categoryId
+     * @param keyword
+     * @return
+     * @throws ApplicationException
+     */
+    public String listWithFilter(Model model, Pageable pageable, String productProperties,Long categoryId,String keyword) throws ApplicationException {
+        List productPList = splitPropertIdsToList(productProperties);
         model.addAttribute("filterContents", propertyService.getPropertyDetailForPropertyFilter(categoryId,productPList));
-        model.addAttribute("currentProperties", propertyService.findDetailsByPropertyIds(productPList));
-        Page res = keyword == null || keyword.isEmpty() ?
-                productService.filter(productPList,pageable) :
-                productService.filter(keyword,productPList,pageable);
+        model.addAttribute("currentProperties", propertyService.findDetailsStringByPropertyIds(productPList));
+        return listByPropertiesAndKeyword(model,pageable,productProperties,keyword);
+    }
+
+    /**
+     * 根据属性字符串和关键词搜索
+     * @param model
+     * @param pageable
+     * @param productProperties
+     * @param keyword
+     * @return
+     * @throws ApplicationException
+     */
+    public String listByPropertiesAndKeyword(Model model, Pageable pageable,String productProperties,String keyword) throws ApplicationException {
+        Page res = buildResultsFilteredByProperties(productProperties,keyword,pageable);
         return list(model,res);
     }
 
     /**
-     *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/page/0
-     **/
+     * 根据属性字符串造结果
+     * @param productProperties
+     * @param keyword
+     * @param pageable
+     * @return
+     */
+    public Page buildResultsFilteredByProperties(String productProperties,String keyword,Pageable pageable){
+        List productPList = splitPropertIdsToList(productProperties);
+        return keyword == null || keyword.isEmpty() ?
+                productService.filter(productPList,pageable) :
+                productService.filter(keyword,productPList,pageable);
+    }
+
     @RequestMapping("sort/{property}/{direction}/keyword/{keyword}/page/{page}")
     public String listByKeywordAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
-        return list(model, getPageRequest(page,direction,property,pagesize),keyword);
+        return listByCategoryAndKeyword(model, getPageRequest(page,direction,property,pagesize),null,keyword);
     }
 
-    /**
-     *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/catogory/1/page/0
-     **/
     @RequestMapping("sort/{property}/{direction}/keyword/{keyword}/category/{categoryId}/page/{page}")
     public String listByKeywordAndCategoryAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId,@PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
-        return list(model, getPageRequest(page,direction,property,pagesize),categoryId,keyword);
+        return listByCategoryAndKeyword(model, getPageRequest(page,direction,property,pagesize),categoryId,keyword);
     }
 
-    /**
-     *  EX: http://masadora.gi:9999/product/sort/name,id/asc/keyword/yo0/catogory/1/page/0
-     **/
     @RequestMapping("sort/{property}/{direction}/category/{categoryId}/page/{page}")
     public String listByKeywordAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
-        return list(model, getPageRequest(page,direction,property,pagesize),categoryId);
+        return listByCategoryAndKeyword(model, getPageRequest(page,direction,property,pagesize),categoryId,null);
     }
 
-    /**
-     *  EX: http://masadora.gi:9999/product/sort/id/asc/property/4/page/0.html
-     **/
     @RequestMapping("sort/{property}/{direction}/property/{productProperties}/page/{page}")
-    public String listByProductProperties(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties,@RequestParam(required = false) Integer pagesize) throws ApplicationException {
-        return filterThenList(model, getPageRequest(page,direction,property,pagesize),productProperties,null);
+    public String listByProductPropertiesAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties,@RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByPropertiesAndKeyword(model, getPageRequest(page,direction,property,pagesize),productProperties,null);
     }
 
-    /**
-     *  EX: http://masadora.gi:9999/product/sort/id/asc/keyword/yoo/property/4/page/0.html
-     **/
     @RequestMapping("sort/{property}/{direction}/keyword/{keyword}/property/{productProperties}/page/{page}")
-    public String listByProductPropertiesAndKeyword(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
-        return filterThenList(model, getPageRequest(page,direction,property,pagesize),productProperties,keyword);
+    public String listByProductPropertiesAndKeywordAndDirection(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByPropertiesAndKeyword(model, getPageRequest(page,direction,property,pagesize),productProperties,keyword);
     }
 
     @RequestMapping("sort/{property}/{direction}/property/{productProperties}/category/{categoryId}/page/{page}")
+    public String listByProductPropertiesAndCategoryIdAndDirection(Model model, @PathVariable Long categoryId,@PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties,@RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listWithFilter(model, getPageRequest(page,direction,property,pagesize),productProperties,categoryId,null);
+    }
+
+
+    @RequestMapping("sort/{property}/keyword/{keyword}/page/{page}")
+    public String listByKeyword(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByCategoryAndKeyword(model, getPageRequest(page,direction,property,pagesize),null,keyword);
+    }
+
+    @RequestMapping("sort/{property}/keyword/{keyword}/category/{categoryId}/page/{page}")
+    public String listByKeywordAndCategory(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId,@PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByCategoryAndKeyword(model, getPageRequest(page,direction,property,pagesize),categoryId,keyword);
+    }
+
+    @RequestMapping("sort/{property}/category/{categoryId}/page/{page}")
+    public String listByKeyword(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable Long categoryId, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByCategoryAndKeyword(model, getPageRequest(page,direction,property,pagesize),categoryId,null);
+    }
+
+    @RequestMapping("sort/{property}/property/{productProperties}/page/{page}")
+    public String listByProductProperties(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties,@RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByPropertiesAndKeyword(model, getPageRequest(page,direction,property,pagesize),productProperties,null);
+    }
+
+    @RequestMapping("sort/{property}/keyword/{keyword}/property/{productProperties}/page/{page}")
+    public String listByProductPropertiesAndKeyword(Model model, @PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties, @PathVariable String keyword, @RequestParam(required = false) Integer pagesize) throws ApplicationException {
+        return listByPropertiesAndKeyword(model, getPageRequest(page,direction,property,pagesize),productProperties,keyword);
+    }
+
+    @RequestMapping("sort/{property}/property/{productProperties}/category/{categoryId}/page/{page}")
     public String listByProductPropertiesAndCategoryId(Model model, @PathVariable Long categoryId,@PathVariable Integer page, @PathVariable String direction, @PathVariable String property, @PathVariable String productProperties,@RequestParam(required = false) Integer pagesize) throws ApplicationException {
-        return listWithFilter(categoryId,productProperties,model, getPageRequest(page,direction,property,pagesize),null);
+        return listWithFilter(model, getPageRequest(page,direction,property,pagesize),productProperties,categoryId,null);
     }
 
 }

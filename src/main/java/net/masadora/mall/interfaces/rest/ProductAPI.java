@@ -9,6 +9,7 @@ import net.masadora.mall.interfaces.dto.product.ProductDTO;
 import net.masadora.mall.interfaces.dto.product.ProductDTOAssembler;
 import net.masadora.mall.interfaces.dto.product.ProductUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,8 +30,15 @@ public class ProductAPI extends RestCRUD<ProductService, Product, ProductDTO> {
         setDTOAssembler(new ProductDTOAssembler());
     }
 
+    /**
+     * 更新一整组商品
+     * @param dto
+     * @throws IOException
+     * @throws PersistenceException
+     */
     @RequestMapping(value = "/admin/batch", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody ProductUpdateDTO dto) throws IOException, PersistenceException {
         productService.saveBatchAdmin(

@@ -19,22 +19,29 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by POJO on 6/21/16.
+ * 商品属性服务
  */
 
 @Service
 public class PropertyService extends TransactionalService<PropertyDetailRepo,Property> {
     @Autowired
     PropertyRepo propertyRepo;
+
     DTOAssembler<PropertyDetail, PropertyDetailDTO> assembler =  new DTOAssembler<>(PropertyDetail.class, PropertyDetailDTO.class);
 
+    /**
+     * 获取筛选器所需的的商品分类的排序搜索筛选用属性
+     * 第二个参数是已选的分类id
+     **/
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     @SuppressWarnings(value = "unchecked")
     public Map<String,List<PropertyDetailDTO>> getPropertyDetailForPropertyFilter(Long categoryId,List<Long> existing){
         Map<String,List<PropertyDetailDTO>> resMap = new HashMap<>();
         List existingProperties = findPropertyByPropertyIds(existing);
-        propertyRepo.findByCategoryId(categoryId).parallelStream().filter(i->!existingProperties.contains(i))
-                .forEach(i->{
+        propertyRepo.findByCategoryId(categoryId)
+                .parallelStream()
+                .filter(i->!existingProperties.contains(i)) // 过滤已经存在的
+                .forEach(i->{ //把需要显示的放进Map
                     List r = repo.findByPropertyAndDisplayTrue(i);
                     if (r.size() > 0) {
                         resMap.put(i.getName(), assembler.buildDTOList(repo.findByPropertyAndDisplayTrue(i)));
@@ -43,7 +50,11 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
         return resMap;
     }
 
-    public String findDetailsByPropertyIds(List<Long> existing) {
+    /**
+     * 已选的分类id字符串信息
+     **/
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    public String findDetailsStringByPropertyIds(List<Long> existing) {
         return Stream.of(existing.toArray())
                 .map(i ->assembler.buildDTO(repo.get((long)i)))
                 .map(PropertyDetailDTO::toString)
@@ -51,6 +62,10 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
 
     }
 
+    /**
+     * 根据已选属性id列表找对应的属性实体类
+     **/
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public List<Property> findPropertyByPropertyIds(List<Long> existing){
         return existing.parallelStream().map(i->repo.get(i).getProperty()).collect(Collectors.toList());
     }

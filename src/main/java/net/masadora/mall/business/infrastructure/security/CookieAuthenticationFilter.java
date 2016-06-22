@@ -29,6 +29,11 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
         return reAuth(request);
     }
 
+    /**
+     * 要重新验证Cookie的情况
+     * @param request
+     * @return
+     */
     public User reAuth(HttpServletRequest request){
         Cookie cookie = CookieUtil.getCookieByName(request);
         if (cookie != null) {

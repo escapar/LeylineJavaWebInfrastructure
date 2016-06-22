@@ -14,13 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by POJO on 6/3/16.
+ * 商品服务
  */
 @Service
 public class ProductService extends TransactionalService<ProductRepo,Product> {
 
-    @Autowired
-    ProductRepo productRepo;
     /*
     {
   "id": 48,
@@ -41,7 +39,7 @@ public class ProductService extends TransactionalService<ProductRepo,Product> {
   "properties":[{"value":"wow","propertyName":"doge"}]
 }
      */
-    /*
+    /* 因为双向一对多多对一不用了所以....
     @Override
     public Product save(Product entity) throws PersistenceException {
         try {
@@ -63,6 +61,10 @@ public class ProductService extends TransactionalService<ProductRepo,Product> {
         }
     }
 */
+    /**
+     * 更新一个商品组
+     * 要指定默认(根)商品和其他商品
+     */
     public List<Product> saveBatchAdmin(Product root,List<Product> others) throws PersistenceException {
         try {
             Product resRoot = save(root);
@@ -81,29 +83,65 @@ public class ProductService extends TransactionalService<ProductRepo,Product> {
         }
     }
 
+    /**
+     * 列出类目下所有商品带分页
+     * @param categoryId
+     * @param p
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Page<Product> search(Long categoryId, Pageable p){
-        return productRepo.findByCategories_IdAndRootProductIsNull(categoryId,p);
+    private Page<Product> search(Long categoryId, Pageable p){
+        return repo.findByCategories_IdAndRootProductIsNull(categoryId,p);
     }
 
+    /**
+     * 关键词搜索商品带分页
+     * @param keyword
+     * @param p
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
-    public Page<Product> search(String keyword, Pageable p){
-        return productRepo.findByNameLikeAndRootProductIsNull("%"+keyword+"%",p);
+    private Page<Product> search(String keyword, Pageable p){
+        return repo.findByNameLikeAndRootProductIsNull("%"+keyword+"%",p);
     }
 
+    /**
+     * 关键词搜索某个类目的商品带分页
+     * @param keyword
+     * @param p
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<Product> search(String keyword, Long categoryId , Pageable p){
-        return productRepo.findByNameLikeAndCategories_IdAndRootProductIsNull("%"+keyword+"%",categoryId,p);
+        if(categoryId == null){
+            return search(keyword,p);
+        }
+        if(keyword == null){
+            return search(categoryId,p);
+        }
+        return repo.findByNameLikeAndCategories_IdAndRootProductIsNull("%"+keyword+"%",categoryId,p);
     }
 
+    /**
+     * 关键词和属性id搜索某个类目的商品带分页
+     * @param keyword
+     * @param p
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<Product> filter(String keyword, List<Long> propertyIds , Pageable p){
-        return productRepo.findByNameLikeAndProperties_IdInAndRootProductIsNull("%"+keyword+"%",propertyIds,p);
+        return repo.findByNameLikeAndProperties_IdInAndRootProductIsNull("%"+keyword+"%",propertyIds,p);
     }
 
+    /**
+     * 属性id搜索某个类目的商品带分页
+     * @param propertyIds
+     * @param p
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public Page<Product> filter(List<Long> propertyIds , Pageable p){
-        return productRepo.findByProperties_IdInAndRootProductIsNull(propertyIds,p);
+        return repo.findByProperties_IdInAndRootProductIsNull(propertyIds,p);
     }
 
 }
