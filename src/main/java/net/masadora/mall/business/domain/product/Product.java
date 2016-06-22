@@ -87,7 +87,7 @@ public class Product implements LeylineDO {
 	private List<Category> categories;
 
 	//uni-directional many-to-many association to Category
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 			name="mall_m2m_property_detail_2_product"
 			, joinColumns={

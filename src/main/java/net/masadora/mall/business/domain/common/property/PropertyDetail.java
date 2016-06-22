@@ -28,7 +28,7 @@ public class PropertyDetail implements LeylineDO {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Property property;
 
-	private Boolean display;
+	private boolean display;
 
 	public PropertyDetail() {
 	}
@@ -61,11 +61,11 @@ public class PropertyDetail implements LeylineDO {
 		return this;
 	}
 
-	public Boolean getDisplay() {
+	public boolean getDisplay() {
 		return display;
 	}
 
-	public void setDisplay(Boolean display) {
+	public void setDisplay(boolean display) {
 		this.display = display;
 	}
 }

@@ -20,26 +20,38 @@ public class ProductService extends LeylineDomainService<ProductRepo,Product> {
 
     @Autowired
     ProductRepo productRepo;
-    /**
-     *  {"description":"123",
-     * "name":"yoooo3",
-     * "price":450,
-     * "reservable":false,
-     * "vendorId":1,
-     * "images":[{"url":"1.jpg"},{"url":"3.jpg"}]
-     * }
+    /*
+    {
+  "id": 48,
+  "createdAt": 1466475272418,
+  "deletedAt": null,
+  "description": "1231",
+  "modifiedAt": null,
+  "name": "yoooo3",
+  "price": 450,
+  "reservable": true,
+  "soldCount": 0,
+  "stock": 0,
+  "weight": 777,
+  "vendorId": 1,
+  "vendorName": "masadora",
+  "images": [],
+  "categories": [{"id":1}],
+  "properties":[{"value":"wow","propertyName":"doge"}]
+}
      */
+    /*
     @Override
     public Product save(Product entity) throws PersistenceException {
         try {
-          /*  entity.setImages(
+            entity.setImages(
                     entity.getImages().parallelStream().map(
                             i-> i.setProduct(entity))
                             .collect(Collectors.toList()));
             entity.setProperties(
                     entity.getProperties().parallelStream().map(
                             i-> i.setProduct(entity))
-                            .collect(Collectors.toList()));*/
+                            .collect(Collectors.toList()));
 
 
             return repo.save(entity);
@@ -49,7 +61,7 @@ public class ProductService extends LeylineDomainService<ProductRepo,Product> {
             throw new PersistenceException("InsertFailed");
         }
     }
-
+*/
     public List<Product> saveBatchAdmin(Product root,List<Product> others) throws PersistenceException {
         try {
             Product resRoot = save(root);
