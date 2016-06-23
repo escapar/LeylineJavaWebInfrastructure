@@ -1,25 +1,13 @@
 package moe.src.leyline.business.domain.topic;
 
-import java.util.List;
-
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import groovy.transform.EqualsAndHashCode;
+import lombok.ToString;
+import moe.src.leyline.business.domain.user.User;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import groovy.transform.EqualsAndHashCode;
-import lombok.ToString;
-import moe.src.leyline.business.domain.user.DomainUser;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * The persistent class for the topic database table.
@@ -59,7 +47,7 @@ public class Topic implements moe.src.leyline.framework.domain.LeylineDO {
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="owner_id")
-	private DomainUser user;
+	private User user;
 
 	public Topic() {
 	}
@@ -126,11 +114,11 @@ public class Topic implements moe.src.leyline.framework.domain.LeylineDO {
 		return topic;
 	}
 
-	public DomainUser getUser() {
+	public User getUser() {
 		return this.user;
 	}
 
-	public void setUser(DomainUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

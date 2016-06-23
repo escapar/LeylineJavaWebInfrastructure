@@ -1,16 +1,6 @@
 package moe.src.leyline.framework.interfaces.view.decorator;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.auto.service.AutoService;
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.Arguments;
@@ -23,11 +13,10 @@ import org.thymeleaf.dialect.springdata.util.PageUtils;
 import org.thymeleaf.dialect.springdata.util.Strings;
 import org.thymeleaf.dom.Element;
 
-import static org.thymeleaf.dialect.springdata.util.Strings.AND;
-import static org.thymeleaf.dialect.springdata.util.Strings.EMPTY;
-import static org.thymeleaf.dialect.springdata.util.Strings.EQ;
-import static org.thymeleaf.dialect.springdata.util.Strings.PAGE;
-import static org.thymeleaf.dialect.springdata.util.Strings.Q_MARK;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+
+import static org.thymeleaf.dialect.springdata.util.Strings.*;
 
 /**
  * Created by bytenoob on 6/9/16.

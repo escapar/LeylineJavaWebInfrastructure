@@ -3,7 +3,7 @@ package moe.src.leyline.framework.interfaces.dto;
 import java.io.Serializable;
 
 /**
- * Created by POJO on 5/30/16.
+ * 所有DTO的表示接口
  */
 public interface LeylineDTO extends Serializable {
 

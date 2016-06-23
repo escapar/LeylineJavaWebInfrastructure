@@ -1,30 +1,26 @@
 package moe.src.leyline.business.service;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
-import org.asynchttpclient.AsyncHttpClient;
+import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.business.domain.website.Website;
+import moe.src.leyline.business.domain.website.WebsiteRepo;
+import moe.src.leyline.business.infrastructure.screenshot.ScreenshotProcess;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.service.LeylineTransactionalService;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import moe.src.leyline.business.domain.user.DomainUser;
-import moe.src.leyline.business.domain.website.Website;
-import moe.src.leyline.business.domain.website.WebsiteRepo;
-import moe.src.leyline.business.domain.website.WebsiteUserVerify;
-import moe.src.leyline.business.infrastructure.screenshot.ScreenshotProcess;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.service.LeylineDomainService;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * Created by bytenoob on 6/19/16.
  */
 @Service
-public class WebsiteService extends LeylineDomainService<WebsiteRepo,Website> {
+public class WebsiteService extends LeylineTransactionalService<WebsiteRepo,Website> {
     @Autowired
-    private DomainUserService domainUserService;
+    private UserService userService;
     @Autowired
     private WebsiteRepo websiteRepo;
 
@@ -50,7 +46,7 @@ public class WebsiteService extends LeylineDomainService<WebsiteRepo,Website> {
         if(w == null || checkOwnerOf(w.getUser())) {
             return false;
         }
-        w.addVerify((DomainUser) getCurrentDomainUser());
+        w.addVerify((User)getCurrentUser());
         w = save(w);
         if (w.getWebsiteUserVerifies().size() > 1) {
             verify(w);
@@ -73,7 +69,7 @@ public class WebsiteService extends LeylineDomainService<WebsiteRepo,Website> {
             return null;
         }
         w.setVerifyKey(null);
-        domainUserService.verify(w.getUser());
+        userService.verify(w.getUser());
         return save(w);
     }
 

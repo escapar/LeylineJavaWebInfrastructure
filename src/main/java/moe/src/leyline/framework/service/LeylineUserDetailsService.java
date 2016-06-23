@@ -1,40 +1,36 @@
 package moe.src.leyline.framework.service;
 
-import java.util.Collection;
-
+import javaslang.collection.Stream;
+import moe.src.leyline.framework.domain.user.LeylineUser;
+import moe.src.leyline.framework.domain.user.LeylineUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javaslang.collection.Stream;
-import moe.src.leyline.framework.domain.user.LeylineUser;
-import moe.src.leyline.framework.domain.user.LeylineUserRepo;
-import moe.src.leyline.framework.infrastructure.security.UserAuthentication;
+import java.util.Collection;
 
 /**
- * Created by POJO on 6/8/16.
+ *  实现Spring Security需要的UserDetailsService
  */
 @Service
-public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D extends LeylineUser> extends LeylineDomainService<T,D> implements UserDetailsService {
+public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D extends LeylineUser> extends LeylineTransactionalService<T,D> implements UserDetailsService {
     @Autowired
     private T userRepo;
 
     @SuppressWarnings(value = "unchecked")
     @Override
-    public User loadUserByUsername(String username) throws
+    public LeylineUser loadUserByUsername(String username) throws
             UsernameNotFoundException {
         D user = (D) userRepo.findByNameEquals(username);
         if (user == null) {
             throw new UsernameNotFoundException("Username " + username + " not found");
         }
-        return new User(username, getPassword(user), getRole(user));
+        return user;
     }
 
     public String getPassword(D user) {
@@ -45,17 +41,20 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
         return Stream.of(new SimpleGrantedAuthority("ROLE_USER")).toJavaList();
     }
 
-    public User getCurrentUser() {
+    /**
+     * 当前登录用户
+     */
+    public LeylineUser getCurrentUser() {
         Authentication auth =
                 SecurityContextHolder.getContext().getAuthentication();
-        return  auth.getDetails() instanceof User ? (User)auth.getDetails() : null;
+        return  auth.getPrincipal() instanceof LeylineUser ? (LeylineUser)auth.getPrincipal() : null;
     }
 
-    public D getByNameEq(String name){
-        return (D)userRepo.findByNameEquals(name);
-    }
-    public Boolean isLoggedInUserEq(LeylineUser user){
-        return getCurrentUser()!=null && user.getName().equals(getCurrentUser().getUsername());
+    /**
+     * 传入用户是否当前登录用户
+     */
+    public Boolean checkOwner(LeylineUser user) {
+        return getCurrentUser().getUsername().equals(user.getName());
     }
 
 }

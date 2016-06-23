@@ -1,53 +1,69 @@
 package moe.src.leyline.framework.interfaces.dto.assembler;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Created by POJO on 5/30/16.
+ * DTO转DO,特别注意的是无参构造仅能用于继承的子类.
+ * TODO: 在无参构造中拿到DO和DTO的type
  */
-public class DTOAssembler {
-    private static final ModelMapper m = new ModelMapper();
-
-    public static LeylineDTO buildDTO(LeylineDO d, Type dtoT) {
-        return m.map(d, dtoT);
+public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
+    public ModelMapper m = new ModelMapper();
+    Type typeDO;
+    Type typeDTO;
+    public DTOAssembler() {
+        Class<?>[] typeArgs=TypeResolver.resolveRawArguments(DTOAssembler.class, getClass());
+        typeDO=getType(typeArgs[0]);
+        typeDTO=getType(typeArgs[1]);
     }
 
-    public static LeylineDO buildDO(LeylineDTO d, Type dtoT) {
-        return m.map(d, dtoT);
+    public DTOAssembler(Type DO , Type DTO) {
+        typeDO = DO;
+        typeDTO = DTO;
     }
 
-    public static List buildDOList(List<? extends LeylineDTO> d, Type doT) {
-        return d.stream().map(e -> m.map(e, doT)).collect(Collectors.toList());
+    public DTOAssembler(Class<?> DO , Class<?> DTO) {
+        typeDO = getType(DO);
+        typeDTO = getType(DTO);
     }
 
-    public static List buildDTOList(List<? extends LeylineDO> d, Type dtoT) {
-        return d.stream().map(e -> m.map(e, dtoT)).collect(Collectors.toList());
+    public DTO buildDTO(DO d) {
+        return m.map(d, typeDTO);
+    }
+
+    public DO buildDO(DTO d) {
+        return m.map(d, typeDO);
+    }
+
+    public List buildDOList(List<DTO> d) {
+        return d.stream().map(e -> buildDO(e)).collect(Collectors.toList());
+    }
+
+    public List buildDTOList(List<DO> d) {
+        return d.stream().map(e -> buildDTO(e)).collect(Collectors.toList());
     }
 
 
-    public static Page buildPageDTO(Page p, Type d) {
-        return p.map(new DO2DTOConverter().setT(d));
+    public Page buildPageDTO(Page p) {
+        return p.map(new DO2DTOConverter());
     }
 
-    private static class DO2DTOConverter implements Converter<LeylineDO, LeylineDTO> {
-        Type t;
-
-        public LeylineDTO convert(LeylineDO d) {
-            return DTOAssembler.buildDTO(d, t);
+    private class DO2DTOConverter implements Converter<DO, DTO> {
+        public DTO convert(DO d) {
+            return buildDTO(d);
         }
-
-        public DO2DTOConverter setT(Type t) {
-            this.t = t;
-            return this;
-        }
     }
+
+    private static Type getType(Class c){
+        return com.google.common.reflect.TypeToken.of(c).getType();
+    }
+
 }

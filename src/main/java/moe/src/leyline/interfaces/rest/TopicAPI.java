@@ -8,5 +8,5 @@ import moe.src.leyline.interfaces.dto.TopicDTO;
 /**
  * Created by bytenoob on 6/19/16.
  */
-public class TopicAPI extends LeylineRestCRUD<TopicService,TopicDTO,Topic> {
+public class TopicAPI extends LeylineRestCRUD<TopicService,Topic,TopicDTO> {
 }
