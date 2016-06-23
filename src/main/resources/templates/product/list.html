@@ -1,10 +1,19 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/header_footer">
+
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body>
+<body layout:fragment="content">
+<div th:each="e : ${filterContents}">
+    <h1 th:text="${e.key}">${page}</h1>
+    <h5 th:each="e : ${e.value}">
+        <div th:text="${e}">${page}</div>
+    </h5>
+</div>
+<div th:text="当前属性 + ${currentProperties}"></div>
+
 <div th:each="e : ${page.content}">
     <p th:text="${e.id}">${page}</p>
     <p th:text="${e.name}">名字</p>
