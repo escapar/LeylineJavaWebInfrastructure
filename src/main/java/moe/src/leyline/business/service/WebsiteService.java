@@ -1,22 +1,18 @@
 package moe.src.leyline.business.service;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
-import org.asynchttpclient.AsyncHttpClient;
+import moe.src.leyline.business.domain.user.DomainUser;
+import moe.src.leyline.business.domain.website.Website;
+import moe.src.leyline.business.domain.website.WebsiteRepo;
+import moe.src.leyline.business.infrastructure.screenshot.ScreenshotProcess;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.service.LeylineDomainService;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import moe.src.leyline.business.domain.user.DomainUser;
-import moe.src.leyline.business.domain.website.Website;
-import moe.src.leyline.business.domain.website.WebsiteRepo;
-import moe.src.leyline.business.domain.website.WebsiteUserVerify;
-import moe.src.leyline.business.infrastructure.screenshot.ScreenshotProcess;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.service.LeylineDomainService;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * Created by bytenoob on 6/19/16.

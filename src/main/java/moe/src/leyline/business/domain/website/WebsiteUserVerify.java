@@ -1,18 +1,13 @@
 package moe.src.leyline.business.domain.website;
 
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.Cache;
-
 import groovy.transform.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import moe.src.leyline.business.domain.user.DomainUser;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the website_user_verify database table.

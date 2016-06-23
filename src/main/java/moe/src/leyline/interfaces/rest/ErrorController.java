@@ -1,9 +1,8 @@
 package moe.src.leyline.interfaces.rest;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import moe.src.leyline.framework.interfaces.vc.error.ErrorBrief;
 import moe.src.leyline.framework.interfaces.vc.error.LeylineErrorController;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by POJO on 6/16/16.

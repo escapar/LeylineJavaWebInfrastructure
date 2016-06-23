@@ -1,9 +1,5 @@
 package moe.src.leyline.business.infrastructure.cache;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.redisson.Config;
 import org.redisson.Redisson;
 import org.redisson.RedissonClient;
@@ -12,6 +8,10 @@ import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bytenoob on 6/18/16.

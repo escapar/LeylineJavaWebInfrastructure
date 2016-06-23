@@ -1,8 +1,8 @@
 package moe.src.leyline.interfaces.dto;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * Created by bytenoob on 6/18/16.
