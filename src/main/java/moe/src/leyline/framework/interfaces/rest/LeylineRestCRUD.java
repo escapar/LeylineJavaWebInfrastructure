@@ -4,15 +4,16 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
-import com.mysema.query.types.Predicate;
-import moe.src.leyline.framework.interfaces.view.AppView;
-import net.masadora.mall.framework.domain.AppDO;
-import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
-import net.masadora.mall.framework.interfaces.dto.AppDTO;
-import net.masadora.mall.framework.interfaces.dto.PageJSON;
-import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
-import net.masadora.mall.framework.service.MasadoraUserDetailsService;
-import net.masadora.mall.framework.service.TransactionalService;
+import com.querydsl.core.types.Predicate;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.user.LeylineUser;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.PageJSON;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
+import moe.src.leyline.framework.service.LeylineTransactionalService;
+import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -44,7 +45,7 @@ import java.util.List;
  */
 @EnableSpringDataWebSupport
 @RestController
-public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, D extends AppDTO> implements CRUDOperation {
+public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O extends LeylineDO, D extends LeylineDTO> implements CRUDOperation {
     public final Logger logger = LoggerFactory.getLogger(getClass());
     private ObjectMapper mapper = new ObjectMapper();
     public DTOAssembler<O,D> dtoAssembler;
@@ -63,11 +64,11 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     protected T service;
 
     @Autowired
-    protected MasadoraUserDetailsService userDetailsService;
+    protected LeylineUserDetailsService userDetailsService;
 
     @SuppressWarnings(value = "unchecked")
-    public RestCRUD() {
-        typeArgs = TypeResolver.resolveRawArguments(RestCRUD.class, getClass());
+    public LeylineRestCRUD() {
+        typeArgs = TypeResolver.resolveRawArguments(LeylineRestCRUD.class, getClass());
         classService = (Class<T>) typeArgs[0];
         classDTO = (Class<D>) typeArgs[2];
         classDO = (Class<O>) typeArgs[1];
@@ -90,7 +91,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public PageJSON<D> list(Pageable p) throws PersistenceException {
@@ -101,7 +102,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     }
 
     @SuppressWarnings(value = "unchecked")
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     @RequestMapping(value = "/list/query", method = RequestMethod.GET)
     public PageJSON<D> listWithQuery(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
@@ -110,7 +111,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     }
 
     @SuppressWarnings(value = "unchecked")
-    @JsonView(AppView.DETAIL.class)
+    @JsonView(LeylineView.DETAIL.class)
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public PageJSON<D> listWithDetail(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
@@ -119,7 +120,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(AppView.DETAIL.class)
+    @JsonView(LeylineView.DETAIL.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {
@@ -188,7 +189,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
         delete(id);
     }
 
-    public User getCurrentUser() {
+    public LeylineUser getCurrentUser() {
         return userDetailsService.getCurrentUser();
     }
 

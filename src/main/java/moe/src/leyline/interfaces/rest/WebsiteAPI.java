@@ -19,7 +19,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @RestController
 @RequestMapping(value = "api/website/")
-public class WebsiteAPI extends LeylineRestCRUD<WebsiteService,WebsiteDTO,Website> {
+public class WebsiteAPI extends LeylineRestCRUD<WebsiteService,Website,WebsiteDTO> {
     @Autowired
     WebsiteService websiteService;
 

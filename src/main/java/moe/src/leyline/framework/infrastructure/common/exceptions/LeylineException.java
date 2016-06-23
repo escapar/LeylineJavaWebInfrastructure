@@ -3,8 +3,8 @@ package moe.src.leyline.framework.infrastructure.common.exceptions;
 /**
  * Created by POJO on 6/7/16.
  */
-public class ApplicationException extends Exception {
-    public ApplicationException(String ex) {
+public class LeylineException extends Exception {
+    public LeylineException(String ex) {
         super(ex);
     }
 

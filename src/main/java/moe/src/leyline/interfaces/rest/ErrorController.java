@@ -1,7 +1,8 @@
 package moe.src.leyline.interfaces.rest;
 
-import moe.src.leyline.framework.interfaces.vc.error.ErrorBrief;
-import moe.src.leyline.framework.interfaces.vc.error.LeylineErrorController;
+
+import moe.src.leyline.framework.interfaces.vc.LeylineErrorBrief;
+import moe.src.leyline.framework.interfaces.vc.LeylineErrorController;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ErrorController extends LeylineErrorController {
     @Override
-    public String genericError(ErrorBrief eb){
+    public String genericError(LeylineErrorBrief eb){
         return eb.toString();
     }
 }

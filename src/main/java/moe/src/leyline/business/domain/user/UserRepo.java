@@ -8,17 +8,17 @@ import org.springframework.stereotype.Repository;
  * Created by POJO on 6/8/16.
  */
 @Repository
-public interface DomainUserRepo extends LeylineUserRepo<DomainUser> {
+public interface UserRepo extends LeylineUserRepo<User> {
 
     default Boolean authOK(String name,String password){
         if(name==null || password==null || name.isEmpty() || password.isEmpty()){
             return false;
         }
-        DomainUser u = findByNameEquals(name);
+        User u = findByNameEquals(name);
         return u!=null && BCrypt.checkpw(password, u.getPassword());
     }
 
-    default DomainUser checkAndGet(String name,String password){
+    default User checkAndGet(String name, String password){
         return authOK(name,password)? findByNameEquals(name) : null;
     }
 }

@@ -1,13 +1,12 @@
 package moe.src.leyline.business.infrastructure.security;
 
 import io.jsonwebtoken.Claims;
-import moe.src.leyline.business.domain.user.DomainUser;
-import moe.src.leyline.business.service.DomainUserService;
+import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.business.service.UserService;
 import moe.src.leyline.framework.infrastructure.security.StatelessAuthenticationFilter;
-import moe.src.leyline.framework.infrastructure.security.UserAuthentication;
+import org.apache.log4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -18,25 +17,25 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component("JWTAuthenticationFilter")
 public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
-    public DomainUserService domainUserService;
+    public UserService domainUserService;
 
     @Autowired
-    public JWTAuthenticationFilter(DomainUserService domainUserService){
+    public JWTAuthenticationFilter(UserService domainUserService){
         this.domainUserService = domainUserService;
     }
 
     @Override
     public Authentication getAuthentication(HttpServletRequest request) throws ServletException{
+        User user = null;
         try {
             Claims c = JWTTokenUtils.parse(request);
-            DomainUser domainUser = domainUserService.getByClaims(c);
-            //MDC.put("name", claims.get("name"));
-            return domainUser == null ? null :  new UserAuthentication(new User(domainUser.getName(), domainUser.getPassword(), domainUserService.getRole(domainUser)));
+            user = domainUserService.getByClaims(c);
+            MDC.put("name", c.get("name"));
+            return user;
         }
         catch (final Exception e) {
             e.printStackTrace();
-            return null;
+            return user;
         }
-
     }
 }

@@ -1,9 +1,8 @@
 package moe.src.leyline.business.infrastructure.security;
 
 import moe.src.leyline.business.infrastructure.security.JWTAuthenticationFilter;
-import moe.src.leyline.framework.infrastructure.appconfig.LeylineWebSecurityConfiguration;
-import net.masadora.mall.business.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import moe.src.leyline.business.service.UserService;
+import moe.src.leyline.framework.infrastructure.security.LeylineWebSecurityConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,7 +25,7 @@ public class WebSecurityConfiguration extends LeylineWebSecurityConfiguration<Us
                 .and()
                 .authorizeRequests()
                 .anyRequest().permitAll()
-                .and().addFilterBefore(new JWTAuthenticationFilter(),
+                .and().addFilterBefore(new JWTAuthenticationFilter(getUserDetailsService()),
                 UsernamePasswordAuthenticationFilter.class).formLogin().and().csrf().disable();
 
     }

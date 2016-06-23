@@ -1,7 +1,7 @@
 package moe.src.leyline.framework.interfaces.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import moe.src.leyline.framework.interfaces.view.AppView;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,32 +23,32 @@ public class PageJSON<T> extends org.springframework.data.domain.PageImpl<T> {
         super(page.getContent(), pageable, page.getTotalElements());
     }
 
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     public int getTotalPages() {
         return super.getTotalPages();
     }
 
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     public long getTotalElements() {
         return super.getTotalElements();
     }
 
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     public boolean hasNext() {
         return super.hasNext();
     }
 
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     public boolean isLast() {
         return super.isLast();
     }
 
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     public boolean hasContent() {
         return super.hasContent();
     }
 
-    @JsonView(AppView.LIST.class)
+    @JsonView(LeylineView.LIST.class)
     public List<T> getContent() {
         return super.getContent();
     }
