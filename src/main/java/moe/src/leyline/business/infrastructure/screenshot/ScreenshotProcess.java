@@ -1,12 +1,8 @@
 package moe.src.leyline.business.infrastructure.screenshot;
 
-import java.util.concurrent.Callable;
-
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import com.machinepublishers.jbrowserdriver.Settings;
 import com.machinepublishers.jbrowserdriver.Timezone;
-
-import org.apache.tomcat.util.ExceptionUtils;
 import org.openqa.selenium.OutputType;
 
 /**

@@ -1,9 +1,9 @@
 package moe.src.leyline.framework.interfaces.vc.error;
 
-import java.util.Map;
-
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.Map;
 
 /**
  * Created by bytenoob on 6/17/16.

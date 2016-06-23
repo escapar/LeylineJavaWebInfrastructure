@@ -1,9 +1,8 @@
 package moe.src.leyline.business.domain.user;
 
+import moe.src.leyline.framework.domain.user.LeylineUserRepo;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
-
-import moe.src.leyline.framework.domain.user.LeylineUserRepo;
 
 /**
  * Created by POJO on 6/8/16.

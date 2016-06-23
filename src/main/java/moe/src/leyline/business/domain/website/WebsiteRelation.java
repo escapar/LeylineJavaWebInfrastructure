@@ -1,21 +1,11 @@
 package moe.src.leyline.business.domain.website;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-
+import groovy.transform.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import groovy.transform.EqualsAndHashCode;
-import lombok.ToString;
+import javax.persistence.*;
 
 /**
  * The persistent class for the website_relation database table.

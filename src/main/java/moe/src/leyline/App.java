@@ -1,11 +1,10 @@
 package moe.src.leyline;
 
+import moe.src.leyline.framework.LeylineApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import moe.src.leyline.framework.LeylineApp;
 
 @EnableJpaRepositories(basePackages = "moe.src.leyline.business")
 @ComponentScan(basePackages = {"moe.src.leyline.business","moe.src.leyline.interfaces"})

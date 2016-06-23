@@ -1,16 +1,5 @@
 package moe.src.leyline.business.service;
 
-import java.util.Collection;
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import io.jsonwebtoken.Claims;
 import javaslang.collection.Stream;
 import moe.src.leyline.business.domain.user.DomainUser;
@@ -20,6 +9,16 @@ import moe.src.leyline.business.infrastructure.common.ROLE_CONSTS;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 import moe.src.leyline.interfaces.dto.UserLoginDTO;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by POJO on 6/9/16.

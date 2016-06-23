@@ -1,18 +1,15 @@
 package moe.src.leyline.business.infrastructure.security;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.joda.time.DateTime;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Setter;
 import moe.src.leyline.business.domain.user.DomainUser;
+import org.joda.time.DateTime;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by bytenoob on 6/18/16.
