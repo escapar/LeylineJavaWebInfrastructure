@@ -8,11 +8,14 @@ import net.masadora.mall.framework.interfaces.rest.RestCRUD;
 import net.masadora.mall.interfaces.dto.product.ProductDTO;
 import net.masadora.mall.interfaces.dto.product.ProductDTOAssembler;
 import net.masadora.mall.interfaces.dto.product.ProductUpdateDTO;
+import org.assertj.core.api.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by POJO on 6/4/16.
@@ -47,6 +50,9 @@ public class ProductAPI extends RestCRUD<ProductService, Product, ProductDTO> {
                 dtoAssembler.buildDOList(dto.getOthers()));
     }
 
-
+    @Override
+    public void assertUpdate(Product p){
+        assertThat(p.getPrice()).isLessThan(450);
+    }
 
 }

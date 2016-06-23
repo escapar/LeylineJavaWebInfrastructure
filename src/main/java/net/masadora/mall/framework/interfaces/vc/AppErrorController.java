@@ -1,13 +1,18 @@
 package net.masadora.mall.framework.interfaces.vc;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,21 +26,24 @@ public abstract class AppErrorController implements ErrorController {
     @Autowired
     private ErrorAttributes errorAttributes;
 
-    public String error(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView error(ErrorBrief eb, HttpServletRequest request, HttpServletResponse response) {
         // Appropriate HTTP response code (e.g. 404 or 500) is automatically set by Spring.
         // Here we just define response body.
-        ErrorBrief eb= new ErrorBrief(response.getStatus(), getErrorAttributes(request, false));
+        String view;
+        HashMap <String, Object> m = new HashMap<>();
+        m.put("error",eb);
         switch (eb.status){
-            case 400: return handle400(eb);
-            case 403: return handle403(eb);
-            case 404: return handle404(eb);
-            case 405: return handle405(eb);
-            case 500: return handle500(eb);
-            case 501: return handle501(eb);
-            case 502: return handle502(eb);
-            case 503: return handle503(eb);
-            default: return otherErrors(eb);
+            case 400: view = handle400(eb);break;
+            case 403: view = handle403(eb);break;
+            case 404: view = handle404(eb);break;
+            case 405: view = handle405(eb);break;
+            case 500: view = handle500(eb);break;
+            case 501: view = handle501(eb);break;
+            case 502: view = handle502(eb);break;
+            case 503: view = handle503(eb);break;
+            default: view = otherErrors(eb);
         }
+        return new ModelAndView(view,m);
     }
 
     public String genericError(ErrorBrief eb){
@@ -85,7 +93,7 @@ public abstract class AppErrorController implements ErrorController {
         return PATH;
     }
 
-    private Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
+    public Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
         return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
     }

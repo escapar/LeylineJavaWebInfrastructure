@@ -1,6 +1,7 @@
 package net.masadora.mall.framework.interfaces.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import static org.assertj.core.api.Assertions.*;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
@@ -13,6 +14,8 @@ import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
 import net.masadora.mall.framework.interfaces.view.AppView;
 import net.masadora.mall.framework.service.MasadoraUserDetailsService;
 import net.masadora.mall.framework.service.TransactionalService;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assert;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -94,6 +97,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public PageJSON<D> list(Pageable p) throws PersistenceException {
+        assertQuery(null);
         Page res = service.findAll(p);
         res = dtoAssembler.buildPageDTO(res);
         return new PageJSON<>(res, p);
@@ -104,6 +108,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @RequestMapping(value = "/list/query", method = RequestMethod.GET)
     public PageJSON<D> listWithQuery(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
+        assertQuery(parameters);
         return new PageJSON<>(doQueryDSL(p, parameters), p);
     }
 
@@ -112,6 +117,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public PageJSON<D> listWithDetail(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
+        assertQuery(parameters);
         return new PageJSON<>(doQueryDSL(p, parameters), p);
     }
 
@@ -120,7 +126,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {
-        logger.debug("boo");
+        assertQuery(null);
         return  dtoAssembler.buildDTO((O)service.findOne(id));
     }
 
@@ -129,14 +135,17 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody String json) throws IOException, PersistenceException {
-        logger.debug("test");
-        service.save(dtoAssembler.buildDOList(mapper.readValue(json, typeDTOList)));
+        List<O> doList = dtoAssembler.buildDOList(mapper.readValue(json, typeDTOList));
+        assertUpdateBatch(doList);
+        service.save(doList);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json",produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
-    public void updateOne(@RequestBody D obj) throws IOException, PersistenceException {
+    public void updateOne(@RequestBody D obj) throws IOException, PersistenceException,AssertionError {
+        O objDO = dtoAssembler.buildDO(obj);
+        assertUpdate(objDO);
         service.save(dtoAssembler.buildDO(obj));
     }
 
@@ -151,15 +160,18 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D insertOne(@RequestBody D obj) throws PersistenceException {
+        O objDO = dtoAssembler.buildDO(obj);
+        assertUpdate(objDO);
         ModelMapper mm = new ModelMapper();
         mm.getConfiguration().setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
-        return mm.map(service.save(dtoAssembler.buildDO(obj)), typeDTO);
+        return mm.map(service.save(objDO), typeDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void delete(@PathVariable Long id) throws PersistenceException {
+        assertDelete();
         service.delete(id);
     }
 
@@ -167,6 +179,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void delete(@RequestBody List<Long> id) throws PersistenceException {
+        assertDelete();
         service.delete(id);
     }
 
@@ -174,6 +187,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void deleteBatch(@RequestBody List<Long> id) throws PersistenceException {
+        assertDelete();
         delete(id);
     }
 
@@ -185,6 +199,25 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
         this.dtoAssembler = dtoAssembler;
     }
 
+    /**
+     * 增删改查检查预留方法 可以在implementation里override
+     * @param o
+     * @return
+     */
+    public void assertQuery(Object o){
 
+    }
+
+    public void assertUpdateBatch(List<O> o){
+        o.forEach(this::assertUpdate);
+    }
+
+    public void assertUpdate(O o){
+
+    }
+
+    public void assertDelete(){
+
+    }
 }
 

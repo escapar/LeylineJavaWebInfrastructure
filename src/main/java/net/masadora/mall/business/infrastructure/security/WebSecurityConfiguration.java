@@ -3,6 +3,8 @@ package net.masadora.mall.business.infrastructure.security;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
@@ -21,7 +23,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and().addFilterBefore(new CookieAuthenticationFilter(),
-                BasicAuthenticationFilter.class).csrf().disable();
+                BasicAuthenticationFilter.class).addFilter(new ExceptionTranslationFilter(new BasicAuthenticationEntryPoint())).csrf().disable();
 
     }
 

@@ -31,17 +31,21 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
 
     DTOAssembler<PropertyDetail, PropertyDetailDTO> assembler =  new DTOAssembler<>(PropertyDetail.class, PropertyDetailDTO.class);
 
+
     /**
-     * 获取筛选器所需的的商品分类的排序搜索筛选用属性
-     * 第二个参数是已选的分类id
+     * 只给个Property ID也能更新Property Detail
      **/
 
     @Override
     public PropertyDetail save(PropertyDetail p){
         PropertyDetail existing = repo.getByValueAndPropertyId(p.getValue(),p.getProperty().getId());
-
         return existing == null ? repo.save(p.setProperty(propertyRepo.get(p.getProperty().getId()))) : existing;
     }
+
+    /**
+     * 获取筛选器所需的的商品分类的排序搜索筛选用属性
+     * 第二个参数是已选的分类id
+     **/
 
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     @SuppressWarnings(value = "unchecked")
@@ -49,7 +53,7 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
         Map<String,List<PropertyDetailDTO>> resMap = new HashMap<>();
         List existingProperties = findPropertyByPropertyIds(existing);
         propertyRepo.findByCategoryId(categoryId)
-                .parallelStream()
+                .stream()
                 .filter(i->!existingProperties.contains(i)) // 过滤已经存在的
                 .forEach(i->{ //把需要显示的放进Map
                     List r = repo.findByPropertyAndDisplayTrue(i);
@@ -76,6 +80,6 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
      **/
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public List<Property> findPropertyByPropertyIds(List<Long> existing){
-        return existing.parallelStream().map(i->repo.get(i).getProperty()).collect(Collectors.toList());
+        return existing.stream().map(i->repo.get(i).getProperty()).collect(Collectors.toList());
     }
 }
