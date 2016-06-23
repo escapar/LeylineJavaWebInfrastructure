@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component("JWTAuthenticationFilter")
 public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
-    public UserService domainUserService;
+    public UserService userService;
 
     @Autowired
-    public JWTAuthenticationFilter(UserService domainUserService){
-        this.domainUserService = domainUserService;
+    public JWTAuthenticationFilter(UserService userService){
+        this.userService = userService;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class JWTAuthenticationFilter extends StatelessAuthenticationFilter {
         User user = null;
         try {
             Claims c = JWTTokenUtils.parse(request);
-            user = domainUserService.getByClaims(c);
+            user = userService.getByClaims(c);
             MDC.put("name", c.get("name"));
             return user;
         }
