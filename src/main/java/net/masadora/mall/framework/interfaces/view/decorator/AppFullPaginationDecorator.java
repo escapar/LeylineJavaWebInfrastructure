@@ -24,7 +24,7 @@ import static org.thymeleaf.dialect.springdata.util.Strings.*;
 
 @Component
 @AutoService(PaginationDecorator.class)
-public final class LeylineFullPaginationDecorator implements PaginationDecorator {
+public final class AppFullPaginationDecorator implements PaginationDecorator {
     private static final String DEFAULT_CLASS = "pagination";
     private static final String BUNDLE_NAME = org.thymeleaf.dialect.springdata.decorator.FullPaginationDecorator.class.getSimpleName();
     private static final int DEFAULT_PAGE_SPLIT = 7;

@@ -14,7 +14,8 @@ import javax.persistence.*;
  */
 @Entity
 @Cacheable
-@EqualsAndHashCode(exclude={"category"})
+//@EqualsAndHashCode(exclude={"category"})
+@EqualsAndHashCode
 @ToString
 @Table(name="mall_d_property")
 @NamedQuery(name="Property.findAll", query="SELECT p FROM Property p")
