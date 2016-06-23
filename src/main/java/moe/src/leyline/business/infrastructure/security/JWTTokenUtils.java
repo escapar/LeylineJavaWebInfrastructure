@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Setter;
-import moe.src.leyline.business.domain.user.DomainUser;
+import moe.src.leyline.business.domain.user.User;
 import org.joda.time.DateTime;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class JWTTokenUtils {
                 .parseClaimsJws(token).getBody();
     }
 
-    public static String sign(final DomainUser user){
+    public static String sign(final User user){
         return  user == null ? null :
                 Jwts.builder().setSubject(user.getName())
                 .claim("role", user.getRole())

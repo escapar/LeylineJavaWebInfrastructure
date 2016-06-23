@@ -1,7 +1,7 @@
 package moe.src.leyline.framework.interfaces.dto.assembler;
 
-import net.masadora.mall.framework.domain.AppDO;
-import net.masadora.mall.framework.interfaces.dto.AppDTO;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * DTO转DO,特别注意的是无参构造仅能用于继承的子类.
  * TODO: 在无参构造中拿到DO和DTO的type
  */
-public class DTOAssembler<DO extends AppDO,DTO extends AppDTO> {
+public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
     public ModelMapper m = new ModelMapper();
     Type typeDO;
     Type typeDTO;

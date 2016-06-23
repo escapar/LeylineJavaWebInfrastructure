@@ -1,14 +1,15 @@
 package moe.src.leyline.framework.service;
 
-import com.mysema.query.types.Predicate;
-import net.masadora.mall.framework.domain.AppDO;
-import net.masadora.mall.framework.domain.CacheableRepo;
-import net.masadora.mall.framework.infrastructure.common.exceptions.PersistenceException;
+import com.querydsl.core.types.Predicate;
+import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.framework.domain.LeylineCacheableRepo;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.user.LeylineUser;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,7 +22,7 @@ import java.util.*;
  */
 @Service
 @Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
-public abstract class TransactionalService<T extends CacheableRepo,E extends AppDO> {
+public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo,E extends LeylineDO> {
     @Autowired
     protected T repo;
 
@@ -109,6 +110,12 @@ public abstract class TransactionalService<T extends CacheableRepo,E extends App
 
     @SuppressWarnings(value = "unchecked")
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    public E get(Long id) throws PersistenceException {
+        return findOne(id);
+    }
+
+    @SuppressWarnings(value = "unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public List<? extends E> findAll(List<Integer> ids) throws PersistenceException {
         try {
             return (List<? extends E>) repo.findAll(ids);
@@ -162,8 +169,16 @@ public abstract class TransactionalService<T extends CacheableRepo,E extends App
         }
     }
 
-    public User getCurrentUser() {
+    public LeylineUser getCurrentUser() {
         return userDetailsService.getCurrentUser();
+    }
+
+    public Boolean checkOwnerOf(LeylineUser u) {
+        return getCurrentUser().getUsername().equals(u.getName());
+    }
+
+    public Boolean checkOwnerOf(User u) {
+        return getCurrentUser().getUsername().equals(u.getUsername());
     }
 
 }

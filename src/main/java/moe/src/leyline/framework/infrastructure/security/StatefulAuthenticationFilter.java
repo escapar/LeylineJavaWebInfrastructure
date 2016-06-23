@@ -1,7 +1,8 @@
 package moe.src.leyline.framework.infrastructure.security;
 
-import net.masadora.mall.business.infrastructure.common.AuthUtil;
-import net.masadora.mall.framework.service.MasadoraUserDetailsService;
+import moe.src.leyline.business.infrastructure.common.AuthUtil;
+import moe.src.leyline.framework.service.LeylineTransactionalService;
+
 import org.jodah.typetools.TypeResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,7 +21,7 @@ import java.io.IOException;
 /**
  * 有状态的用户验证类,不包含具体逻辑,需要业务层implement getAuthentication
  */
-public abstract class StatefulAuthenticationFilter<T extends MasadoraUserDetailsService> extends OncePerRequestFilter {
+public abstract class StatefulAuthenticationFilter<T extends LeylineTransactionalService> extends OncePerRequestFilter {
     private T userService;
 
     @Override

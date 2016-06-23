@@ -2,6 +2,7 @@ package moe.src.leyline.business.domain.user;
 
 import groovy.transform.EqualsAndHashCode;
 import lombok.ToString;
+import moe.src.leyline.business.infrastructure.common.AuthUtil;
 import moe.src.leyline.framework.domain.user.LeylineUser;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -21,7 +22,7 @@ import java.util.Collection;
 @NamedQuery(name = "DomainUser.findAll", query = "SELECT u FROM DomainUser u")
 @EqualsAndHashCode
 @ToString
-public class DomainUser implements LeylineUser {
+public class User implements LeylineUser {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,7 +35,10 @@ public class DomainUser implements LeylineUser {
 
     private int role;
 
-    public DomainUser() {
+    @Transient
+    private boolean isAuthenticated;
+
+    public User() {
     }
 
     public long getId() {
@@ -95,7 +99,8 @@ public class DomainUser implements LeylineUser {
         setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
     }
 
-    public int getRole() {
+
+    public int getRole(){
         return role;
     }
 
@@ -105,27 +110,27 @@ public class DomainUser implements LeylineUser {
 
     @Override
     public Object getCredentials() {
-        return null;
+        return password;
     }
 
     @Override
     public Object getDetails() {
-        return null;
+        return this;
     }
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return name;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return false;
+        return true;
     }
 
     @Override
     public void setAuthenticated(boolean b) throws IllegalArgumentException {
-
+        isAuthenticated = b;
     }
 
     @Override

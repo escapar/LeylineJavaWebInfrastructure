@@ -1,9 +1,10 @@
 package moe.src.leyline.business.domain.website;
 
 import groovy.transform.EqualsAndHashCode;
-import moe.src.leyline.business.domain.user.DomainUser;
+import moe.src.leyline.business.domain.user.User;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.List;
@@ -46,7 +47,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private DomainUser user;
+	private User user;
 
 	//bi-directional many-to-one association to WebsiteRelation
 	@OneToMany(mappedBy = "master")
@@ -118,7 +119,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		this.title = title;
 	}
 
-	public DomainUser getUser() {
+	public User getUser() {
 		return this.user;
 	}
 
@@ -130,7 +131,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		this.verifyKey = verifyKey;
 	}
 
-	public void setUser(DomainUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
@@ -156,7 +157,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
 		return friend;
 	}
 
-	public void addVerify(DomainUser u) {
+	public void addVerify(User u) {
 		addWebsiteUserVerify(new WebsiteUserVerify(null, u, this));
 	}
 

@@ -16,14 +16,14 @@ import java.util.Map;
  * 拦截并处理错误信息,需要在业务层implement
  */
 
-public abstract class AppErrorController implements ErrorController {
+public abstract class LeylineErrorController implements ErrorController {
 
     private static final String PATH = "/error";
 
     @Autowired
     private ErrorAttributes errorAttributes;
 
-    public ModelAndView error(ErrorBrief eb, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView error(LeylineErrorBrief eb, HttpServletRequest request, HttpServletResponse response) {
         // Appropriate HTTP response code (e.g. 404 or 500) is automatically set by Spring.
         // Here we just define response body.
         String view;
@@ -43,45 +43,45 @@ public abstract class AppErrorController implements ErrorController {
         return new ModelAndView(view,m);
     }
 
-    public String genericError(ErrorBrief eb){
+    public String genericError(LeylineErrorBrief eb){
         return "/error/" + eb.status;
     }
 
-    public String otherErrors(ErrorBrief eb){
+    public String otherErrors(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
-    public String handle400(ErrorBrief eb){
+    public String handle400(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
-    public String handle403(ErrorBrief eb){
+    public String handle403(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
-    public String handle404(ErrorBrief eb){
+    public String handle404(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
-    public String handle405(ErrorBrief eb){
+    public String handle405(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
-    public String handle500(ErrorBrief eb){
+    public String handle500(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
-    public String handle501(ErrorBrief eb){
-        return genericError(eb);
-    }
-
-
-    public String handle502(ErrorBrief eb){
+    public String handle501(LeylineErrorBrief eb){
         return genericError(eb);
     }
 
 
-    public String handle503(ErrorBrief eb){
+    public String handle502(LeylineErrorBrief eb){
+        return genericError(eb);
+    }
+
+
+    public String handle503(LeylineErrorBrief eb){
         return genericError(eb);
     }
 

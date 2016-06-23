@@ -13,5 +13,5 @@ public interface LeylineUser extends LeylineDO, UserDetails, CredentialsContaine
 
     public String getName();
 
-    public Object getRole();
+    public int getRole();
 }

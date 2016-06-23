@@ -1,6 +1,6 @@
 package moe.src.leyline.framework;
 
-import moe.src.leyline.framework.interfaces.vc.error.LeylineErrorController;
+import moe.src.leyline.framework.interfaces.vc.LeylineErrorController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
@@ -29,6 +29,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EntityScan("net.masaadora.mall.framework.domain")
 @ComponentScan(basePackages = {"net.masadora.mall.framework"})
 
-public abstract class FrameworkApp {
+public abstract class LeylineApp {
 
 }

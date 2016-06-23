@@ -1,28 +1,26 @@
-package moe.src.leyline.framework.interfaces.vc.error;
-
-import lombok.Data;
-import lombok.ToString;
+package moe.src.leyline.framework.interfaces.vc;
 
 import java.util.Map;
 
 /**
- * Created by bytenoob on 6/17/16.
+ * 错误信息类
  */
-@Data @ToString
-public class ErrorBrief {
+public class LeylineErrorBrief {
 
     public Integer status;
     public String error;
     public String message;
     public String timeStamp;
     public String trace;
+    public String exception;
 
-    public ErrorBrief(int status, Map<String, Object> errorAttributes) {
+    public LeylineErrorBrief(int status, Map<String, Object> errorAttributes) {
         this.status = status;
         this.error = (String) errorAttributes.get("error");
         this.message = (String) errorAttributes.get("message");
         this.timeStamp = errorAttributes.get("timestamp").toString();
         this.trace = (String) errorAttributes.get("trace");
+        this.exception = (String) errorAttributes.get("exception");
     }
 
 }

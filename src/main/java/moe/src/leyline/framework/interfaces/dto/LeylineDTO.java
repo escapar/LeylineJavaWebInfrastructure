@@ -5,6 +5,6 @@ import java.io.Serializable;
 /**
  * 所有DTO的表示接口
  */
-public interface AppDTO extends Serializable {
+public interface LeylineDTO extends Serializable {
 
 }

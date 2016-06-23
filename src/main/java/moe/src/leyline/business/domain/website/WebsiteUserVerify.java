@@ -3,7 +3,7 @@ package moe.src.leyline.business.domain.website;
 import groovy.transform.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import moe.src.leyline.business.domain.user.DomainUser;
+import moe.src.leyline.business.domain.user.User;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,7 +14,6 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@AllArgsConstructor
 @Table(name="website_user_verify")
 @NamedQuery(name="WebsiteUserVerify.findAll", query="SELECT w FROM WebsiteUserVerify w")
 @Cacheable
@@ -32,7 +31,7 @@ public class WebsiteUserVerify implements moe.src.leyline.framework.domain.Leyli
 	//uni-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="user_id", nullable=false)
-	private DomainUser user;
+	private User user;
 
 	//uni-directional many-to-one association to Website
 	@ManyToOne
@@ -40,6 +39,12 @@ public class WebsiteUserVerify implements moe.src.leyline.framework.domain.Leyli
 	private Website website;
 
 	public WebsiteUserVerify() {
+	}
+
+	public WebsiteUserVerify(Long id,User user, Website website) {
+		this.id = id;
+		this.user = user;
+		this.website = website;
 	}
 
 	public Long getId() {
@@ -50,11 +55,11 @@ public class WebsiteUserVerify implements moe.src.leyline.framework.domain.Leyli
 		this.id = id;
 	}
 
-	public DomainUser getUser() {
+	public User getUser() {
 		return this.user;
 	}
 
-	public void setUser(DomainUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
