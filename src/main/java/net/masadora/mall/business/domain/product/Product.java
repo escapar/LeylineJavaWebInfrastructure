@@ -81,7 +81,7 @@ public class Product implements AppDO {
 	private List<Category> categories;
 
 	//uni-directional many-to-many association to Category
-	@ManyToMany(cascade = CascadeType.MERGE)
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(
 			name="mall_m2m_property_detail_2_product"
 			, joinColumns={
@@ -91,6 +91,7 @@ public class Product implements AppDO {
 			@JoinColumn(name="PROPERTY_DETAIL_ID")
 	}
 	)
+
 	private List<PropertyDetail> properties;
 
 	public Product() {

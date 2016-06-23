@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @EnableJpaRepositories(basePackages = "net.masadora.mall.business")
-@ComponentScan(basePackages = {"net.masadora.mall.business", "net.masadora.mall.interfaces"})
 @EntityScan(basePackages = "net.masadora.mall.business.domain")
 @EnableCaching
 

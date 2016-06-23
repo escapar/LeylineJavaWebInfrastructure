@@ -5,6 +5,7 @@ import net.masadora.mall.business.infrastructure.common.CookieUtil;
 import net.masadora.mall.business.infrastructure.common.DESUtil;
 import net.masadora.mall.business.service.UserService;
 import net.masadora.mall.framework.infrastructure.security.StatefulAuthenticationFilter;
+import org.apache.log4j.MDC;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,9 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
     public Authentication getAuthentication(HttpServletRequest request){
         if(request.getSession().getAttribute("user")!=null) {
             try {
-                return (User) request.getSession().getAttribute("user");
+                User res =  (User) request.getSession().getAttribute("user");
+                MDC.put("name", res.getName().concat(" "+res.getRole().getName()));
+                return res;
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -42,6 +45,7 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
                 User user = getUserService().getUserByCookieValue(cookieValue);
                 if (user != null) {
                     request.getSession().setAttribute("user", user);
+                    MDC.put("name", user.getName().concat(" "+user.getRole().getName()));
                     return user;
                 }
             } catch (Exception e) {
@@ -49,6 +53,7 @@ public class CookieAuthenticationFilter extends StatefulAuthenticationFilter<Use
                 return null;
             }
         }
+        MDC.put("name","匿名用户");
         return null;
     }
 

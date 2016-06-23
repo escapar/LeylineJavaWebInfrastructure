@@ -6,6 +6,7 @@ import net.masadora.mall.business.domain.common.category.Category;
 import net.masadora.mall.framework.domain.AppDO;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -31,30 +32,35 @@ public class Property implements AppDO {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Category category;
 
-	public Property() {
+
+    public Property() {
 	}
 
 	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public Property setId(Long id) {
 		this.id = id;
+        return this;
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public Property setName(String name) {
 		this.name = name;
+        return this;
 	}
 
 	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public Property setCategory(Category category) {
 		this.category = category;
+        return this;
 	}
+
 }

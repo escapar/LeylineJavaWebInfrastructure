@@ -1,7 +1,7 @@
 package net.masadora.mall.interfaces.vc.error;
 
-import net.masadora.mall.framework.interfaces.vc.ErrorBrief;
 import net.masadora.mall.framework.interfaces.vc.AppErrorController;
+import net.masadora.mall.framework.interfaces.vc.ErrorBrief;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

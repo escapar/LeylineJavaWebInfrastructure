@@ -18,9 +18,9 @@ import java.io.IOException;
  * Created by POJO on 6/4/16.
  */
 @RestController
-@RequestMapping(value = "api/product")
-
+@RequestMapping("api/product")
 public class ProductAPI extends RestCRUD<ProductService, Product, ProductDTO> {
+
     @Autowired
     ProductService productService;
     @Autowired
@@ -28,6 +28,7 @@ public class ProductAPI extends RestCRUD<ProductService, Product, ProductDTO> {
 
     public ProductAPI(){
         setDTOAssembler(new ProductDTOAssembler());
+
     }
 
     /**
@@ -38,8 +39,8 @@ public class ProductAPI extends RestCRUD<ProductService, Product, ProductDTO> {
      */
     @RequestMapping(value = "/admin/batch", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SuppressWarnings(value = "unchecked")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void update(@RequestBody ProductUpdateDTO dto) throws IOException, PersistenceException {
         productService.saveBatchAdmin(
                 dtoAssembler.buildDO(dto.getRoot()),

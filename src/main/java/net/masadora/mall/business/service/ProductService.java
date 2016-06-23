@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 商品服务
@@ -19,38 +20,15 @@ import java.util.List;
 @Service
 public class ProductService extends TransactionalService<ProductRepo,Product> {
 
-    /*
-    {
-  "id": 48,
-  "createdAt": 1466475272418,
-  "deletedAt": null,
-  "description": "1231",
-  "modifiedAt": null,
-  "name": "yoooo3",
-  "price": 450,
-  "reservable": true,
-  "soldCount": 0,
-  "stock": 0,
-  "weight": 777,
-  "vendorId": 1,
-  "vendorName": "masadora",
-  "images": [],
-  "categories": [{"id":1}],
-  "properties":[{"value":"wow","propertyName":"doge"}]
-}
-     */
-    /* 因为双向一对多多对一不用了所以....
+    @Autowired
+    PropertyService propertyService;
+
     @Override
     public Product save(Product entity) throws PersistenceException {
         try {
-            entity.setImages(
-                    entity.getImages().parallelStream().map(
-                            i-> i.setProduct(entity))
-                            .collect(Collectors.toList()));
+
             entity.setProperties(
-                    entity.getProperties().parallelStream().map(
-                            i-> i.setProduct(entity))
-                            .collect(Collectors.toList()));
+                    entity.getProperties().parallelStream().map(i->propertyService.save(i)).collect(Collectors.toList()));
 
 
             return repo.save(entity);
@@ -60,7 +38,7 @@ public class ProductService extends TransactionalService<ProductRepo,Product> {
             throw new PersistenceException("InsertFailed");
         }
     }
-*/
+
     /**
      * 更新一个商品组
      * 要指定默认(根)商品和其他商品

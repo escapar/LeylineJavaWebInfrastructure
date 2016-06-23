@@ -27,7 +27,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
         AppErrorController.class
 })
 @EntityScan("net.masaadora.mall.framework.domain")
-@ComponentScan(basePackages = {"net.masadora.mall.framework.domain","net.masadora.mall.framework.infrastructure"})
+@ComponentScan(basePackages = {"net.masadora.mall.framework"})
 
 public abstract class FrameworkApp {
 

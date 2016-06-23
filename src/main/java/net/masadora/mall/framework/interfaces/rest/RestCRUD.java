@@ -11,11 +11,13 @@ import net.masadora.mall.framework.interfaces.dto.AppDTO;
 import net.masadora.mall.framework.interfaces.dto.PageJSON;
 import net.masadora.mall.framework.interfaces.dto.assembler.DTOAssembler;
 import net.masadora.mall.framework.interfaces.view.AppView;
-import net.masadora.mall.framework.service.TransactionalService;
 import net.masadora.mall.framework.service.MasadoraUserDetailsService;
+import net.masadora.mall.framework.service.TransactionalService;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,6 @@ import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +42,10 @@ import java.util.List;
  * 包含了分页排序的基础功能
  * Mapping可以通过替换Assembler来自定义
  */
-@Component
 @EnableSpringDataWebSupport
+@RestController
 public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, D extends AppDTO> implements CRUDOperation {
+    public final Logger logger = LoggerFactory.getLogger(getClass());
     private ObjectMapper mapper = new ObjectMapper();
     public DTOAssembler<O,D> dtoAssembler;
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
@@ -118,7 +120,8 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {
-        return (D) dtoAssembler.buildDTO((O)service.findOne(id));
+        logger.debug("boo");
+        return  dtoAssembler.buildDTO((O)service.findOne(id));
     }
 
 
@@ -126,6 +129,7 @@ public abstract class RestCRUD<T extends TransactionalService, O extends AppDO, 
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public void update(@RequestBody String json) throws IOException, PersistenceException {
+        logger.debug("test");
         service.save(dtoAssembler.buildDOList(mapper.readValue(json, typeDTOList)));
     }
 

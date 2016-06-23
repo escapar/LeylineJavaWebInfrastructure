@@ -24,6 +24,7 @@ public class PropertyDetail implements AppDO {
 
 	//uni-directional many-to-one association to Property
 	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "PROPERTY_ID")
 	private Property property;
 
 	private boolean display;
@@ -63,7 +64,8 @@ public class PropertyDetail implements AppDO {
 		return display;
 	}
 
-	public void setDisplay(boolean display) {
+	public PropertyDetail setDisplay(boolean display) {
 		this.display = display;
+		return this;
 	}
 }

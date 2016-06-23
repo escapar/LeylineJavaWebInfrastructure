@@ -1,6 +1,5 @@
 package net.masadora.mall.business.service;
 
-import javaslang.collection.Stream;
 import net.masadora.mall.business.domain.common.property.Property;
 import net.masadora.mall.business.domain.common.property.PropertyDetail;
 import net.masadora.mall.business.domain.common.property.PropertyDetailRepo;
@@ -23,9 +22,12 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class PropertyService extends TransactionalService<PropertyDetailRepo,Property> {
+public class PropertyService extends TransactionalService<PropertyDetailRepo,PropertyDetail> {
     @Autowired
     PropertyRepo propertyRepo;
+
+    @Autowired
+    PropertyDetailRepo repo;
 
     DTOAssembler<PropertyDetail, PropertyDetailDTO> assembler =  new DTOAssembler<>(PropertyDetail.class, PropertyDetailDTO.class);
 
@@ -33,6 +35,14 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
      * 获取筛选器所需的的商品分类的排序搜索筛选用属性
      * 第二个参数是已选的分类id
      **/
+
+    @Override
+    public PropertyDetail save(PropertyDetail p){
+        PropertyDetail existing = repo.getByValueAndPropertyId(p.getValue(),p.getProperty().getId());
+
+        return existing == null ? repo.save(p.setProperty(propertyRepo.get(p.getProperty().getId()))) : existing;
+    }
+
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     @SuppressWarnings(value = "unchecked")
     public Map<String,List<PropertyDetailDTO>> getPropertyDetailForPropertyFilter(Long categoryId,List<Long> existing){
@@ -55,11 +65,10 @@ public class PropertyService extends TransactionalService<PropertyDetailRepo,Pro
      **/
     @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
     public String findDetailsStringByPropertyIds(List<Long> existing) {
-        return Stream.of(existing.toArray())
-                .map(i ->assembler.buildDTO(repo.get((long)i)))
+        return existing.stream()
+                .map(i ->assembler.buildDTO(repo.get(i)))
                 .map(PropertyDetailDTO::toString)
-                .reduce((i,j)->i+j);
-
+                .collect(Collectors.joining(" "));
     }
 
     /**
