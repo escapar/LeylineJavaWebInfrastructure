@@ -17,9 +17,6 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
     @Autowired
     UserRepo userRepo;
 
-    @Autowired
-    private MasadoraProps masadoraProps;
-
     public UserService(){
 
     }
