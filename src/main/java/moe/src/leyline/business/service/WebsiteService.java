@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
 @Service
 public class WebsiteService extends LeylineTransactionalService<WebsiteRepo,Website> {
     @Autowired
-    private UserService domainUserService;
+    private UserService userService;
     @Autowired
     private WebsiteRepo websiteRepo;
 
@@ -69,7 +69,7 @@ public class WebsiteService extends LeylineTransactionalService<WebsiteRepo,Webs
             return null;
         }
         w.setVerifyKey(null);
-        domainUserService.verify(w.getUser());
+        userService.verify(w.getUser());
         return save(w);
     }
 

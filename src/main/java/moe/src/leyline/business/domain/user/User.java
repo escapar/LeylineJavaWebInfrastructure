@@ -19,7 +19,7 @@ import java.util.Collection;
 @Table(name="User")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQuery(name = "DomainUser.findAll", query = "SELECT u FROM DomainUser u")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 @EqualsAndHashCode
 @ToString
 public class User implements LeylineUser {
