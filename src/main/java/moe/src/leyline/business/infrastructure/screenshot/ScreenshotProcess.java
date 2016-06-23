@@ -13,7 +13,7 @@ import org.openqa.selenium.OutputType;
  * Created by bytenoob on 6/19/16.
  */
 public class ScreenshotProcess {
-    public static byte[] execute(String url) throws Exception{
+    public static byte[] execute(String url) throws Exception{/*I
         Callable callable = () -> {
             byte[] res=null;
             try {
@@ -30,6 +30,20 @@ public class ScreenshotProcess {
             }
             return res;
         };
-        return (byte[])callable.call();
+        return (byte[])callable.call();*/
+        byte[] res=null;
+        try {
+            JBrowserDriver driver = new JBrowserDriver(Settings.builder().
+                    timezone(Timezone.AMERICA_NEWYORK).build());
+
+            // This will block for the page load and any
+            // associated AJAX requests
+            driver.get(url);
+            res = driver.getScreenshotAs(OutputType.BYTES);
+            driver.quit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 }
