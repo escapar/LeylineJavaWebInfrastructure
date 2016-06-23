@@ -1,0 +1,15 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <appender name="FILEOUT" class="ch.qos.logback.core.FileAppender">
+        <file>log.txt</file>
+        <append>true</append>
+        <encoder>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} %X{name} %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+    <logger name="net.masadora.mall" level="TRACE">
+        <appender-ref ref="FILEOUT" />
+    </logger>
+</configuration>
