@@ -98,6 +98,22 @@ API会根据登录的用户状态来判断
 GET api/website/links
 ```
 
+# 有待实现的内容
+## 自动截图
+用户输入域名后尝试后端自动截图。
+
+## 属性和Tags
+属性有主语言和地域。
+
+Tags可以肆意生长。
+
+## 公开的API
+提供HTML的嵌入式和JSO的数据接口方便用户拿到自己的数据
+
+
+## 最简易的讨论版
+有帖子、活动、投票三种功能,板块按照语言和地域划分。
+
 # Environment
 
 Spring Boot / Spring Security / Spring Data JPA + QueryDSL + Hibernate 5
