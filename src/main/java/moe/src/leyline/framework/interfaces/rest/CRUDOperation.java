@@ -17,5 +17,4 @@ public interface CRUDOperation<T> {
 
     T find(Long id) throws Exception;
 
-
 }

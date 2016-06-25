@@ -1,6 +1,5 @@
 package moe.src.leyline.framework.infrastructure.security;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,9 +17,10 @@ public abstract class LeylineWebSecurityConfiguration<S extends LeylineUserDetai
     @Autowired
     private S userDetailsService;
 
-    public LeylineWebSecurityConfiguration(Boolean a){
+    public LeylineWebSecurityConfiguration(Boolean a) {
         super(a);
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -33,7 +33,7 @@ public abstract class LeylineWebSecurityConfiguration<S extends LeylineUserDetai
                 .anyRequest().permitAll();
     }
 
-    public S getUserDetailsService(){
+    public S getUserDetailsService() {
         return userDetailsService;
     }
 }

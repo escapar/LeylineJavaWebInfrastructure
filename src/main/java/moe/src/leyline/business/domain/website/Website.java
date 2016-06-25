@@ -1,209 +1,237 @@
 package moe.src.leyline.business.domain.website;
 
-import groovy.transform.EqualsAndHashCode;
-import moe.src.leyline.business.domain.user.User;
+import java.util.List;
+
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import java.util.List;
+import lombok.Data;
+import moe.src.leyline.business.domain.user.User;
 
 /**
  * The persistent class for the website database table.
- * 
  */
 @Entity
-@Table(name="website")
-@NamedQuery(name="Website.findAll", query="SELECT w FROM Website w")
+@Data
+@Table(name = "website")
+@NamedQuery(name = "Website.findAll", query = "SELECT w FROM Website w")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@EqualsAndHashCode
+
 public class Website implements moe.src.leyline.framework.domain.LeylineDO {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
 
-	@Column(name = "created_at")
-	private Long createdAt;
+    @Column(name = "created_at")
+    private Long createdAt;
 
-	private String description;
+    private String description;
 
-	@Column(nullable = false)
-	private String domain;
+    @Column(nullable = false)
+    private String domain;
 
-	@Column(name = "modified_at")
-	private Long modifiedAt;
+    @Column(name = "modified_at")
+    private Long modifiedAt;
 
-	private String screenshot;
+    private String screenshot;
 
-	private String title;
+    private String title;
 
-	private String verifyKey;
+    private String verifyKey;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name = "owner_id")
-	private User user;
+    //bi-directional many-to-one association to User
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User user;
 
-	//bi-directional many-to-one association to WebsiteRelation
-	@OneToMany(mappedBy = "master")
-	private List<WebsiteRelation> friends;
+    //bi-directional many-to-one association to WebsiteRelation
+    @OneToMany(mappedBy = "master", cascade = CascadeType.MERGE)
+    private List<WebsiteRelation> friends;
 
-	@OneToMany(mappedBy = "website",cascade = CascadeType.ALL)
-	private List<WebsiteUserVerify> websiteUserVerifies;
+    @OneToMany(mappedBy = "website", cascade = CascadeType.ALL)
+    private List<WebsiteUserVerify> websiteUserVerifies;
 
-	//bi-directional many-to-one association to WebsiteRelation
-	@OneToMany(mappedBy = "servant")
-	private List<WebsiteRelation> referencedBy;
+    //bi-directional many-to-one association to WebsiteRelation
+    @OneToMany(mappedBy = "servant", cascade = CascadeType.REFRESH)
+    private List<WebsiteRelation> referencedBy;
 
-	public Website() {
-	}
+    public Website() {
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public WebsiteRelation addFriend(WebsiteRelation friend) {
+        getFriends().add(friend);
+        friend.setMaster(this);
 
-	public Long getCreatedAt() {
-		return this.createdAt;
-	}
+        return friend;
+    }
 
-	public void setCreatedAt(Long createdAt) {
-		this.createdAt = createdAt;
-	}
+    public WebsiteRelation removeFriend(WebsiteRelation friend) {
+        getFriends().remove(friend);
+        friend.setMaster(null);
 
-	public String getDescription() {
-		return this.description;
-	}
+        return friend;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public Website addVerify(User u) {
+        addWebsiteUserVerify(new WebsiteUserVerify(null, u, this));
+        return this;
+    }
 
-	public String getDomain() {
-		return this.domain;
-	}
+    public WebsiteUserVerify addWebsiteUserVerify(WebsiteUserVerify websiteUserVerify) {
+        getWebsiteUserVerifies().add(websiteUserVerify);
+        websiteUserVerify.setWebsite(this);
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+        return websiteUserVerify;
+    }
 
-	public Long getModifiedAt() {
-		return this.modifiedAt;
-	}
+    public WebsiteUserVerify removeWebsiteUserVerify(WebsiteUserVerify websiteUserVerify) {
+        getWebsiteUserVerifies().remove(websiteUserVerify);
+        websiteUserVerify.setWebsite(null);
 
-	public void setModifiedAt(Long modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
+        return websiteUserVerify;
+    }
 
-	public String getScreenshot() {
-		return this.screenshot;
-	}
+    public WebsiteRelation addReferencedBy(WebsiteRelation referencedBy) {
+        getReferencedBy().add(referencedBy);
+        referencedBy.setServant(this);
 
-	public void setScreenshot(String screenshot) {
-		this.screenshot = screenshot;
-	}
+        return referencedBy;
+    }
 
-	public String getTitle() {
-		return this.title;
-	}
+    public WebsiteRelation removeReferencedBy(WebsiteRelation referencedBy) {
+        getReferencedBy().remove(referencedBy);
+        referencedBy.setServant(null);
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+        return referencedBy;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getVerifyKey() {
-		return verifyKey;
-	}
+    public Website setId(final Long id) {
+        this.id = id;
+        return this;
+    }
 
-	public void setVerifyKey(final String verifyKey) {
-		this.verifyKey = verifyKey;
-	}
+    public Long getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public Website setCreatedAt(final Long createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
 
-	public List<WebsiteRelation> getFriends() {
-		return this.friends;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setFriends(List<WebsiteRelation> friends) {
-		this.friends = friends;
-	}
+    public Website setDescription(final String description) {
+        this.description = description;
+        return this;
+    }
 
-	public WebsiteRelation addFriend(WebsiteRelation friend) {
-		getFriends().add(friend);
-		friend.setMaster(this);
+    public String getDomain() {
+        return domain;
+    }
 
-		return friend;
-	}
+    public Website setDomain(final String domain) {
+        this.domain = domain;
+        return this;
+    }
 
-	public WebsiteRelation removeFriend(WebsiteRelation friend) {
-		getFriends().remove(friend);
-		friend.setMaster(null);
+    public Long getModifiedAt() {
+        return modifiedAt;
+    }
 
-		return friend;
-	}
+    public Website setModifiedAt(final Long modifiedAt) {
+        this.modifiedAt = modifiedAt;
+        return this;
+    }
 
-	public void addVerify(User u) {
-		addWebsiteUserVerify(new WebsiteUserVerify(null, u, this));
-	}
+    public String getScreenshot() {
+        return screenshot;
+    }
 
-	public WebsiteUserVerify addWebsiteUserVerify(WebsiteUserVerify websiteUserVerify) {
-		getWebsiteUserVerifies().add(websiteUserVerify);
-		websiteUserVerify.setWebsite(this);
+    public Website setScreenshot(final String screenshot) {
+        this.screenshot = screenshot;
+        return this;
+    }
 
-		return websiteUserVerify;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public WebsiteUserVerify removeWebsiteUserVerify(WebsiteUserVerify websiteUserVerify) {
-		getWebsiteUserVerifies().remove(websiteUserVerify);
-		websiteUserVerify.setWebsite(null);
+    public Website setTitle(final String title) {
+        this.title = title;
+        return this;
+    }
 
-		return websiteUserVerify;
-	}
+    public String getVerifyKey() {
+        return verifyKey;
+    }
 
-	public List<WebsiteUserVerify> getWebsiteUserVerifies() {
-		return websiteUserVerifies;
-	}
+    public Website setVerifyKey(final String verifyKey) {
+        this.verifyKey = verifyKey;
+        return this;
+    }
 
-	public void setWebsiteUserVerifies(final List<WebsiteUserVerify> websiteUserVerifies) {
-		this.websiteUserVerifies = websiteUserVerifies;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public List<WebsiteRelation> getReferencedBy() {
-		return this.referencedBy;
-	}
+    public Website setUser(final User user) {
+        this.user = user;
+        return this;
+    }
 
-	public void setReferencedBy(List<WebsiteRelation> referencedBy) {
-		this.referencedBy = referencedBy;
-	}
+    public List<WebsiteRelation> getFriends() {
+        return friends;
+    }
 
-	public WebsiteRelation addReferencedBy(WebsiteRelation referencedBy) {
-		getReferencedBy().add(referencedBy);
-		referencedBy.setServant(this);
+    public Website setFriends(final List<WebsiteRelation> friends) {
+        this.friends = friends;
+        return this;
+    }
 
-		return referencedBy;
-	}
+    public List<WebsiteUserVerify> getWebsiteUserVerifies() {
+        return websiteUserVerifies;
+    }
 
-	public WebsiteRelation removeReferencedBy(WebsiteRelation referencedBy) {
-		getReferencedBy().remove(referencedBy);
-		referencedBy.setServant(null);
+    public Website setWebsiteUserVerifies(final List<WebsiteUserVerify> websiteUserVerifies) {
+        this.websiteUserVerifies = websiteUserVerifies;
+        return this;
+    }
 
-		return referencedBy;
-	}
+    public List<WebsiteRelation> getReferencedBy() {
+        return referencedBy;
+    }
 
+    public Website setReferencedBy(final List<WebsiteRelation> referencedBy) {
+        this.referencedBy = referencedBy;
+        return this;
+    }
 
 }

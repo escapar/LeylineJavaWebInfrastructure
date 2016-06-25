@@ -1,22 +1,30 @@
 package moe.src.leyline.business.domain.user;
 
-import groovy.transform.EqualsAndHashCode;
-import lombok.ToString;
-import moe.src.leyline.business.infrastructure.common.AuthUtil;
-import moe.src.leyline.framework.domain.user.LeylineUser;
+import java.util.Collection;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import javax.persistence.*;
-import java.util.Collection;
+import groovy.transform.EqualsAndHashCode;
+import lombok.ToString;
+import moe.src.leyline.framework.domain.user.LeylineUser;
 
 /**
  * The persistent class for the user database table.
  */
 @Entity
-@Table(name="User")
+@Table(name = "User")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
@@ -26,7 +34,7 @@ public class User implements LeylineUser {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
@@ -41,20 +49,26 @@ public class User implements LeylineUser {
     public User() {
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public User setId(final long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public void setName(String name) {
+    public User setName(final String name) {
         this.name = name;
+        return this;
     }
 
     @Override
@@ -66,9 +80,14 @@ public class User implements LeylineUser {
         return this.password;
     }
 
+    public User setPassword(final String password) {
+        this.password = password;
+        return this;
+    }
+
     @Override
     public String getUsername() {
-        return null;
+        return this.name;
     }
 
     @Override
@@ -91,21 +110,18 @@ public class User implements LeylineUser {
         return false;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUnHashedPassword(String password) {
+    public User setUnHashedPassword(String password) {
         setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+        return this;
     }
 
-
-    public int getRole(){
+    public int getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public User setRole(final int role) {
         this.role = role;
+        return this;
     }
 
     @Override
@@ -137,4 +153,5 @@ public class User implements LeylineUser {
     public void eraseCredentials() {
 
     }
+
 }

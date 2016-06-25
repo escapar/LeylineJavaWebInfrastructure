@@ -3,13 +3,14 @@ package moe.src.leyline.business.infrastructure.screenshot;
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import com.machinepublishers.jbrowserdriver.Settings;
 import com.machinepublishers.jbrowserdriver.Timezone;
+
 import org.openqa.selenium.OutputType;
 
 /**
  * Created by bytenoob on 6/19/16.
  */
 public class ScreenshotProcess {
-    public static byte[] execute(String url) throws Exception{/*I
+    public static byte[] execute(String url) throws Exception {/*I
         Callable callable = () -> {
             byte[] res=null;
             try {
@@ -27,7 +28,7 @@ public class ScreenshotProcess {
             return res;
         };
         return (byte[])callable.call();*/
-        byte[] res=null;
+        byte[] res = null;
         try {
             JBrowserDriver driver = new JBrowserDriver(Settings.builder().
                     timezone(Timezone.AMERICA_NEWYORK).build());

@@ -11,7 +11,6 @@ public class ClassEraser<T> {
 
     private final Supplier<? extends T> ctor;
 
-
     public ClassEraser(Supplier<? extends T> ctor) {
         this.ctor = Objects.requireNonNull(ctor);
     }

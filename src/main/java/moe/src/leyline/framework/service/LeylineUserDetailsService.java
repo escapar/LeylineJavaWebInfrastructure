@@ -1,8 +1,7 @@
 package moe.src.leyline.framework.service;
 
-import javaslang.collection.Stream;
-import moe.src.leyline.framework.domain.user.LeylineUser;
-import moe.src.leyline.framework.domain.user.LeylineUserRepo;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,13 +11,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import javaslang.collection.Stream;
+import moe.src.leyline.framework.domain.user.LeylineUser;
+import moe.src.leyline.framework.domain.user.LeylineUserRepo;
 
 /**
- *  实现Spring Security需要的UserDetailsService
+ * 实现Spring Security需要的UserDetailsService
  */
 @Service
-public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D extends LeylineUser> extends LeylineTransactionalService<T,D> implements UserDetailsService {
+public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D extends LeylineUser> extends LeylineTransactionalService<T, D> implements UserDetailsService {
     @Autowired
     private T userRepo;
 
@@ -47,7 +48,7 @@ public abstract class LeylineUserDetailsService<T extends LeylineUserRepo, D ext
     public LeylineUser getCurrentUser() {
         Authentication auth =
                 SecurityContextHolder.getContext().getAuthentication();
-        return  auth.getPrincipal() instanceof LeylineUser ? (LeylineUser)auth.getPrincipal() : null;
+        return auth.getDetails() instanceof LeylineUser ? (LeylineUser) auth.getDetails() : null;
     }
 
     /**

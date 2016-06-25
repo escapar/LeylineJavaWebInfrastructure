@@ -1,38 +1,43 @@
 package moe.src.leyline.framework.interfaces.dto.assembler;
 
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.stream.Collectors;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 
 /**
  * DTO转DO,特别注意的是无参构造仅能用于继承的子类.
- * TODO: 在无参构造中拿到DO和DTO的type
  */
-public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
+public class DTOAssembler<DO extends LeylineDO, DTO extends LeylineDTO> {
     public ModelMapper m = new ModelMapper();
     Type typeDO;
     Type typeDTO;
+
     public DTOAssembler() {
-        Class<?>[] typeArgs=TypeResolver.resolveRawArguments(DTOAssembler.class, getClass());
-        typeDO=getType(typeArgs[0]);
-        typeDTO=getType(typeArgs[1]);
+        Class<?>[] typeArgs = TypeResolver.resolveRawArguments(DTOAssembler.class, getClass());
+        typeDO = getType(typeArgs[0]);
+        typeDTO = getType(typeArgs[1]);
     }
 
-    public DTOAssembler(Type DO , Type DTO) {
+    public DTOAssembler(Type DO, Type DTO) {
         typeDO = DO;
         typeDTO = DTO;
     }
 
-    public DTOAssembler(Class<?> DO , Class<?> DTO) {
+    public DTOAssembler(Class<?> DO, Class<?> DTO) {
         typeDO = getType(DO);
         typeDTO = getType(DTO);
+    }
+
+    private static Type getType(Class c) {
+        return com.google.common.reflect.TypeToken.of(c).getType();
     }
 
     public DTO buildDTO(DO d) {
@@ -51,7 +56,6 @@ public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
         return d.stream().map(e -> buildDTO(e)).collect(Collectors.toList());
     }
 
-
     public Page buildPageDTO(Page p) {
         return p.map(new DO2DTOConverter());
     }
@@ -60,10 +64,6 @@ public class DTOAssembler<DO extends LeylineDO,DTO extends LeylineDTO> {
         public DTO convert(DO d) {
             return buildDTO(d);
         }
-    }
-
-    private static Type getType(Class c){
-        return com.google.common.reflect.TypeToken.of(c).getType();
     }
 
 }

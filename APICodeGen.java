@@ -1,17 +1,5 @@
 package moe.src.leyline.framework.infrastructure.common;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.common.collect.ImmutableMap;
-import javaslang.Tuple2;
-import javaslang.collection.Stream;
-import lombok.AllArgsConstructor;
-import lombok.Value;
-import moe.src.example.mall.interfaces.rest.ProductAPI;
-import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
-import org.jodah.typetools.TypeResolver;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,6 +9,20 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.collect.ImmutableMap;
+
+import org.jodah.typetools.TypeResolver;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javaslang.Tuple2;
+import javaslang.collection.Stream;
+import lombok.AllArgsConstructor;
+import lombok.Value;
+import moe.src.example.mall.interfaces.rest.ProductAPI;
+import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
 
 /**
  * Created by POJO on 6/11/16.

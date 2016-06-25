@@ -1,19 +1,15 @@
 package moe.src.leyline.framework.interfaces.rest;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.querydsl.core.types.Predicate;
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.domain.user.LeylineUser;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
-import moe.src.leyline.framework.interfaces.dto.PageJSON;
-import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.interfaces.view.LeylineView;
-import moe.src.leyline.framework.service.LeylineTransactionalService;
-import moe.src.leyline.framework.service.LeylineUserDetailsService;
+
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -30,13 +26,24 @@ import org.springframework.data.querydsl.binding.QuerydslPredicateBuilder;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.user.LeylineUser;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.PageJSON;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
+import moe.src.leyline.framework.service.LeylineTransactionalService;
+import moe.src.leyline.framework.service.LeylineUserDetailsService;
 
 /**
  * 分页增删改查Restful API控制器抽象类,自动完成DO->DTO的Mapping
@@ -46,11 +53,9 @@ import java.util.List;
 @EnableSpringDataWebSupport
 @RestController
 public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O extends LeylineDO, D extends LeylineDTO> implements CRUDOperation {
-    public final Logger logger = LoggerFactory.getLogger(getClass());
-    private ObjectMapper mapper = new ObjectMapper();
-    public DTOAssembler<O,D> dtoAssembler;
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
+    public final Logger logger = LoggerFactory.getLogger(getClass());
     private final Class<?>[] typeArgs;
     private final Type typeService;
     private final Type typeDTO;
@@ -60,11 +65,12 @@ public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O e
     private final Class<O> classDO;
     private final JavaType typeDTOList;
     private final JavaType typeDOList;
+    public DTOAssembler<O, D> dtoAssembler;
     @Autowired
     protected T service;
-
     @Autowired
     protected LeylineUserDetailsService userDetailsService;
+    private ObjectMapper mapper = new ObjectMapper();
 
     @SuppressWarnings(value = "unchecked")
     public LeylineRestCRUD() {
@@ -77,7 +83,7 @@ public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O e
         this.typeDO = TypeToken.of(classDO).getType();
         typeDTOList = mapper.getTypeFactory().constructCollectionType(List.class, classDTO);
         typeDOList = mapper.getTypeFactory().constructCollectionType(List.class, classDO);
-        setDTOAssembler(new DTOAssembler<>(typeDO,typeDTO));
+        setDTOAssembler(new DTOAssembler<>(typeDO, typeDTO));
     }
 
     private Page doQueryDSL(Pageable p, MultiValueMap<String, String> parameters) throws PersistenceException {
@@ -125,9 +131,8 @@ public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O e
     @SuppressWarnings(value = "unchecked")
     public D find(@PathVariable Long id) throws PersistenceException {
         assertQuery(null);
-        return  dtoAssembler.buildDTO((O)service.findOne(id));
+        return dtoAssembler.buildDTO((O) service.findOne(id));
     }
-
 
     @RequestMapping(value = "/batch", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
@@ -138,10 +143,10 @@ public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O e
         service.save(doList);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json",produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
-    public void updateOne(@RequestBody D obj) throws IOException, PersistenceException,AssertionError {
+    public void updateOne(@RequestBody D obj) throws IOException, PersistenceException, AssertionError {
         O objDO = dtoAssembler.buildDO(obj);
         assertUpdate(objDO);
         service.save(dtoAssembler.buildDO(obj));
@@ -193,28 +198,29 @@ public abstract class LeylineRestCRUD<T extends LeylineTransactionalService, O e
         return userDetailsService.getCurrentUser();
     }
 
-    public void setDTOAssembler(DTOAssembler<O,D> dtoAssembler) {
+    public void setDTOAssembler(DTOAssembler<O, D> dtoAssembler) {
         this.dtoAssembler = dtoAssembler;
     }
 
     /**
      * 增删改查检查预留方法 可以在implementation里override
+     *
      * @param o
      * @return
      */
-    public void assertQuery(Object o){
+    public void assertQuery(Object o) {
 
     }
 
-    public void assertUpdateBatch(List<O> o){
+    public void assertUpdateBatch(List<O> o) {
         o.forEach(this::assertUpdate);
     }
 
-    public void assertUpdate(O o){
+    public void assertUpdate(O o) {
 
     }
 
-    public void assertDelete(){
+    public void assertDelete() {
 
     }
 }

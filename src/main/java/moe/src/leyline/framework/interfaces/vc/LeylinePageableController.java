@@ -1,13 +1,13 @@
 package moe.src.leyline.framework.interfaces.vc;
 
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.common.reflect.TypeToken;
 import com.querydsl.core.types.Predicate;
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
-import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
-import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
-import moe.src.leyline.framework.service.LeylineTransactionalService;
+
 import org.jodah.typetools.TypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -28,10 +28,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
+import moe.src.leyline.framework.service.LeylineTransactionalService;
 
 /**
  * 分页增删改查后端渲染控制器抽象类,自动完成DO->DTO的Mapping
@@ -39,11 +41,12 @@ import java.util.stream.Collectors;
  * Mapping可以通过替换Assembler来自定义
  */
 @Controller
-public abstract class LeylinePageableController<S extends LeylineTransactionalService, DO extends LeylineDO,T extends LeylineDTO> {
+public abstract class LeylinePageableController<S extends LeylineTransactionalService, DO extends LeylineDO, T extends LeylineDTO> {
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
     @Autowired
     public S service;
+    public DTOAssembler<DO, T> dtoAssembler;
     private Class<?>[] typeArgs;
     private Class<T> classDO;
     private Class<T> classDTO;
@@ -51,7 +54,6 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
     private Type typeDTO;
     private Integer pagesize = 20;
     private String modelName;
-    public DTOAssembler<DO,T> dtoAssembler;
 
     @SuppressWarnings(value = "unchecked")
     public LeylinePageableController() {
@@ -62,11 +64,12 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
         this.typeDO = TypeToken.of(classDTO).getType();
         String[] nameOfDTO = typeDTO.getTypeName().split("\\.");
         modelName = nameOfDTO[nameOfDTO.length - 1].toLowerCase().replace("dto", "");
-        setDtoAssembler(new DTOAssembler(typeDO,typeDTO));
+        setDtoAssembler(new DTOAssembler(typeDO, typeDTO));
     }
 
     /**
      * 用QueryDSL构建复杂JPA查询
+     *
      * @param p
      * @param parameters
      * @return
@@ -84,18 +87,20 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
 
     /**
      * 分页列出辅助方法
+     *
      * @param model
      * @param page
      * @return
      * @throws LeylineException
      */
     public String list(Model model, Page page) throws LeylineException {
-        model.addAttribute("page",page);
+        model.addAttribute("page", page);
         return modelName.concat("/list");
     }
 
     /**
      * 分页列出辅助方法
+     *
      * @param model
      * @param pageable
      * @return
@@ -109,6 +114,7 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
 
     /**
      * 默认入口
+     *
      * @param model
      * @param page
      * @param direction
@@ -127,6 +133,7 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
 
     /**
      * 全部显示带分页
+     *
      * @param model
      * @param page
      * @param direction
@@ -137,11 +144,12 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
      */
     @RequestMapping("/page/{page}")
     public String list(Model model, @PathVariable Integer page, @RequestParam(required = false) String direction, @RequestParam(required = false, defaultValue = "id") String properties, @RequestParam(required = false) Integer pagesize) throws LeylineException {
-        return list(model, getPageRequest(page,direction,properties,pagesize));
+        return list(model, getPageRequest(page, direction, properties, pagesize));
     }
 
     /**
      * 属性排序带分页
+     *
      * @param model
      * @param page
      * @param direction
@@ -157,6 +165,7 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
 
     /**
      * 属性排序+方向带分页
+     *
      * @param model
      * @param page
      * @param direction
@@ -172,6 +181,7 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
 
     /**
      * 以id为标识的详情页
+     *
      * @param model
      * @param id
      * @return
@@ -179,12 +189,13 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
      */
     @RequestMapping("/detail_{id}")
     public String list(Model model, @PathVariable Long id) throws LeylineException {
-        model.addAttribute("res", dtoAssembler.buildDTO((DO)service.findOne(id)));
+        model.addAttribute("res", dtoAssembler.buildDTO((DO) service.findOne(id)));
         return modelName.concat("/detail");
     }
 
     /**
      * 造PageRequest分页信息对象
+     *
      * @param page
      * @param direction
      * @param property
@@ -192,12 +203,12 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
      * @return
      * @throws LeylineException
      */
-    public PageRequest getPageRequest(Integer page,String direction, String property, Integer pagesize) throws LeylineException {
+    public PageRequest getPageRequest(Integer page, String direction, String property, Integer pagesize) throws LeylineException {
         Sort.Direction d = Sort.Direction.DESC;
         if (direction != null && !direction.isEmpty() && direction.toUpperCase().equals("ASC")) {
             d = Sort.Direction.ASC;
         }
-        if(pagesize == null){
+        if (pagesize == null) {
             pagesize = getPagesize();
         }
         return new PageRequest(page, pagesize, d, property.split(","));
@@ -219,7 +230,7 @@ public abstract class LeylinePageableController<S extends LeylineTransactionalSe
         this.dtoAssembler = dtoAssembler;
     }
 
-    public List<Long> splitPropertIdsToList(String properties){
+    public List<Long> splitPropertIdsToList(String properties) {
         return Arrays.asList(properties.split(",")).parallelStream().map(Long::valueOf).collect(Collectors.toList());
     }
 }

@@ -10,6 +10,6 @@
         </encoder>
     </appender>
     <logger name="net.masadora.mall" level="TRACE">
-        <appender-ref ref="FILEOUT" />
+        <appender-ref ref="FILEOUT"/>
     </logger>
 </configuration>

@@ -1,6 +1,5 @@
 package moe.src.leyline.framework;
 
-import moe.src.leyline.framework.interfaces.vc.LeylineErrorController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
@@ -11,6 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+import moe.src.leyline.framework.interfaces.vc.LeylineErrorController;
 
 /**
  * 一些和业务无关的最底层配置
@@ -27,7 +28,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
         LeylineErrorController.class
 })
 @EntityScan("net.masaadora.mall.framework.domain")
-@ComponentScan(basePackages = {"net.masadora.mall.framework"})
+@ComponentScan(basePackages = { "net.masadora.mall.framework" })
 
 public abstract class LeylineApp {
 

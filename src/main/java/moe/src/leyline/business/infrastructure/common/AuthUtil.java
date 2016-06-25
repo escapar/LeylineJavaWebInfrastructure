@@ -1,10 +1,11 @@
 package moe.src.leyline.business.infrastructure.common;
 
-import javaslang.collection.Stream;
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
+import javaslang.collection.Stream;
 
 /**
  * Created by POJO on 6/21/16.
@@ -24,26 +25,26 @@ public class AuthUtil {
     public static Collection<? extends GrantedAuthority> getRole(Long id) {
         Collection<? extends GrantedAuthority> authorities = null;
         switch (id.intValue()) {
-            case ADMIN:
-                authorities = Stream.of("COMMON_USER", "ADMIN")
-                        .map(SimpleGrantedAuthority::new)
-                        .toJavaList();
-                break;
-            case COMMON_USER:
-                authorities = Stream.of("ROLE_USER")
-                        .map(SimpleGrantedAuthority::new)
-                        .toJavaList();
-                break;
-            default:
-                authorities = Stream.of("ROLE_ANONYMOUS")
-                        .map(SimpleGrantedAuthority::new)
-                        .toJavaList();
+        case ADMIN:
+            authorities = Stream.of("COMMON_USER", "ADMIN")
+                    .map(SimpleGrantedAuthority::new)
+                    .toJavaList();
+            break;
+        case COMMON_USER:
+            authorities = Stream.of("ROLE_USER")
+                    .map(SimpleGrantedAuthority::new)
+                    .toJavaList();
+            break;
+        default:
+            authorities = Stream.of("ROLE_ANONYMOUS")
+                    .map(SimpleGrantedAuthority::new)
+                    .toJavaList();
         }
 
         return authorities;
     }
 
     public static Collection<? extends GrantedAuthority> getRole(int id) {
-        return getRole((long)id);
+        return getRole((long) id);
     }
 }

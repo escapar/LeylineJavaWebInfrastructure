@@ -1,125 +1,128 @@
 package moe.src.leyline.business.domain.topic;
 
-import groovy.transform.EqualsAndHashCode;
-import lombok.ToString;
-import moe.src.leyline.business.domain.user.User;
+import java.util.List;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.util.List;
+import moe.src.leyline.business.domain.user.User;
 
 /**
  * The persistent class for the topic database table.
- * 
  */
 @Entity
-@Table(name="topic")
-@NamedQuery(name="Topic.findAll", query="SELECT t FROM Topic t")
+@Table(name = "topic")
+@NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@EqualsAndHashCode
-@ToString
 public class Topic implements moe.src.leyline.framework.domain.LeylineDO {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
 
-	private int status;
+    private int status;
 
-	@Column(nullable=false)
-	private String title;
+    @Column(nullable = false)
+    private String title;
 
-	private int type;
+    private int type;
 
-	//bi-directional many-to-one association to Topic
-	@ManyToOne
-	@JoinColumn(name="root_id")
-	private Topic topic;
+    //bi-directional many-to-one association to Topic
+    @ManyToOne
+    @JoinColumn(name = "root_id")
+    private Topic topic;
 
-	//bi-directional many-to-one association to Topic
-	@OneToMany(mappedBy="topic")
-	private List<Topic> topics;
+    //bi-directional many-to-one association to Topic
+    @OneToMany(mappedBy = "topic")
+    private List<Topic> topics;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="owner_id")
-	private User user;
+    //bi-directional many-to-one association to User
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User user;
 
-	public Topic() {
-	}
+    public Topic() {
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public int getStatus() {
-		return this.status;
-	}
+    public Topic setId(final Long id) {
+        this.id = id;
+        return this;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public Object getTitle() {
-		return this.title;
-	}
+    public Topic setStatus(final int status) {
+        this.status = status;
+        return this;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public int getType() {
-		return this.type;
-	}
+    public Topic setTitle(final String title) {
+        this.title = title;
+        return this;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public Topic getTopic() {
-		return this.topic;
-	}
+    public Topic setType(final int type) {
+        this.type = type;
+        return this;
+    }
 
-	public void setTopic(Topic topic) {
-		this.topic = topic;
-	}
+    public Topic getTopic() {
+        return topic;
+    }
 
-	public List<Topic> getTopics() {
-		return this.topics;
-	}
+    public Topic setTopic(final Topic topic) {
+        this.topic = topic;
+        return this;
+    }
 
-	public void setTopics(List<Topic> topics) {
-		this.topics = topics;
-	}
+    public List<Topic> getTopics() {
+        return topics;
+    }
 
-	public Topic addTopic(Topic topic) {
-		getTopics().add(topic);
-		topic.setTopic(this);
+    public Topic setTopics(final List<Topic> topics) {
+        this.topics = topics;
+        return this;
+    }
 
-		return topic;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public Topic removeTopic(Topic topic) {
-		getTopics().remove(topic);
-		topic.setTopic(null);
-
-		return topic;
-	}
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
+    public Topic setUser(final User user) {
+        this.user = user;
+        return this;
+    }
 }

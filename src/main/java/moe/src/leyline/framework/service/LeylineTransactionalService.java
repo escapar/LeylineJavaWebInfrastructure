@@ -1,11 +1,13 @@
 package moe.src.leyline.framework.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.querydsl.core.types.Predicate;
-import moe.src.leyline.business.domain.user.User;
-import moe.src.leyline.framework.domain.LeylineCacheableRepo;
-import moe.src.leyline.framework.domain.LeylineDO;
-import moe.src.leyline.framework.domain.user.LeylineUser;
-import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,14 +17,19 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import moe.src.leyline.business.domain.user.User;
+import moe.src.leyline.framework.domain.LeylineCacheableRepo;
+import moe.src.leyline.framework.domain.LeylineDO;
+import moe.src.leyline.framework.domain.user.LeylineUser;
+import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by POJO on 5/29/16.
  */
 @Service
-@Transactional(rollbackFor = Throwable.class,isolation = Isolation.REPEATABLE_READ)
-public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo,E extends LeylineDO> {
+@Transactional(rollbackFor = Throwable.class, isolation = Isolation.REPEATABLE_READ)
+public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo, E extends LeylineDO> {
     @Autowired
     protected T repo;
 
@@ -31,13 +38,13 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
 
     @SuppressWarnings(value = "unchecked")
     protected static List<Map<String, Object>> resMap(String[] params, Iterable res) {
-        List resultList = new ArrayList<Map<String,Object>>();
-        if(params!=null && params.length>0 && res!=null) {
-            for(Object i : res){
+        List resultList = new ArrayList<Map<String, Object>>();
+        if (params != null && params.length > 0 && res != null) {
+            for (Object i : res) {
                 int c = 0;
                 HashMap resMap = new HashMap();
-                for(Object e : (Object[])i){
-                    resMap.put(params[c++],e);
+                for (Object e : (Object[]) i) {
+                    resMap.put(params[c++], e);
                 }
                 resultList.add(resMap);
             }
@@ -98,7 +105,7 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public E findOne(Long id) throws PersistenceException {
         try {
             return (E) repo.findOne(id);
@@ -109,13 +116,13 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public E get(Long id) throws PersistenceException {
         return findOne(id);
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<? extends E> findAll(List<Integer> ids) throws PersistenceException {
         try {
             return (List<? extends E>) repo.findAll(ids);
@@ -126,7 +133,7 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<? extends E> findAll() throws PersistenceException {
         try {
             return (List<? extends E>) repo.findAll();
@@ -137,7 +144,7 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Page<? extends E> findAll(Pageable p) throws PersistenceException {
         try {
             return repo.findAll(p);
@@ -148,7 +155,7 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Page<? extends E> findAll(Predicate p, Pageable pageable) throws PersistenceException {
         try {
             return repo.findAll(p, pageable);
@@ -159,7 +166,7 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     @SuppressWarnings(value = "unchecked")
-    @Transactional(propagation = Propagation.SUPPORTS,readOnly=true)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<? extends E> findAll(Sort s) throws PersistenceException {
         try {
             return (List<? extends E>) repo.findAll(s);
@@ -174,11 +181,17 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     public Boolean checkOwnerOf(LeylineUser u) {
-        return getCurrentUser().getUsername().equals(u.getName());
+        return getCurrentUser() == null ? null : getCurrentUser().getUsername().equals(u.getName());
     }
 
     public Boolean checkOwnerOf(User u) {
-        return getCurrentUser().getUsername().equals(u.getUsername());
+        return getCurrentUser() != null && getCurrentUser().getUsername().equals(u.getUsername());
+    }
+
+    public void userAssertion(User u) {
+        assertThat(u)
+                .extracting(User::getUsername)
+                .isEqualTo(getCurrentUser().getName());
     }
 
 }

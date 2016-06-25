@@ -7,7 +7,7 @@ import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 /**
  * Created by bytenoob on 6/19/16.
  */
-@Data public class TopicDTO implements LeylineDTO{
+@Data public class TopicDTO implements LeylineDTO {
 
     private String id;
 

@@ -7,7 +7,7 @@ import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
  * Created by bytenoob on 6/18/16.
  */
 @Data
-public class UserDTO implements LeylineDTO{
+public class UserDTO implements LeylineDTO {
     private long id;
 
     private String name;

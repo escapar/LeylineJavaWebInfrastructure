@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml">
 
-  <head>
+<head>
     <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">My website</title>
-  </head>
+</head>
 
-  <body>
-    <header layout:include="layout/header"></header>
+<body>
+<header layout:include="layout/header"></header>
 
-    <div layout:fragment="content"></div>
+<div layout:fragment="content"></div>
 
-    <footer layout:include="layout/footer"></footer>
-  </body>
+<footer layout:include="layout/footer"></footer>
+</body>
 
 </html>

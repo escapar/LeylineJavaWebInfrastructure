@@ -3,8 +3,6 @@ package moe.src.leyline.interfaces.dto;
 import lombok.AllArgsConstructor;
 import moe.src.leyline.framework.interfaces.dto.LeylineDTO;
 
-import java.io.Serializable;
-
 /**
  * Created by bytenoob on 6/18/16.
  */
@@ -14,7 +12,6 @@ public class UserLoginDTO implements LeylineDTO {
     public String username;
     public String password;
     public String domain;
-
 
     public Long getId() {
         return id;
