@@ -16,8 +16,10 @@ import moe.src.leyline.business.domain.website.Website;
 import moe.src.leyline.business.domain.website.WebsiteRelation;
 import moe.src.leyline.business.service.WebsiteService;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
 import moe.src.leyline.interfaces.dto.WebsiteDTO;
+import moe.src.leyline.interfaces.dto.WebsiteRelationDTO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -28,6 +30,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class WebsiteAPI extends LeylineRestCRUD<WebsiteService, Website, WebsiteDTO> {
     @Autowired
     WebsiteService websiteService;
+
+    DTOAssembler<WebsiteRelation, WebsiteRelationDTO> relationDTOAssembler = new DTOAssembler<>(WebsiteRelation.class, WebsiteRelationDTO.class);
 
     @RequestMapping(value = "{id}/verify/head", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public @ResponseBody Boolean websiteVerify(@PathVariable Long id, @RequestBody String url) throws PersistenceException, InterruptedException, ExecutionException {
@@ -56,13 +60,18 @@ public class WebsiteAPI extends LeylineRestCRUD<WebsiteService, Website, Website
     }
 
     @RequestMapping(value = "{masterId}/{servantId}/link", method = RequestMethod.GET)
-    public @ResponseBody WebsiteRelation doLink(@PathVariable Long masterId, @PathVariable Long servantId) throws Exception {
-        return websiteService.link(masterId, servantId);
+    public @ResponseBody WebsiteRelationDTO doLink(@PathVariable Long masterId, @PathVariable Long servantId) throws Exception {
+        return relationDTOAssembler.buildDTO(websiteService.link(masterId, servantId));
     }
 
     @RequestMapping(value = "links", method = RequestMethod.GET)
     public @ResponseBody List link() throws Exception {
-        return websiteService.getLinks();
+        return relationDTOAssembler.buildDTOList(websiteService.getLinks());
+    }
+
+    @RequestMapping(value = "referenced", method = RequestMethod.GET)
+    public @ResponseBody List referenced() throws Exception {
+        return relationDTOAssembler.buildDTOList(websiteService.getReferenced());
     }
 
 }

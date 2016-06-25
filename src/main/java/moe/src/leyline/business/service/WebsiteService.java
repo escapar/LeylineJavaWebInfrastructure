@@ -167,4 +167,10 @@ public class WebsiteService extends LeylineTransactionalService<WebsiteRepo, Web
         assertThat(u).isNotNull();
         return websiteRepo.findByUser(u).parallelStream().flatMap(i -> i.getFriends().stream()).sorted().collect(Collectors.toList());
     }
+
+    public List<WebsiteRelation> getReferenced() {
+        User u = (User) getCurrentUser();
+        assertThat(u).isNotNull();
+        return websiteRepo.findByUser(u).parallelStream().flatMap(i -> i.getReferencedBy().stream()).sorted().collect(Collectors.toList());
+    }
 }
