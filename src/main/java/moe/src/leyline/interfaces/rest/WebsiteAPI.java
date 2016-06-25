@@ -73,11 +73,22 @@ public class WebsiteAPI extends LeylineRestCRUD<WebsiteService, Website, Website
         );
     }
 
+
+    @RequestMapping(value = "owned", method = RequestMethod.GET)
+    public @ResponseBody List owned() throws Exception {
+        return dtoAssembler.buildDTOList(
+                websiteService.getOwned()
+        );
+    }
+
+
+    /*
     @RequestMapping(value = "referenced", method = RequestMethod.GET)
     public @ResponseBody List referenced() throws Exception {
         return relationDTOAssembler.buildDTOList(
                 websiteService.getReferenced()
         );
     }
+    */
 
 }
