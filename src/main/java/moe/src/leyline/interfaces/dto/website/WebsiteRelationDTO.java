@@ -15,9 +15,9 @@ public class WebsiteRelationDTO implements LeylineDTO {
 
     private String title;
 
-    private Website master;
+    private WebsiteDTO master;
 
-    private Website servant;
+    private WebsiteDTO servant;
 
     private boolean approved;
 
