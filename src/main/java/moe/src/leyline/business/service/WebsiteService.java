@@ -29,7 +29,7 @@ public class WebsiteService extends LeylineTransactionalService<WebsiteRepo, Web
     @Autowired
     private UserService userService;
     @Autowired
-    private WebsiteRepo websiteRepo;
+    private WebsiteRepo repo;
 
     @Autowired
     private WebsiteRelationRepo websiteRelationRepo;
@@ -105,7 +105,7 @@ public class WebsiteService extends LeylineTransactionalService<WebsiteRepo, Web
     }
 
     private Website getByKey(String key) {
-        return websiteRepo.getByVerifyKey(key);
+        return repo.getByVerifyKey(key);
     }
 
     public byte[] screenshot(Long id) throws Exception {
@@ -125,18 +125,18 @@ public class WebsiteService extends LeylineTransactionalService<WebsiteRepo, Web
     }
 
     public WebsiteRelation establishRelation(Website m, Website s) {
-
         assertThat(m).isNotNull();
         assertThat(s).isNotNull();
         userAssertion(m.getUser());
+        assertThat(websiteRelationRepo.findByMasterAndServant(m,s)).isNull();
 
-        return m.addFriend(
+        return websiteRelationRepo.save(m.addFriend(
                 new WebsiteRelation()
                         .setApproved(false)
                         .setMaster(m)
                         .setServant(s)
                         .setTitle(s.getTitle())
-                        .setDescription(m.getTitle() + " x " + s.getTitle()));
+                        .setDescription(m.getTitle() + " x " + s.getTitle())));
 
     }
 
@@ -158,19 +158,21 @@ public class WebsiteService extends LeylineTransactionalService<WebsiteRepo, Web
     }
 
     public WebsiteRelation handshake(WebsiteRelation wr) {
+        assertThat(wr.isApproved()).isFalse();
         userAssertion(wr.getServant().getUser());
+
         return websiteRelationRepo.save(wr.setApproved(true));
     }
 
     public List<WebsiteRelation> getLinks() {
         User u = (User) getCurrentUser();
         assertThat(u).isNotNull();
-        return websiteRepo.findByUser(u).parallelStream().flatMap(i -> i.getFriends().stream()).sorted().collect(Collectors.toList());
+        return repo.findByUser(u).parallelStream().flatMap(i -> i.getFriends().stream()).sorted().collect(Collectors.toList());
     }
 
     public List<WebsiteRelation> getReferenced() {
         User u = (User) getCurrentUser();
         assertThat(u).isNotNull();
-        return websiteRepo.findByUser(u).parallelStream().flatMap(i -> i.getReferencedBy().stream()).sorted().collect(Collectors.toList());
+        return repo.findByUser(u).parallelStream().flatMap(i -> i.getReferencedBy().stream()).sorted().collect(Collectors.toList());
     }
 }

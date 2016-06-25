@@ -54,7 +54,7 @@ public class WebsiteRelation implements moe.src.leyline.framework.domain.Leyline
 
     private boolean approved;
 
-    private Long createdAt;
+    private Long createdAt = new DateTime().getMillis();
 
     public WebsiteRelation() {
     }
@@ -115,7 +115,7 @@ public class WebsiteRelation implements moe.src.leyline.framework.domain.Leyline
 
     public Long getCreatedAt() {
         if (createdAt == null) {
-            createdAt = new DateTime().getMillis();
+            setCreatedAt(new DateTime().getMillis());
         }
         return createdAt;
     }

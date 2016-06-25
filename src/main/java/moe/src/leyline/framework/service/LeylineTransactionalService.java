@@ -189,9 +189,8 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     }
 
     public void userAssertion(User u) {
-        assertThat(u)
-                .extracting(User::getUsername)
-                .isEqualTo(getCurrentUser().getName());
+        assertThat(u.getId())
+                .isEqualTo(getCurrentUser().getId());
     }
 
 }

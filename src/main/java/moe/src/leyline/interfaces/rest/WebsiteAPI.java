@@ -61,17 +61,23 @@ public class WebsiteAPI extends LeylineRestCRUD<WebsiteService, Website, Website
 
     @RequestMapping(value = "{masterId}/{servantId}/link", method = RequestMethod.GET)
     public @ResponseBody WebsiteRelationDTO doLink(@PathVariable Long masterId, @PathVariable Long servantId) throws Exception {
-        return relationDTOAssembler.buildDTO(websiteService.link(masterId, servantId));
+        return relationDTOAssembler.buildDTO(
+                websiteService.link(masterId, servantId)
+        );
     }
 
     @RequestMapping(value = "links", method = RequestMethod.GET)
     public @ResponseBody List link() throws Exception {
-        return relationDTOAssembler.buildDTOList(websiteService.getLinks());
+        return relationDTOAssembler.buildDTOList(
+                websiteService.getLinks()
+        );
     }
 
     @RequestMapping(value = "referenced", method = RequestMethod.GET)
     public @ResponseBody List referenced() throws Exception {
-        return relationDTOAssembler.buildDTOList(websiteService.getReferenced());
+        return relationDTOAssembler.buildDTOList(
+                websiteService.getReferenced()
+        );
     }
 
 }

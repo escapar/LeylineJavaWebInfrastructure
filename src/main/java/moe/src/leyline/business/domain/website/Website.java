@@ -2,6 +2,7 @@ package moe.src.leyline.business.domain.website;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.joda.time.DateTime;
 
 import lombok.Data;
 import moe.src.leyline.business.domain.user.User;
@@ -40,7 +42,7 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
     private Long id;
 
     @Column(name = "created_at")
-    private Long createdAt;
+    private Long createdAt = new DateTime().getMillis();
 
     private String description;
 
@@ -136,10 +138,16 @@ public class Website implements moe.src.leyline.framework.domain.LeylineDO {
     }
 
     public Long getCreatedAt() {
+        if(createdAt == null){
+            setCreatedAt(new DateTime().getMillis());
+        }
         return createdAt;
     }
 
-    public Website setCreatedAt(final Long createdAt) {
+    public Website setCreatedAt(Long createdAt) {
+        if(createdAt == null){
+            createdAt = new DateTime().getMillis();
+        }
         this.createdAt = createdAt;
         return this;
     }
