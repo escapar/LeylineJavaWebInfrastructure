@@ -14,9 +14,9 @@ import moe.src.leyline.business.service.UserService;
 import moe.src.leyline.framework.infrastructure.common.exceptions.LeylineException;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
-import moe.src.leyline.interfaces.dto.TokenDTO;
-import moe.src.leyline.interfaces.dto.UserDTO;
-import moe.src.leyline.interfaces.dto.UserLoginDTO;
+import moe.src.leyline.interfaces.dto.user.TokenDTO;
+import moe.src.leyline.interfaces.dto.user.UserDTO;
+import moe.src.leyline.interfaces.dto.user.UserLoginDTO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**

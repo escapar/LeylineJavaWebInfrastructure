@@ -18,8 +18,8 @@ import moe.src.leyline.business.service.WebsiteService;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.interfaces.rest.LeylineRestCRUD;
-import moe.src.leyline.interfaces.dto.WebsiteDTO;
-import moe.src.leyline.interfaces.dto.WebsiteRelationDTO;
+import moe.src.leyline.interfaces.dto.website.WebsiteDTO;
+import moe.src.leyline.interfaces.dto.website.WebsiteRelationDTO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**

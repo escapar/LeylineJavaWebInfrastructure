@@ -19,7 +19,7 @@ import moe.src.leyline.business.domain.website.Website;
 import moe.src.leyline.business.infrastructure.common.ROLE_CONSTS;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
-import moe.src.leyline.interfaces.dto.UserLoginDTO;
+import moe.src.leyline.interfaces.dto.user.UserLoginDTO;
 
 /**
  * Created by POJO on 6/9/16.

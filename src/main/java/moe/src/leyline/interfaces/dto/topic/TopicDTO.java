@@ -1,4 +1,4 @@
-package moe.src.leyline.interfaces.dto;
+package moe.src.leyline.interfaces.dto.topic;
 
 import lombok.Data;
 import moe.src.leyline.business.domain.topic.Topic;

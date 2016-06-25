@@ -1,4 +1,4 @@
-package moe.src.leyline.interfaces.dto;
+package moe.src.leyline.interfaces.dto.user;
 
 import java.io.Serializable;
 
