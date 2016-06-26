@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -18,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import groovy.transform.EqualsAndHashCode;
 import lombok.ToString;
+import moe.src.leyline.business.domain.commons.lang.Lang;
+import moe.src.leyline.business.domain.commons.location.Location;
+import moe.src.leyline.business.domain.commons.platform.Platform;
 import moe.src.leyline.framework.domain.user.LeylineUser;
 
 /**
@@ -42,6 +47,18 @@ public class User implements LeylineUser {
     private String password;
 
     private int role;
+
+    @ManyToOne
+    @JoinColumn(name = "lang_id")
+    private Lang lang;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    @ManyToOne
+    @JoinColumn(name = "platform_id")
+    private Platform platform;
 
     @Transient
     private boolean isAuthenticated;
@@ -154,4 +171,30 @@ public class User implements LeylineUser {
 
     }
 
+    public Lang getLang() {
+        return lang;
+    }
+
+    public User setLang(final Lang lang) {
+        this.lang = lang;
+        return this;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public User setLocation(final Location location) {
+        this.location = location;
+        return this;
+    }
+
+    public Platform getPlatform() {
+        return platform;
+    }
+
+    public User setPlatform(final Platform platform) {
+        this.platform = platform;
+        return this;
+    }
 }
