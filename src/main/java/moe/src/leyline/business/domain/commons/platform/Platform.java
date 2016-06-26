@@ -29,8 +29,10 @@ public class Platform implements LeylineCommons {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @JsonView(LeylineView.DETAIL.class)
     private Long id;
 
+    @JsonView(LeylineView.DETAIL.class)
     private String name;
 
     public Long getId() {
