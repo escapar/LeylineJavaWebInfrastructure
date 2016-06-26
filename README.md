@@ -25,21 +25,43 @@ If you have no idea about what's Leyline...check the master branch.
 
 ## 1.注册登录流程
 
-全程所用的json如下,其中domain(域名)是注册的时候必须的。
-```
-{
-  "username":xxx,
-  "password":xxxxx,
-  "domain":xxxx
- }
-```
-
+### 注册
 ```
 POST api/user/reg
+```
 
+```
+{
+  "name": "pojoAAAB",
+  "platform": {
+    "id": 1
+  },
+  "lang": {
+    "id": 1
+  },
+  "location": {
+    "id": 1
+  },
+  "domain":"123.xyz",
+  "password":"11223"
+}
+```
+
+### 登录
+
+```
 POST api/user/login
 ```
 
+登录发送的JSON如下
+```
+{
+  "name": "pojoAAAB",
+  "password":"11223"
+}
+```
+
+### TOKEN
 登录或注册后会返回一个token的json。
 
 随后在返回的token头部append `JUICE `字符串,将它作为名为`Authorization`的`Request Header`。
@@ -51,6 +73,21 @@ JUICE eyJhbGciOiJIUzI1NiJ9.eyJzcm9sZSI6MSwibmFtZSI6InRlc3QiLCJpZCI6MTIsImV4cCI6M
 ```
 
 用户注册时应指定一个自己的域名。
+
+### 参数解释
+platform : 开发平台
+
+lang : 主语言
+
+location : 所在地域
+
+以上三个参数的详细列表可以通过访问API来获得
+```
+GET api/platform
+GET api/lang
+GET api/location
+```
+
 
 ## 2.获得网站信息
 

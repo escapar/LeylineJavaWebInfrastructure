@@ -18,6 +18,7 @@ import moe.src.leyline.interfaces.dto.user.TokenDTO;
 import moe.src.leyline.interfaces.dto.user.UserDTO;
 import moe.src.leyline.interfaces.dto.user.UserLoginDTO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Created by POJO on 6/8/16.
@@ -30,25 +31,25 @@ public class UserAPI extends LeylineRestCRUD<UserService, User, UserDTO> {
     UserService userService;
 
     @RequestMapping(value = "login", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public @ResponseBody TokenDTO login(@RequestBody final UserLoginDTO login)
+    public @ResponseBody TokenDTO login(@RequestBody final UserDTO login)
             throws LeylineException {
 
         if (login == null) {
             throw new LeylineException("Invalid login");
         }
-        User user = userService.checkAndGet(login.username, login.password);
+        User user = userService.checkAndGet(login.getName(), login.getPassword());
 
         return new TokenDTO(JWTTokenUtils.sign(user));
     }
 
     @RequestMapping(value = "reg", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public @ResponseBody TokenDTO reg(@RequestBody final UserLoginDTO reg)
+    public @ResponseBody TokenDTO reg(@RequestBody final UserDTO reg)
             throws LeylineException {
-
-        if (reg.username == null || reg.password == null) {
+        assertThat(reg.getId()).isNotNull();
+        if (reg.getName() == null || reg.getPassword() == null) {
             throw new LeylineException("Invalid Params");
         }
-        userService.reg(reg);
+        userService.reg(dtoAssembler.buildDO(reg));
         return login(reg);
     }
 
@@ -59,7 +60,8 @@ public class UserAPI extends LeylineRestCRUD<UserService, User, UserDTO> {
         //checkOwnerOf(u)
         u.setUnHashedPassword(userLogin.password);
         u = userService.save(u);
-        return login(new UserLoginDTO(u.getId(), u.getName(), userLogin.getPassword(), null));
+        User user = userService.checkAndGet(u.getName(), u.getPassword());
+        return new TokenDTO(JWTTokenUtils.sign(user));
     }
 
 }

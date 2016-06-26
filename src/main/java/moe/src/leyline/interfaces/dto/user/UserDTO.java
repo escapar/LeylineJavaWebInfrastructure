@@ -22,6 +22,8 @@ public class UserDTO implements LeylineDTO {
 
     private String password;
 
+    private String domain;
+
     private int role;
 
     @JsonView(LeylineView.DETAIL.class)

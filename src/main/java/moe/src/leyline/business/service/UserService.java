@@ -18,7 +18,9 @@ import moe.src.leyline.business.domain.user.UserRepo;
 import moe.src.leyline.business.domain.website.Website;
 import moe.src.leyline.business.infrastructure.common.ROLE_CONSTS;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
+import moe.src.leyline.framework.interfaces.dto.assembler.DTOAssembler;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
+import moe.src.leyline.interfaces.dto.user.UserDTO;
 import moe.src.leyline.interfaces.dto.user.UserLoginDTO;
 
 /**
@@ -31,6 +33,8 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
 
     @Autowired
     WebsiteService websiteService;
+
+    DTOAssembler<User,UserDTO> userAssembler = new DTOAssembler<>(User.class,UserDTO.class);
 
     public UserService() {
 
@@ -73,17 +77,18 @@ public class UserService extends LeylineUserDetailsService<UserRepo, User> {
         return userRepo.checkAndGet(username, password);
     }
 
-    public User reg(UserLoginDTO reg) throws PersistenceException {
+    public User reg(User reg) throws PersistenceException {
+
         User user = save(
-                new User()
-                        .setName(reg.username)
-                        .setUnHashedPassword(reg.password)
+                reg
+                        .setUnHashedPassword(reg.getPassword())
                         .setRole(ROLE_CONSTS.ROLE_UNCHECKED_USER));
 
         websiteService.save(
                 new Website()
                         .setCreatedAt(new DateTime().getMillis())
-                        .setDomain(reg.domain)
+                        .setDomain(reg.getDomain())
+                        .setTitle(reg.getDomain())
                         .setVerifyKey(RandomStringUtils.random(7))
                         .setUser(user));
 

@@ -63,6 +63,9 @@ public class User implements LeylineUser {
     @Transient
     private boolean isAuthenticated;
 
+    @Transient
+    private String domain;
+
     public User() {
     }
 
@@ -195,6 +198,15 @@ public class User implements LeylineUser {
 
     public User setPlatform(final Platform platform) {
         this.platform = platform;
+        return this;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public User setDomain(final String domain) {
+        this.domain = domain;
         return this;
     }
 }
