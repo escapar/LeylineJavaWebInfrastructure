@@ -9,10 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import moe.src.leyline.framework.domain.LeylineCommons;
+import moe.src.leyline.framework.interfaces.view.LeylineView;
 
 /**
  * Created by bytenoob on 6/26/16.

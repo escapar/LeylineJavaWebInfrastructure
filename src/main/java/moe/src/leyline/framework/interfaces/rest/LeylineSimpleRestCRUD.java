@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import javax.annotation.PostConstruct;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
@@ -38,7 +39,6 @@ import moe.src.leyline.framework.domain.LeylineDO;
 import moe.src.leyline.framework.domain.user.LeylineUser;
 import moe.src.leyline.framework.infrastructure.common.exceptions.PersistenceException;
 import moe.src.leyline.framework.interfaces.dto.PageJSON;
-import moe.src.leyline.framework.interfaces.view.LeylineView;
 import moe.src.leyline.framework.service.LeylineSimpleService;
 import moe.src.leyline.framework.service.LeylineUserDetailsService;
 
@@ -49,7 +49,7 @@ import moe.src.leyline.framework.service.LeylineUserDetailsService;
  */
 @EnableSpringDataWebSupport
 @RestController
-public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends LeylineDO> implements CRUDOperation {
+public class LeylineSimpleRestCRUD<T extends LeylineCacheableRepo, O extends LeylineDO> implements CRUDOperation {
     private static final QuerydslBindingsFactory bindingsFactory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
     private static final QuerydslPredicateBuilder predicateBuilder = new QuerydslPredicateBuilder(new DefaultConversionService(), bindingsFactory.getEntityPathResolver());
     public final Logger logger = LoggerFactory.getLogger(getClass());
@@ -59,22 +59,28 @@ public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends Leyline
     private final Class<O> classDO;
     private final JavaType typeDOList;
     @Autowired
+    T repo;
+    @Autowired
     protected LeylineUserDetailsService userDetailsService;
     private ObjectMapper mapper = new ObjectMapper();
     public LeylineSimpleService<T,O> service;
 
     @SuppressWarnings(value = "unchecked")
-    public LeylineDomainCRUD() {
-        Class<?>[] typeArgs = TypeResolver.resolveRawArguments(LeylineDomainCRUD.class, getClass());
+    public LeylineSimpleRestCRUD() {
+        Class<?>[] typeArgs = TypeResolver.resolveRawArguments(LeylineSimpleRestCRUD.class, getClass());
         classRepo = (Class<T>) typeArgs[0];
         classDO = (Class<O>) typeArgs[1];
         this.typeService = TypeToken.of(classRepo).getType();
         this.typeDO = TypeToken.of(classDO).getType();
         typeDOList = mapper.getTypeFactory().constructCollectionType(List.class, classDO);
-        service = new LeylineSimpleService<>();
     }
 
-    public LeylineDomainCRUD(Class<T> repo , Class<O> DO) {
+    @PostConstruct
+    public void initService(){
+        service = new LeylineSimpleService<>(repo,userDetailsService);
+    }
+
+    public LeylineSimpleRestCRUD(Class<T> repo , Class<O> DO) {
         classRepo = repo;
         classDO = DO;
         this.typeService = TypeToken.of(classRepo).getType();
@@ -92,7 +98,6 @@ public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends Leyline
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(LeylineView.LIST.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public PageJSON<O> list(Pageable p) throws PersistenceException {
@@ -102,7 +107,6 @@ public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends Leyline
     }
 
     @SuppressWarnings(value = "unchecked")
-    @JsonView(LeylineView.LIST.class)
     @RequestMapping(value = "/list/query", method = RequestMethod.GET)
     public PageJSON<O> listWithQuery(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
@@ -111,7 +115,6 @@ public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends Leyline
     }
 
     @SuppressWarnings(value = "unchecked")
-    @JsonView(LeylineView.DETAIL.class)
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public PageJSON<O> listWithDetail(
             Pageable p, @RequestParam MultiValueMap<String, String> parameters) throws PersistenceException, NoSuchMethodException {
@@ -120,7 +123,6 @@ public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends Leyline
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @JsonView(LeylineView.DETAIL.class)
     @ResponseBody
     @SuppressWarnings(value = "unchecked")
     public O find(@PathVariable Long id) throws PersistenceException {
@@ -221,7 +223,7 @@ public class LeylineDomainCRUD<T extends LeylineCacheableRepo, O extends Leyline
         return service;
     }
 
-    public LeylineDomainCRUD setService(final LeylineSimpleService<T, O> service) {
+    public LeylineSimpleRestCRUD setService(final LeylineSimpleService<T, O> service) {
         this.service = service;
         return this;
     }

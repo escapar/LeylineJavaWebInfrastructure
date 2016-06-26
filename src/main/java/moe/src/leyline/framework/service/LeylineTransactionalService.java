@@ -36,6 +36,15 @@ public abstract class LeylineTransactionalService<T extends LeylineCacheableRepo
     @Autowired
     protected LeylineUserDetailsService userDetailsService;
 
+    public LeylineTransactionalService(T repo , LeylineUserDetailsService userDetailsService){
+        this.repo = repo;
+        this.userDetailsService = userDetailsService;
+    }
+
+    public LeylineTransactionalService(){
+
+    }
+
     @SuppressWarnings(value = "unchecked")
     protected static List<Map<String, Object>> resMap(String[] params, Iterable res) {
         List resultList = new ArrayList<Map<String, Object>>();

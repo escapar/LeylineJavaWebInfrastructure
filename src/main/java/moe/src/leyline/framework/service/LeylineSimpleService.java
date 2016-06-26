@@ -14,5 +14,7 @@ import moe.src.leyline.framework.domain.LeylineDO;
 @Service
 @Transactional(rollbackFor = Throwable.class, isolation = Isolation.REPEATABLE_READ)
 public class LeylineSimpleService<T extends LeylineCacheableRepo, E extends LeylineDO> extends LeylineTransactionalService<T,E>{
-
+    public LeylineSimpleService(T repo , LeylineUserDetailsService userDetailsService){
+        super(repo,userDetailsService);
+    }
 }

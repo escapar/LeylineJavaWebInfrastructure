@@ -10,7 +10,7 @@ import moe.src.leyline.business.domain.commons.location.Location;
 import moe.src.leyline.business.domain.commons.location.LocationRepo;
 import moe.src.leyline.business.domain.commons.platform.Platform;
 import moe.src.leyline.business.domain.commons.platform.PlatformRepo;
-import moe.src.leyline.framework.interfaces.rest.LeylineDomainCRUD;
+import moe.src.leyline.framework.interfaces.rest.LeylineSimpleRestCRUD;
 
 /**
  * Created by bytenoob on 6/26/16.
@@ -19,14 +19,14 @@ import moe.src.leyline.framework.interfaces.rest.LeylineDomainCRUD;
 public class CommonsAPI {
     @RestController
     @RequestMapping(value = "api/lang")
-    public static final class lang extends LeylineDomainCRUD<LangRepo,Lang>{};
+    public static final class lang extends LeylineSimpleRestCRUD<LangRepo,Lang>{};
 
     @RestController
     @RequestMapping(value = "api/location")
-    public static final class location extends LeylineDomainCRUD<LocationRepo,Location>{};
+    public static final class location extends LeylineSimpleRestCRUD<LocationRepo,Location>{};
 
     @RestController
     @RequestMapping(value = "api/platform")
-    public static final class platform extends LeylineDomainCRUD<PlatformRepo,Platform>{};
+    public static final class platform extends LeylineSimpleRestCRUD<PlatformRepo,Platform>{};
 
 }
